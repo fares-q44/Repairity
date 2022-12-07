@@ -5,9 +5,12 @@ import 'package:repairity/screens/auth_screen/terms_and_conditions_screen.dart';
 import 'package:repairity/screens/starting_screen/splash_screen.dart';
 import 'package:repairity/screens/starting_screen/starting_screen.dart';
 import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart';
-import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
+import 'package:repairity/screens/user/user_posts/add_post_screen.dart';
+import 'package:repairity/screens/user/user_posts/user_posts_screen.dart';
 import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+
+import 'screens/user/user_posts/components/user_posts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +34,9 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (_) => Auth(),
         ),
+        Provider(
+          create: (_) => UserPosts(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -49,7 +55,8 @@ class MyApp extends StatelessWidget {
           '/user_posts': (context) => const UserPostsScreen(),
           '/view_posts': (context) => const ViewPostsScreen(),
           '/starting_screen': (context) => const StartingScreen(),
-          '/user_home': (context) => BottomNavBar(),
+          '/user_home': (context) => const BottomNavBar(),
+          '/add_post': (context) => const AddPostScreen(),
         },
         home: const SplashScreen(),
       ),

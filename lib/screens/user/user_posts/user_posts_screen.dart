@@ -21,19 +21,24 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
           SizedBox(
             height: sHeight * 0.35,
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: sHeight * 0.02),
-            width: sWidth * 0.18,
-            height: sHeight * 0.09,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Colors.red,
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/add_post');
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: sHeight * 0.02),
+              width: sWidth * 0.18,
+              height: sHeight * 0.09,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.red,
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Center(
-              child: Icon(Icons.add),
+              child: const Center(
+                child: Icon(Icons.add),
+              ),
             ),
           ),
           const Center(

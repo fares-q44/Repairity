@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/button.dart';
+import '../auth_screen/widgets/button.dart';
 import '../../widgets/top_notch.dart';
 
 class StartingScreen extends StatelessWidget {
