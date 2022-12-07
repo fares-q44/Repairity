@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/Button.dart';
-import '../../widgets/TopNotch.dart';
+import '../../widgets/button.dart';
+import '../../widgets/top_notch.dart';
 
 class StartingScreen extends StatelessWidget {
   const StartingScreen({super.key});
@@ -14,7 +14,7 @@ class StartingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const TopNotch(),
+          const TopNotch(withBack: false),
           SizedBox(
             height: sHeight * 0.1,
           ),

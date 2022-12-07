@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repairity/screens/auth_screen/AuthScreen.dart';
+import 'package:repairity/screens/auth_screen/auth_screen.dart';
 
 class Button extends StatelessWidget {
   const Button({
