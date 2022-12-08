@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
 import 'package:repairity/widgets/top_notch.dart';
+
+import 'widgets/image_handler.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -14,6 +17,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   String title = '';
   String contact = '';
   String details = '';
+  List<XFile> pickedImages = [];
   bool isPublishing = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -27,6 +31,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
       try {
         await Provider.of<UserPosts>(context, listen: false)
             .addPost(title, contact, details);
+        if (pickedImages.isNotEmpty) {
+          await Provider.of<UserPosts>(context, listen: false)
+              .uploadPhotos(pickedImages);
+        }
       } on Exception catch (e) {
         String err = e.toString();
         print(err);
@@ -41,6 +49,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       isPublishing = false;
     });
+    Navigator.pop(context);
+  }
+
+  void _selectImage(List<XFile> chosenImages) async {
+    pickedImages = chosenImages;
   }
 
   @override
@@ -173,63 +186,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: sWidth * 0.03,
-                      ),
-                      Column(
-                        children: [
-                          const Text(
-                            'Add image:',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          SizedBox(
-                            height: sHeight * 0.03,
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.camera_alt,
-                              size: 40,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.image,
-                              size: 40,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          SizedBox(
-                            height: sHeight * 0.05,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: sWidth * 0.02,
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: sHeight * 0.04,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(right: sWidth * 0.03),
-                            width: sWidth * 0.7,
-                            height: sHeight * 0.17,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1,
-                                  color: Theme.of(context).primaryColor),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                  ImageHandler(
+                    onSelectImage: _selectImage,
                   ),
                   SizedBox(
                     height: sHeight * 0.03,
