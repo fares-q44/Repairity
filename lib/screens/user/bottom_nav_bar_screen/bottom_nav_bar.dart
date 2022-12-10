@@ -28,9 +28,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double sWidth = size.width;
-    double sHeight = size.height;
     return Scaffold(
       body: pages[pageIndex],
       bottomNavigationBar: BottomNavigationBar(

@@ -35,7 +35,6 @@ class _AuthScreenState extends State<AuthScreen> {
           widget.isWorkshop,
           username,
         );
-
         if (widget.isWorkshop) {
           Navigator.of(context).pushNamedAndRemoveUntil(
             '/view_posts',
@@ -240,7 +239,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
-                                        'terms_and_conditions',
+                                        '/terms_and_conditions',
                                       );
                                     },
                                     child: Text(
@@ -295,7 +294,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: Text(
                                       isLogin ? 'Login' : 'Register',
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                 ),
