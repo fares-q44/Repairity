@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
+import 'package:repairity/widgets/top_notch.dart';
 
 class UserPostsScreen extends StatefulWidget {
   const UserPostsScreen({super.key});
@@ -18,37 +19,10 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            width: double.infinity,
-            height: sHeight * 0.12,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-              color: Color.fromRGBO(
-                88,
-                101,
-                242,
-                1,
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/add_post');
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
+          TopNotch(
+            withBack: false,
+            withAdd: true,
+            route: '/add_post',
           ),
           SizedBox(
             height: sHeight * 0.35,

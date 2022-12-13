@@ -14,7 +14,7 @@ class StartingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const TopNotch(withBack: false),
+          TopNotch(withBack: false, withAdd: false),
           SizedBox(
             height: sHeight * 0.1,
           ),
@@ -29,14 +29,14 @@ class StartingScreen extends StatelessWidget {
           SizedBox(
             height: sHeight * 0.15,
           ),
-          const Button(
+          const AuthButton(
             label: 'User',
             isWorkshop: false,
           ),
           SizedBox(
             height: sHeight * 0.05,
           ),
-          const Button(
+          const AuthButton(
             label: 'Workshop',
             isWorkshop: true,
           ),

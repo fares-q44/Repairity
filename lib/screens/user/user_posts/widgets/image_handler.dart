@@ -48,7 +48,7 @@ class _ImageHandlerState extends State<ImageHandler> {
               height: sHeight * 0.03,
             ),
             IconButton(
-              onPressed: () => takePictures(),
+              onPressed: () {},
               icon: Icon(
                 Icons.camera_alt,
                 size: 40,

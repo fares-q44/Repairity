@@ -18,6 +18,7 @@ class _AuthScreenState extends State<AuthScreen> {
   String email = '';
   String username = '';
   String password = '';
+  String phoneNumber = '';
   bool isLoadingAuth = false;
   bool agreedToTerms = false;
 
@@ -79,13 +80,13 @@ class _AuthScreenState extends State<AuthScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const TopNotch(withBack: true),
+            TopNotch(withBack: true, withAdd: false),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
                 children: [
                   SizedBox(
-                    height: sHeight * 0.1,
+                    height: sHeight * (widget.isWorkshop ? 0.02 : 0.1),
                   ),
                   Text(
                     isLogin ? 'Login' : 'Register',
@@ -184,6 +185,53 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
+                        widget.isWorkshop
+                            ? Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.9,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(29),
+                                ),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        !value.startsWith('05') ||
+                                        value.length < 10) {
+                                      return 'Please provide a valid phone number';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (newValue) =>
+                                      phoneNumber = newValue!,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: const InputDecoration(
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1.0, color: Colors.red),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1.0, color: Colors.red),
+                                    ),
+                                    hintText: 'Enter your phone number here',
+                                    labelText: 'Phone number',
+                                    labelStyle: TextStyle(fontSize: 20),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 1.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1.0, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Container(),
                         // The password text field
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 10),

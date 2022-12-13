@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TopNotch extends StatelessWidget {
-  const TopNotch({
-    Key? key,
-    required this.withBack,
-  }) : super(key: key);
+  TopNotch(
+      {Key? key, required this.withBack, required this.withAdd, this.route})
+      : super(key: key);
   final bool withBack;
+  final bool withAdd;
+  String? route;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -42,7 +43,39 @@ class TopNotch extends StatelessWidget {
                 ),
               ],
             )
-          : Container(),
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // Container(
+                //   margin: const EdgeInsets.only(top: 20),
+                //   child: IconButton(
+                //     onPressed: () async {
+                //       await Supabase.instance.client.auth.signOut();
+                //       Navigator.pushNamedAndRemoveUntil(
+                //           context, '/starting_screen', (route) => false);
+                //     },
+                //     icon: const Icon(
+                //       Icons.logout,
+                //       color: Colors.white,
+                //       size: 25,
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, route!);
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

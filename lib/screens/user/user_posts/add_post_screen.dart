@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
+import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
 import 'widgets/image_handler.dart';
@@ -64,7 +65,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const TopNotch(withBack: true),
+            TopNotch(
+              withBack: true,
+              withAdd: false,
+            ),
             SizedBox(
               height: sHeight * 0.05,
             ),
@@ -193,24 +197,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   ),
                   isPublishing
                       ? const CircularProgressIndicator()
-                      : GestureDetector(
-                          onTap: addPost,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(13),
-                              color: Colors.black,
-                            ),
-                            height: sHeight * 0.08,
-                            width: sWidth * 0.8,
-                            child: const Center(
-                              child: Text(
-                                'Publish',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              ),
-                            ),
-                          ),
-                        ),
+                      : Button(label: 'Publish', function: addPost)
                 ],
               ),
             ),

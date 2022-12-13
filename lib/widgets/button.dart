@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:repairity/screens/auth_screen/auth_screen.dart';
 
-class AuthButton extends StatelessWidget {
-  const AuthButton({
+class Button extends StatelessWidget {
+  const Button({
     Key? key,
     required this.label,
-    required this.isWorkshop,
+    required this.function,
   }) : super(key: key);
 
   final String label;
-  final bool isWorkshop;
+  final VoidCallback function;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AuthScreen(isWorkshop: isWorkshop),
-          ),
-        );
-      },
+      onTap: function,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
