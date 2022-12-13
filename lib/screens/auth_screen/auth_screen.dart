@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repairity/screens/auth_screen/map_helpers/location_input.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
 import 'components/auth.dart';
@@ -185,7 +186,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
-                        widget.isWorkshop
+                        (widget.isWorkshop && !isLogin)
                             ? Container(
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 10),
@@ -275,6 +276,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                 )),
                           ),
                         ),
+                        (widget.isWorkshop && !isLogin)
+                            ? LocationInput(
+                                onSelectPlace: () {},
+                              )
+                            : Container(),
                         isLogin
                             ? Container()
                             : Row(
