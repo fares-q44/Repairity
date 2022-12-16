@@ -56,14 +56,27 @@ class _LocationInputState extends State<LocationInput> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double sWidth = size.width;
+    double sHeight = size.height;
     return Column(
       children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Choose location:',
+          ),
+        ),
+        SizedBox(
+          height: sHeight * 0.01,
+        ),
         Container(
-          decoration:
-              BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+          decoration: BoxDecoration(
+              border:
+                  Border.all(width: 1, color: Theme.of(context).primaryColor)),
           alignment: Alignment.center,
-          height: 170,
-          width: double.infinity,
+          height: sHeight * 0.2,
+          width: sWidth * 0.8,
           child: _previewImageUrl == null
               ? const Text(
                   'No Location Chosen',
@@ -80,18 +93,21 @@ class _LocationInputState extends State<LocationInput> {
           children: [
             TextButton.icon(
               onPressed: _getCurrentUserLocation,
-              icon: const Icon(Icons.location_on),
-              label: Text(
+              icon: Icon(
+                Icons.location_on,
+                color: Theme.of(context).primaryColor,
+              ),
+              label: const Text(
                 'Current Location',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(color: Colors.black),
               ),
             ),
             TextButton.icon(
               onPressed: _selectOnMap,
-              icon: const Icon(Icons.map),
-              label: Text(
+              icon: Icon(Icons.map, color: Theme.of(context).primaryColor),
+              label: const Text(
                 'Select on Map',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(color: Colors.black),
               ),
             )
           ],

@@ -191,6 +191,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   ),
                   ImageHandler(
                     onSelectImage: _selectImage,
+                    allowMultiple: true,
                   ),
                   SizedBox(
                     height: sHeight * 0.03,

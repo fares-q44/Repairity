@@ -7,8 +7,10 @@ class ImageHandler extends StatefulWidget {
   const ImageHandler({
     Key? key,
     required this.onSelectImage,
+    required this.allowMultiple,
   }) : super(key: key);
   final Function onSelectImage;
+  final bool allowMultiple;
   @override
   State<ImageHandler> createState() => _ImageHandlerState();
 }
@@ -27,6 +29,16 @@ class _ImageHandlerState extends State<ImageHandler> {
     widget.onSelectImage(chosenImages);
   }
 
+  Future<void> takeSinglePicture() async {
+    final imagePicker = ImagePicker();
+    final chosenImage =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      storedImages.add(File(chosenImage!.path));
+    });
+    widget.onSelectImage(chosenImage);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,7 +48,7 @@ class _ImageHandlerState extends State<ImageHandler> {
     return Row(
       children: [
         SizedBox(
-          width: sWidth * 0.03,
+          width: sWidth * 0.01,
         ),
         Column(
           children: [
@@ -56,7 +68,13 @@ class _ImageHandlerState extends State<ImageHandler> {
               ),
             ),
             IconButton(
-              onPressed: () => takePictures(),
+              onPressed: () {
+                if (widget.allowMultiple) {
+                  takePictures();
+                } else {
+                  takeSinglePicture();
+                }
+              },
               icon: Icon(
                 Icons.image,
                 size: 40,
@@ -80,7 +98,8 @@ class _ImageHandlerState extends State<ImageHandler> {
               borderRadius: BorderRadius.circular(15),
               child: Container(
                 width: sWidth * 0.7,
-                height: sHeight * 0.17,
+                height:
+                    storedImages.length == 1 ? sHeight * 0.2 : sHeight * 0.17,
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 1, color: Theme.of(context).primaryColor),
@@ -90,17 +109,22 @@ class _ImageHandlerState extends State<ImageHandler> {
                     ? const Center(
                         child: Text('No images to preview'),
                       )
-                    : ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: sWidth * 0.01),
-                          child: Image.file(
-                            storedImages[index],
+                    : storedImages.length == 1
+                        ? Image.file(
+                            storedImages[0],
+                            fit: BoxFit.fill,
+                          )
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: sWidth * 0.01),
+                              child: Image.file(
+                                storedImages[index],
+                              ),
+                            ),
+                            itemCount: storedImages.length,
                           ),
-                        ),
-                        itemCount: storedImages.length,
-                      ),
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/auth_screen/components/auth.dart';
+import 'package:repairity/screens/auth_screen/map_helpers/location_helper.dart';
 import 'package:repairity/screens/auth_screen/terms_and_conditions_screen.dart';
 import 'package:repairity/screens/starting_screen/splash_screen.dart';
 import 'package:repairity/screens/starting_screen/starting_screen.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider(
           create: (_) => UserPosts(),
+        ),
+        Provider(
+          create: (_) => LocationHelper(),
         ),
       ],
       child: MaterialApp(

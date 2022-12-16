@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:repairity/screens/auth_screen/map_helpers/location_helper.dart';
 import 'package:repairity/screens/auth_screen/map_helpers/location_input.dart';
+import 'package:repairity/screens/user/user_posts/widgets/image_handler.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
+import '../../widgets/horizontal_divider.dart';
 import 'components/auth.dart';
+import 'widgets/ErrorList.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key, required this.isWorkshop});
@@ -20,14 +25,55 @@ class _AuthScreenState extends State<AuthScreen> {
   String username = '';
   String password = '';
   String phoneNumber = '';
+  double lat = 0;
+  double lon = 0;
+  List<XFile> chosenImage = [];
+  bool selectedAPlace = false;
   bool isLoadingAuth = false;
   bool agreedToTerms = false;
+  bool selectedAnImage = false;
+  List<String> errorTextList = [];
 
   Future<void> validateForm() async {
-    setState(() {
-      isLoadingAuth = true;
-    });
+    if (isLogin) {
+      selectedAPlace = true;
+      agreedToTerms = true;
+      selectedAnImage = true;
+    }
+    if (!agreedToTerms) {
+      if (errorTextList
+          .contains('You must agree to our terms and conditions')) {
+      } else {
+        setState(() {
+          errorTextList.add('You must agree to our terms and conditions');
+        });
+      }
+    }
+    if (!selectedAnImage) {
+      if (errorTextList.contains('You must select an image')) {
+      } else {
+        setState(() {
+          errorTextList.add('You must select an image');
+        });
+      }
+    }
+    if (!selectedAPlace) {
+      if (errorTextList.contains('You must select A location')) {
+        return;
+      } else {
+        setState(() {
+          errorTextList.add('You must select A location');
+        });
+        return;
+      }
+    }
+    errorTextList.remove('You must select an image');
+    errorTextList.remove('You must select A location');
+    errorTextList.remove('You must agree to our terms and conditions');
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoadingAuth = true;
+      });
       _formKey.currentState!.save();
       try {
         await Provider.of<Auth>(context, listen: false).authinticate(
@@ -48,6 +94,10 @@ class _AuthScreenState extends State<AuthScreen> {
             (route) => false,
           );
         }
+        if (widget.isWorkshop) {
+          await LocationHelper.saveLocation(lat, lon);
+          await Auth.uploadPhoto(chosenImage[0]);
+        }
       } on Exception catch (e) {
         String err = e.toString();
         if (e.toString() == 'user-not-found' ||
@@ -55,20 +105,17 @@ class _AuthScreenState extends State<AuthScreen> {
           err = 'Incorrect username or password, Please try again.';
         } else if (e.toString() == 'email-already-in-use') {
           err = 'Email is already taken';
-        } else {
-          err =
-              'Invalid login credentials, please check your email and password';
         }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(err),
           ),
         );
+        setState(() {
+          isLoadingAuth = false;
+        });
       }
     }
-    setState(() {
-      isLoadingAuth = false;
-    });
   }
 
   @override
@@ -83,7 +130,7 @@ class _AuthScreenState extends State<AuthScreen> {
           children: [
             TopNotch(withBack: true, withAdd: false),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Column(
                 children: [
                   SizedBox(
@@ -186,6 +233,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
+                        // Phone number text field
                         (widget.isWorkshop && !isLogin)
                             ? Container(
                                 margin:
@@ -235,7 +283,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             : Container(),
                         // The password text field
                         Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          margin: const EdgeInsets.only(top: 10),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 5,
@@ -277,10 +325,38 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ),
                         (widget.isWorkshop && !isLogin)
+                            ? HorizontalDivider(
+                                sWidth: sWidth, sHeight: sHeight)
+                            : Container(),
+                        // Location map entry
+                        (widget.isWorkshop && !isLogin)
                             ? LocationInput(
-                                onSelectPlace: () {},
+                                onSelectPlace: (double lat, double lon) {
+                                  this.lat = lat;
+                                  this.lon = lon;
+                                  selectedAPlace = true;
+                                },
                               )
                             : Container(),
+                        (widget.isWorkshop && !isLogin)
+                            ? HorizontalDivider(
+                                sWidth: sWidth, sHeight: sHeight)
+                            : Container(),
+                        // choosing images for profile
+                        (widget.isWorkshop && !isLogin)
+                            ? ImageHandler(
+                                onSelectImage: (XFile chosenImage) {
+                                  this.chosenImage.add(chosenImage);
+                                  selectedAnImage = true;
+                                },
+                                allowMultiple: false,
+                              )
+                            : Container(),
+                        (widget.isWorkshop && !isLogin)
+                            ? HorizontalDivider(
+                                sWidth: sWidth, sHeight: sHeight)
+                            : Container(),
+                        // Agree to our terms and condition
                         isLogin
                             ? Container()
                             : Row(
@@ -314,12 +390,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 ],
                               ),
+                        // Forgot password text button
                         Row(
                           children: [
                             SizedBox(
                               width: sWidth * 0.05,
                             ),
-                            // Forgot password text
                             Text(
                               isLogin ? 'Forgot your password?' : '',
                               style: const TextStyle(
@@ -331,6 +407,14 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         SizedBox(
                           height: isLogin ? sHeight * 0.04 : 0,
+                        ),
+                        // Show errors if exists
+                        isLogin
+                            ? Container()
+                            : ErrorList(
+                                errorTextList: errorTextList, sWidth: sWidth),
+                        SizedBox(
+                          height: sHeight * 0.01,
                         ),
                         // The login or signup button
                         isLoadingAuth
@@ -358,6 +442,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(
                           height: sHeight * 0.03,
                         ),
+                        // Register or login text
                         Text(isLogin
                             ? 'You don\'t have an account?'
                             : 'Already have an account?'),
