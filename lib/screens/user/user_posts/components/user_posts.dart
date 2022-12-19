@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../models/Post.dart';
+import '../../../../models/post.dart';
 
 class UserPosts {
   final client = Supabase.instance.client;
@@ -38,7 +38,7 @@ class UserPosts {
         counter++;
       }
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
@@ -61,8 +61,8 @@ class UserPosts {
             images: [],
           );
           userOwnPosts.add(tempPost);
-        } catch (e) {
-          print(e);
+        } catch (_) {
+          rethrow;
         }
       }
       return userOwnPosts;

@@ -37,8 +37,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
               .uploadPhotos(pickedImages);
         }
       } on Exception catch (e) {
+        print(e);
         String err = e.toString();
-        print(err);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(err),
@@ -52,14 +52,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
     Navigator.pop(context);
   }
 
-  void _selectImage(List<XFile> chosenImages) async {
-    pickedImages = chosenImages;
+  void _selectImage(dynamic chosenImages) async {
+    try {
+      if (chosenImages is List<XFile>) {
+        for (var element in chosenImages) {
+          pickedImages.add(element);
+        }
+      } else {
+        pickedImages.add(chosenImages);
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double sWidth = size.width;
     double sHeight = size.height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -77,9 +87,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    margin: EdgeInsets.symmetric(vertical: sHeight * 0.015),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: sHeight * 0.025, vertical: sHeight * 0.005),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -114,9 +124,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    margin: EdgeInsets.symmetric(vertical: sHeight * 0.015),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: sHeight * 0.025, vertical: sHeight * 0.005),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -151,9 +161,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    margin: EdgeInsets.symmetric(vertical: sHeight * 0.015),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: sHeight * 0.025, vertical: sHeight * 0.005),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),

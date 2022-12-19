@@ -8,6 +8,7 @@ import 'package:repairity/screens/starting_screen/starting_screen.dart';
 import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart';
 import 'package:repairity/screens/user/user_posts/add_post_screen.dart';
 import 'package:repairity/screens/user/user_posts/user_posts_screen.dart';
+import 'package:repairity/screens/user/view_workshops_screen/components/view_workshops_handler.dart';
 import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
@@ -23,7 +24,12 @@ void main() async {
   );
   runApp(const MyApp());
 }
+<<<<<<< Updated upstream
 // 87
+=======
+
+// abnsq
+>>>>>>> Stashed changes
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -40,6 +46,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider(
           create: (_) => LocationHelper(),
+        ),
+        Provider(
+          create: (_) => ViewWorkshopHandler(),
         ),
       ],
       child: MaterialApp(

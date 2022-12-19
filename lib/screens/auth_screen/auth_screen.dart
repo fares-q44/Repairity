@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:repairity/screens/auth_screen/map_helpers/location_helper.dart';
 import 'package:repairity/screens/auth_screen/map_helpers/location_input.dart';
 import 'package:repairity/screens/user/user_posts/widgets/image_handler.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
 import '../../widgets/horizontal_divider.dart';
 import 'components/auth.dart';
-import 'widgets/ErrorList.dart';
+import 'widgets/error_list.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key, required this.isWorkshop});
@@ -28,93 +27,105 @@ class _AuthScreenState extends State<AuthScreen> {
   double lat = 0;
   double lon = 0;
   List<XFile> chosenImage = [];
-  bool selectedAPlace = false;
   bool isLoadingAuth = false;
   bool agreedToTerms = false;
-  bool selectedAnImage = false;
   List<String> errorTextList = [];
 
   Future<void> validateForm() async {
     if (isLogin) {
-      selectedAPlace = true;
       agreedToTerms = true;
-      selectedAnImage = true;
     }
-    if (!agreedToTerms) {
-      if (errorTextList
-          .contains('You must agree to our terms and conditions')) {
-      } else {
-        setState(() {
-          errorTextList.add('You must agree to our terms and conditions');
-        });
-      }
-    }
-    if (!selectedAnImage) {
-      if (errorTextList.contains('You must select an image')) {
-      } else {
-        setState(() {
-          errorTextList.add('You must select an image');
-        });
-      }
-    }
-    if (!selectedAPlace) {
-      if (errorTextList.contains('You must select A location')) {
-        return;
-      } else {
-        setState(() {
-          errorTextList.add('You must select A location');
-        });
-        return;
-      }
-    }
-    errorTextList.remove('You must select an image');
-    errorTextList.remove('You must select A location');
-    errorTextList.remove('You must agree to our terms and conditions');
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        isLoadingAuth = true;
-      });
-      _formKey.currentState!.save();
-      try {
-        await Provider.of<Auth>(context, listen: false).authinticate(
-          email,
-          password,
-          isLogin,
-          widget.isWorkshop,
-          username,
-        );
-        if (widget.isWorkshop) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/view_posts',
-            (route) => false,
-          );
+    if (widget.isWorkshop && !isLogin) {
+      if (!agreedToTerms) {
+        if (errorTextList
+            .contains('You must agree to our terms and conditions')) {
+          return;
         } else {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/user_home',
-            (route) => false,
-          );
+          setState(() {
+            errorTextList.add('You must agree to our terms and conditions');
+          });
+          return;
         }
-        if (widget.isWorkshop) {
-          await LocationHelper.saveLocation(lat, lon);
-          await Auth.uploadPhoto(chosenImage[0]);
-        }
-      } on Exception catch (e) {
-        String err = e.toString();
-        if (e.toString() == 'user-not-found' ||
-            e.toString() == 'wrong-password') {
-          err = 'Incorrect username or password, Please try again.';
-        } else if (e.toString() == 'email-already-in-use') {
-          err = 'Email is already taken';
-        }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(err),
-          ),
-        );
-        setState(() {
-          isLoadingAuth = false;
-        });
       }
+      errorTextList.remove('You must agree to our terms and conditions');
+      if (chosenImage.isEmpty) {
+        if (errorTextList.contains('You must select an image')) {
+          return;
+        } else {
+          setState(() {
+            errorTextList.add('You must select an image');
+          });
+          return;
+        }
+      }
+      errorTextList.remove('You must select an image');
+      if (lat == 0 && lon == 0) {
+        if (errorTextList.contains('You must select A location')) {
+          return;
+        } else {
+          setState(() {
+            errorTextList.add('You must select A location');
+          });
+          return;
+        }
+      }
+      errorTextList.remove('You must select A location');
+    }
+
+    if (_formKey.currentState!.validate()) {
+      await attemptAuthinticate();
+    }
+  }
+
+  Future<void> attemptAuthinticate() async {
+    setState(() {
+      isLoadingAuth = true;
+    });
+    _formKey.currentState!.save();
+    try {
+      await Provider.of<Auth>(context, listen: false).authinticate(
+        email,
+        password,
+        isLogin,
+        widget.isWorkshop,
+        lat,
+        lon,
+        username,
+      );
+      if (widget.isWorkshop) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/view_posts',
+          (route) => false,
+        );
+      } else {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/user_home',
+          (route) => false,
+        );
+      }
+      if (widget.isWorkshop) {
+        Future.wait(
+          [Auth.uploadPhoto(chosenImage[0])],
+        );
+      }
+    } on Exception catch (e) {
+      String err = e.toString();
+      if (e.toString() == 'user-not-found' ||
+          e.toString() == 'wrong-password') {
+        err = 'Incorrect username or password, Please try again.';
+      } else if (e.toString() == 'email-already-in-use') {
+        err = 'Email is already taken';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(err),
+        ),
+      );
+      setState(
+        () {
+          isLoadingAuth = false;
+        },
+      );
     }
   }
 
@@ -334,7 +345,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                 onSelectPlace: (double lat, double lon) {
                                   this.lat = lat;
                                   this.lon = lon;
-                                  selectedAPlace = true;
                                 },
                               )
                             : Container(),
@@ -347,7 +357,6 @@ class _AuthScreenState extends State<AuthScreen> {
                             ? ImageHandler(
                                 onSelectImage: (XFile chosenImage) {
                                   this.chosenImage.add(chosenImage);
-                                  selectedAnImage = true;
                                 },
                                 allowMultiple: false,
                               )
