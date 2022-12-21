@@ -50,11 +50,11 @@ class UserPosts {
         .from('posts')
         .select('id, title, contact, details')
         .eq('owner_id', client.auth.currentUser!.id) as List<dynamic>;
-
     if (result.isNotEmpty) {
       for (var element in result) {
         try {
           Post tempPost = Post(
+            id: element['id'],
             title: element['title'],
             contact: element['contact'],
             description: element['details'],

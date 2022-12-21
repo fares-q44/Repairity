@@ -2,11 +2,13 @@
 import 'dart:io';
 
 class Post {
+  String id;
   String title = '';
   String contact = '';
   String description = '';
   List<File> images = [];
   Post({
+    required this.id,
     required this.title,
     required this.contact,
     required this.description,

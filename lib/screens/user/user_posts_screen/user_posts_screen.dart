@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
+import 'package:repairity/screens/user/user_posts_screen/components/user_posts.dart';
 import 'package:repairity/widgets/top_notch.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class UserPostsScreen extends StatefulWidget {
   const UserPostsScreen({super.key});
@@ -24,28 +25,49 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
             withAdd: true,
             route: '/add_post',
           ),
-          SizedBox(
-            height: sHeight * 0.35,
-          ),
           FutureBuilder(
             future:
                 Provider.of<UserPosts>(context, listen: false).getOwnPosts(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: sHeight * 0.4,
+                    ),
+                    const CircularProgressIndicator()
+                  ],
                 );
               } else {
                 if (snapshot.data!.isNotEmpty) {
                   return Expanded(
                     child: ListView.builder(
-                      itemBuilder: (context, index) => Card(
-                        child: Column(
-                          children: [
-                            Text(snapshot.data![index].title),
-                            Text(snapshot.data![index].contact),
-                            Text(snapshot.data![index].description),
-                          ],
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) => SizedBox(
+                        height: sHeight * 0.19,
+                        child: Card(
+                          color: const Color.fromARGB(255, 218, 218, 218),
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data![index].title,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                const Spacer(),
+                                FadeInImage.memoryNetwork(
+                                  placeholder: kTransparentImage,
+                                  image:
+                                      'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${snapshot.data![index].id}/0.jpeg',
+                                  height: sHeight * 0.15,
+                                  width: sWidth * 0.3,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       itemCount: snapshot.data!.length,

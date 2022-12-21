@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
+import 'package:repairity/screens/user/user_posts_screen/components/user_posts.dart';
 import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
@@ -49,7 +49,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       isPublishing = false;
     });
-    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, '/user_home');
   }
 
   void _selectImage(dynamic chosenImages) async {

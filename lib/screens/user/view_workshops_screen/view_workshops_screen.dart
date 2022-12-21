@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/workshop.dart';
 import 'package:repairity/screens/user/view_workshops_screen/components/view_workshops_handler.dart';
 import 'package:repairity/widgets/top_notch.dart';
+
+import 'widgets/single_workshop_item.dart';
 
 class ViewWorkshopScreen extends StatelessWidget {
   const ViewWorkshopScreen({super.key});
@@ -45,67 +46,17 @@ class ViewWorkshopScreen extends StatelessWidget {
               );
             } else {
               final List<Workshop> fetchedWorkshops = snapshot.data!;
-              final List<double> distanceList = [];
               return Expanded(
                 child: ListView.builder(
+                  padding: EdgeInsets.only(top: sHeight * 0.01),
                   itemCount: fetchedWorkshops.length,
                   itemBuilder: (context, index) {
                     return FutureBuilder(
                       future: calculateDistance(fetchedWorkshops[index].lat,
                           fetchedWorkshops[index].lon),
-                      builder: (context, snapshot) => Card(
-                        elevation: 5,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(fetchedWorkshops[index].username),
-                                  Image.file(
-                                    fetchedWorkshops[index].profilePic,
-                                    height: sHeight * 0.2,
-                                    width: sWidth * 0.2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            Column(
-                              children: [
-                                RatingBar.builder(
-                                  ignoreGestures: true,
-                                  itemSize: (sHeight + sWidth) * 0.015,
-                                  initialRating: 3,
-                                  direction: Axis.horizontal,
-                                  itemCount: 5,
-                                  itemPadding: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
-                                  itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {},
-                                ),
-                                SizedBox(
-                                  height: sHeight * 0.03,
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.location_on),
-                                    Text(
-                                      snapshot.connectionState ==
-                                              ConnectionState.waiting
-                                          ? 'Calculating distance...'
-                                          : '${snapshot.data!.toStringAsFixed(2)} KM',
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                      builder: (context, snapshot) => SingleWorkshopItem(
+                        fetchedWorkshops: fetchedWorkshops[index],
+                        snapshot: snapshot,
                       ),
                     );
                   },

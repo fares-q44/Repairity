@@ -16,10 +16,10 @@ class TopNotch extends StatelessWidget {
         width: double.infinity,
         height: sHeight * 0.12,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-          ),
+          // borderRadius: BorderRadius.only(
+          // bottomRight: Radius.circular(20),
+          // bottomLeft: Radius.circular(20),
+          // ),
           color: Color.fromRGBO(
             88,
             101,

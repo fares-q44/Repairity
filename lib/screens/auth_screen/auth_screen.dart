@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/auth_screen/map_helpers/location_input.dart';
-import 'package:repairity/screens/user/user_posts/widgets/image_handler.dart';
+import 'package:repairity/screens/user/user_posts_screen/widgets/image_handler.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
 import '../../widgets/horizontal_divider.dart';

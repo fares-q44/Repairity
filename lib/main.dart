@@ -6,13 +6,13 @@ import 'package:repairity/screens/auth_screen/terms_and_conditions_screen.dart';
 import 'package:repairity/screens/starting_screen/splash_screen.dart';
 import 'package:repairity/screens/starting_screen/starting_screen.dart';
 import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart';
-import 'package:repairity/screens/user/user_posts/add_post_screen.dart';
-import 'package:repairity/screens/user/user_posts/user_posts_screen.dart';
+import 'package:repairity/screens/user/user_posts_screen/add_post_screen.dart';
+import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
 import 'package:repairity/screens/user/view_workshops_screen/components/view_workshops_handler.dart';
 import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
-import 'screens/user/user_posts/components/user_posts.dart';
+import 'screens/user/user_posts_screen/components/user_posts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,12 +24,7 @@ void main() async {
   );
   runApp(const MyApp());
 }
-<<<<<<< Updated upstream
-// 87
-=======
 
-// abnsq
->>>>>>> Stashed changes
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
