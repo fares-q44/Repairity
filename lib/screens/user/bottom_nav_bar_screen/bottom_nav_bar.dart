@@ -14,7 +14,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int pageIndex = 0;
 
-  final List pages = const [
+  final List<Widget> pages = const [
     UserPostsScreen(),
     ViewServicesScreen(),
     ViewWorkshopScreen(),
@@ -29,7 +29,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[pageIndex],
+      body: Column(
+        children: [
+          Expanded(
+            child: IndexedStack(
+              index: pageIndex,
+              children: pages,
+            ),
+          )
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         currentIndex: pageIndex,

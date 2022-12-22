@@ -13,6 +13,7 @@ import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.d
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import 'screens/user/user_posts_screen/components/user_posts.dart';
+import 'screens/user/view_workshop_profile_screen/components/view_workshop_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider(
           create: (_) => ViewWorkshopHandler(),
+        ),
+        Provider(
+          create: (_) => ViewSingleWorkshopHandler(),
         ),
       ],
       child: MaterialApp(

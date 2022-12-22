@@ -76,6 +76,9 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
                 }
                 return Column(
                   children: [
+                    SizedBox(
+                      height: sHeight * 0.37,
+                    ),
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed('/add_post');

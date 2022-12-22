@@ -178,6 +178,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   },
                                   onSaved: (newValue) => username = newValue!,
                                   decoration: const InputDecoration(
+                                    suffixIcon: Icon(Icons.account_box),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           width: 1.0, color: Colors.red),
@@ -221,6 +222,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             onSaved: (newValue) => email = newValue!,
                             keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.email),
                               errorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 1.0, color: Colors.red),
@@ -268,6 +270,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       phoneNumber = newValue!,
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: const InputDecoration(
+                                    suffixIcon: Icon(Icons.local_phone),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           width: 1.0, color: Colors.red),
@@ -313,6 +316,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             onSaved: (newValue) => password = newValue!,
                             obscureText: true,
                             decoration: const InputDecoration(
+                                suffixIcon: Icon(Icons.password),
                                 errorBorder: OutlineInputBorder(
                                   borderSide:
                                       BorderSide(width: 1.0, color: Colors.red),

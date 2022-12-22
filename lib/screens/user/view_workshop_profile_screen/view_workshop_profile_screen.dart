@@ -1,21 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:repairity/models/place.dart';
 import 'package:repairity/screens/auth_screen/map_helpers/map_screen.dart';
+import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/horizontal_divider.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
 import '../../../models/workshop.dart';
 import '../../auth_screen/map_helpers/location_helper.dart';
 import '../view_services_screen/widgets/workshop_information_container.dart';
+import 'components/view_workshop_handler.dart';
+import 'widgets/add_review.dart';
+import 'widgets/all_reviews.dart';
 
 class ViewWorkshopProfileScreen extends StatelessWidget {
-  const ViewWorkshopProfileScreen(
+  ViewWorkshopProfileScreen(
       {super.key, required this.workshop, required this.distance});
   final Workshop workshop;
   final double distance;
+  final myController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    void submitReview(int rate) async {
+      await Provider.of<ViewSingleWorkshopHandler>(context, listen: false)
+          .submitReview(
+        rate,
+        myController.text,
+        workshop.id,
+      );
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ViewWorkshopProfileScreen(
+                workshop: workshop, distance: distance),
+          ));
+    }
+
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
@@ -80,6 +101,30 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: sHeight * 0.017,
                   ),
+                  Container(
+                      margin: EdgeInsets.only(bottom: sHeight * 0.01),
+                      child:
+                          HorizontalDivider(sWidth: sWidth, sHeight: sHeight)),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Button(
+                      label: 'Rate this workshop',
+                      function: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AddReview(
+                              myController: myController,
+                              submitReview: submitReview,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: sHeight * 0.017,
+                  ),
                   HorizontalDivider(sWidth: sWidth, sHeight: sHeight),
                   const Text(
                     'Reviews',
@@ -89,57 +134,8 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: sHeight * 0.01,
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: sHeight * 0.13,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const Text(
-                                    'username',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  const Spacer(),
-                                  RatingBar.builder(
-                                    ignoreGestures: true,
-                                    itemSize: (sHeight + sWidth) * 0.015,
-                                    initialRating: 3,
-                                    direction: Axis.horizontal,
-                                    itemCount: 5,
-                                    itemPadding: const EdgeInsets.symmetric(
-                                        horizontal: 4.0),
-                                    itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    onRatingUpdate: (rating) {},
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: sHeight * 0.01,
-                              ),
-                              const Text(
-                                'Lorem Ipsum 00s, when an unknownr took a galley of type and scrambled it to make a type specimen book. It has survived ',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  AllReviews(
+                    workshopID: workshop.id,
                   )
                 ],
               ),
