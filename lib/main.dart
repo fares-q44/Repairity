@@ -9,6 +9,7 @@ import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart
 import 'package:repairity/screens/user/user_posts_screen/add_post_screen.dart';
 import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
 import 'package:repairity/screens/user/view_workshops_screen/components/view_workshops_handler.dart';
+import 'package:repairity/screens/workshop/navigation_bar_screen/navigation_bar_screen.dart';
 import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           '/view_posts': (context) => const ViewPostsScreen(),
           '/starting_screen': (context) => const StartingScreen(),
           '/user_home': (context) => const BottomNavBar(),
+          '/workshop_home': (context) => const WorkshopNavBar(),
           '/add_post': (context) => const AddPostScreen(),
         },
         home: const SplashScreen(),

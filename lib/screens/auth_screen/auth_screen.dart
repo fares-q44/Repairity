@@ -94,7 +94,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
       if (widget.isWorkshop) {
         Navigator.of(context).pushNamedAndRemoveUntil(
-          '/view_posts',
+          '/workshop_home',
           (route) => false,
         );
       } else {

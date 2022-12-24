@@ -71,17 +71,20 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return MapScreen(
-                            initialLocation: PlaceLocation(
-                              latitude: workshop.lat,
-                              longitude: workshop.lon,
-                            ),
-                            isSelecting: false,
-                          );
-                        },
-                      ));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MapScreen(
+                              initialLocation: PlaceLocation(
+                                latitude: workshop.lat,
+                                longitude: workshop.lon,
+                              ),
+                              isSelecting: false,
+                            );
+                          },
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(

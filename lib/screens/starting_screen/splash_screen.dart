@@ -31,7 +31,7 @@ class _SplashPageState extends State<SplashScreen> {
             .eq('uid', client.auth.currentUser!.id)
             .then((value) {
           if (value.count == 0) {
-            Navigator.of(context).pushNamed('/view_posts');
+            Navigator.of(context).pushNamed('/workshop_home');
           } else {
             Navigator.of(context).pushNamed('/user_home');
           }
