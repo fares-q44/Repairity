@@ -3,16 +3,35 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../../widgets/button.dart';
 
-class AddReview extends StatelessWidget {
-  AddReview({
+class AddReview extends StatefulWidget {
+  const AddReview({
     Key? key,
     required this.myController,
     required this.submitReview,
   }) : super(key: key);
 
   final TextEditingController myController;
-  int rate = 1;
   final Function submitReview;
+
+  @override
+  State<AddReview> createState() => _AddReviewState();
+}
+
+class _AddReviewState extends State<AddReview> {
+  int rate = 0;
+  bool isSubmitting = false;
+  void submitReviewFunc() async {
+    setState(() {
+      isSubmitting = true;
+    });
+    print(isSubmitting);
+    await widget.submitReview(rate);
+    setState(() {
+      isSubmitting = false;
+    });
+    print(isSubmitting);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -47,7 +66,7 @@ class AddReview extends StatelessWidget {
               vertical: sHeight * 0.03, horizontal: sHeight * 0.02),
           height: sHeight * 0.2,
           child: TextField(
-            controller: myController,
+            controller: widget.myController,
             textAlign: TextAlign.left,
             textAlignVertical: TextAlignVertical.top,
             decoration: const InputDecoration(
@@ -78,12 +97,9 @@ class AddReview extends StatelessWidget {
             expands: true,
           ),
         ),
-        Button(
-          label: 'Rate',
-          function: () {
-            submitReview(rate);
-          },
-        ),
+        isSubmitting
+            ? const CircularProgressIndicator()
+            : Button(label: 'Rate', function: submitReviewFunc),
       ],
     );
   }

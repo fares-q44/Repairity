@@ -8,11 +8,11 @@ import '../../view_workshop_profile_screen/view_workshop_profile_screen.dart';
 class SingleWorkshopItem extends StatelessWidget {
   const SingleWorkshopItem({
     Key? key,
-    required this.fetchedWorkshops,
+    required this.workshop,
     required this.snapshot,
   }) : super(key: key);
 
-  final Workshop fetchedWorkshops;
+  final Workshop workshop;
   final AsyncSnapshot<double> snapshot;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class SingleWorkshopItem extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => ViewWorkshopProfileScreen(
-                workshop: fetchedWorkshops,
+                workshop: workshop,
                 distance: snapshot.data == null ? 0.0 : snapshot.data!,
               ),
             ),
@@ -44,7 +44,7 @@ class SingleWorkshopItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(fetchedWorkshops.username),
+                    Text(workshop.username),
                     SizedBox(
                       height: sHeight * 0.01,
                     ),
@@ -59,7 +59,7 @@ class SingleWorkshopItem extends StatelessWidget {
                         ),
                         child: FadeInImage.memoryNetwork(
                           image:
-                              'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/profile-pictures/${fetchedWorkshops.id}',
+                              'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/profile-pictures/${workshop.id}',
                           placeholder: kTransparentImage,
                           height: sHeight * 0.18,
                           width: sWidth * 0.3,
@@ -73,10 +73,13 @@ class SingleWorkshopItem extends StatelessWidget {
               const Spacer(),
               Column(
                 children: [
+                  SizedBox(
+                    height: sHeight * 0.06,
+                  ),
                   RatingBar.builder(
                     ignoreGestures: true,
                     itemSize: (sHeight + sWidth) * 0.015,
-                    initialRating: 3,
+                    initialRating: workshop.rating.toDouble(),
                     direction: Axis.horizontal,
                     itemCount: 5,
                     itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),

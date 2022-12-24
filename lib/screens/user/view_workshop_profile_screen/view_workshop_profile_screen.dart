@@ -42,6 +42,7 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
     double sHeight = size.height;
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const ScrollPhysics(),
         child: Column(
           children: [
             TopNotch(withBack: true, withAdd: false),
@@ -92,7 +93,9 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                       child: Image.network(
                         fit: BoxFit.cover,
                         LocationHelper.generateLocationPreviewImage(
-                            latitude: workshop.lat, longtitude: workshop.lon),
+                          latitude: workshop.lat,
+                          longtitude: workshop.lon,
+                        ),
                         width: double.infinity,
                         height: sHeight * 0.3,
                       ),

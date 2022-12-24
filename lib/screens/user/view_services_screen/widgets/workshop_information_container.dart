@@ -32,6 +32,9 @@ class WorkshopInformationContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: sHeight * 0.02,
+            ),
             Text(workshop.username),
             Container(
               margin: EdgeInsets.symmetric(
@@ -42,7 +45,7 @@ class WorkshopInformationContainer extends StatelessWidget {
             RatingBar.builder(
               ignoreGestures: true,
               itemSize: (sHeight + sWidth) * 0.015,
-              initialRating: 3,
+              initialRating: workshop.rating.toDouble(),
               direction: Axis.horizontal,
               itemCount: 5,
               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),

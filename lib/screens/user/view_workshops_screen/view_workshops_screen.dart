@@ -55,7 +55,7 @@ class ViewWorkshopScreen extends StatelessWidget {
                       future: calculateDistance(fetchedWorkshops[index].lat,
                           fetchedWorkshops[index].lon),
                       builder: (context, snapshot) => SingleWorkshopItem(
-                        fetchedWorkshops: fetchedWorkshops[index],
+                        workshop: fetchedWorkshops[index],
                         snapshot: snapshot,
                       ),
                     );

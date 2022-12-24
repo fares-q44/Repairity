@@ -43,6 +43,7 @@ class _AllReviewsState extends State<AllReviews> {
               );
             }
             return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               padding: EdgeInsets.zero,
               itemCount: snapshot.data!.length,

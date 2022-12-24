@@ -5,7 +5,9 @@ class Workshop {
   final String username;
   final double lat;
   final double lon;
+  final int rating;
   Workshop({
+    required this.rating,
     required this.id,
     required this.username,
     required this.lat,
