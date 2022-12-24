@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TopNotch extends StatelessWidget {
   TopNotch(
@@ -46,21 +47,21 @@ class TopNotch extends StatelessWidget {
           : Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Container(
-                //   margin: const EdgeInsets.only(top: 20),
-                //   child: IconButton(
-                //     onPressed: () async {
-                //       await Supabase.instance.client.auth.signOut();
-                //       Navigator.pushNamedAndRemoveUntil(
-                //           context, '/starting_screen', (route) => false);
-                //     },
-                //     icon: const Icon(
-                //       Icons.logout,
-                //       color: Colors.white,
-                //       size: 25,
-                //     ),
-                //   ),
-                // ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () async {
+                      await Supabase.instance.client.auth.signOut();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/starting_screen', (route) => false);
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: IconButton(

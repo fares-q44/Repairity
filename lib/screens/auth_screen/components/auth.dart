@@ -7,7 +7,7 @@ class Auth {
   final auth = Supabase.instance.client.auth;
   final client = Supabase.instance.client;
 
-  Future<String> authinticate(email, password, bool isLogin, bool isWorkshop,
+  Future<String> authenticate(email, password, bool isLogin, bool isWorkshop,
       [username]) async {
     try {
       if (!isLogin) {
