@@ -59,21 +59,22 @@ class _ScreenServicesState extends State<ScreenServices> {
               ),
             ),
           ),
-          isDeleting ?
-          Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              width: size.width * 0.2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(29),
-              ),
-              child: const CircularProgressIndicator()) : const SizedBox(
-            height: 1,
-          ),
+          isDeleting
+              ? Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(29),
+                  ),
+                  child: const CircularProgressIndicator())
+              : const SizedBox(
+                  height: 1,
+                ),
           FutureBuilder(
-            future: Provider.of<Services>(context, listen: false)
-                .getOwnServices(),
+            future:
+                Provider.of<Services>(context, listen: false).getOwnServices(),
             builder: (context, AsyncSnapshot<List<Service>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -82,7 +83,7 @@ class _ScreenServicesState extends State<ScreenServices> {
               } else {
                 if (snapshot.hasError) {
                   PostgrestException error =
-                  snapshot.error as PostgrestException;
+                      snapshot.error as PostgrestException;
                   return Column(
                     children: [
                       Center(
@@ -113,37 +114,41 @@ class _ScreenServicesState extends State<ScreenServices> {
                               // A pane can dismiss the Slidable.
                               // dismissible: DismissiblePane(onDismissed: () { }),
                               dismissible: DismissiblePane(
-                                onDismissed: () {
-                                },
+                                onDismissed: () {},
                                 closeOnCancel: true,
                                 confirmDismiss: () async {
                                   return await showDialog<bool>(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text('Are you sure?'),
-                                        content: const Text('Are you sure to delete?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () async {
-                                              bool result = await deleteService(item.id);
-                                              Navigator.of(context).pop(result);
-                                              setState(() {
-                                                isDeleting = !result;
-                                              });
-                                            },
-                                            child: const Text('Yes'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop(false);
-                                            },
-                                            child: const Text('No'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ) ??
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text('Are you sure?'),
+                                            content: const Text(
+                                                'Are you sure to delete?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  bool result =
+                                                      await deleteService(
+                                                          item.id);
+                                                  Navigator.of(context)
+                                                      .pop(result);
+                                                  setState(() {
+                                                    isDeleting = !result;
+                                                  });
+                                                },
+                                                child: const Text('Yes'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                                child: const Text('No'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
                                       false;
                                 },
                               ),
@@ -186,7 +191,9 @@ class _ScreenServicesState extends State<ScreenServices> {
                                 SlidableAction(
                                   flex: 1,
                                   onPressed: (BuildContext context) {
-                                    Navigator.pushNamed(context, '/service_upsert', arguments: item);
+                                    Navigator.pushNamed(
+                                        context, '/service_upsert',
+                                        arguments: item);
                                   },
                                   backgroundColor: const Color(0xFF0392CF),
                                   foregroundColor: Colors.white,
@@ -205,12 +212,15 @@ class _ScreenServicesState extends State<ScreenServices> {
                               title: Text(item.type,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16, color: Color.fromARGB(200, 247, 247, 140)),
+                                      fontSize: 16,
+                                      color:
+                                          Color.fromARGB(200, 247, 247, 140)),
                                   textScaleFactor: 1.5),
-                              trailing: LayoutBuilder(
-                                  builder: (context, constraint) {
-                                    return _icon(item.name, constraint.biggest.height);
-                                  }),
+                              trailing:
+                                  LayoutBuilder(builder: (context, constraint) {
+                                return _icon(
+                                    item.name, constraint.biggest.height);
+                              }),
                               subtitle: Text(
                                   "Name: ${item.name}\nPrice: ${item.price}\nCost: ${item.costLabor}",
                                   style: const TextStyle(
@@ -226,8 +236,8 @@ class _ScreenServicesState extends State<ScreenServices> {
                         },
                         itemCount: snapshot.data!.length,
                         separatorBuilder: (context, index) => const SizedBox(
-                          height: 3,
-                        )),
+                              height: 3,
+                            )),
                   );
                 } else {
                   return Column(
@@ -279,8 +289,7 @@ class _ScreenServicesState extends State<ScreenServices> {
       setState(() {
         isDeleting = true;
       });
-      return Provider.of<Services>(context, listen: false)
-          .deleteService(id);
+      return Provider.of<Services>(context, listen: false).deleteService(id);
     } on Exception catch (e) {
       String err = e.toString();
       print(err);
@@ -292,16 +301,15 @@ class _ScreenServicesState extends State<ScreenServices> {
     }
     return false;
   }
-
 }
 
-void doNothing(BuildContext context) { }
+void doNothing(BuildContext context) {}
 
 Widget _icon(String type, double mySize) {
   switch (type) {
     case 'Oil':
       return Icon(Icons.oil_barrel_outlined, color: Colors.white, size: mySize);
-  /*return Padding(
+    /*return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Image.asset('assets/images/serviceMotorOil.png'),
       );*/
