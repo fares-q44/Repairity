@@ -76,7 +76,10 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-          //  const TopNotch(withBack: true),
+            TopNotch(
+              withBack: true,
+              withAdd: false,
+            ),
             SizedBox(
               height: sHeight * 0.05,
             ),
@@ -87,7 +90,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -109,7 +112,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -139,7 +142,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(width: 1.0, color: Colors.black),
+                              BorderSide(width: 1.0, color: Colors.black),
                         ),
                       ),
                     ),
@@ -147,7 +150,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -177,7 +180,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(width: 1.0, color: Colors.black),
+                              BorderSide(width: 1.0, color: Colors.black),
                         ),
                       ),
                     ),
@@ -185,7 +188,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -217,7 +220,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(width: 1.0, color: Colors.black),
+                              BorderSide(width: 1.0, color: Colors.black),
                         ),
                       ),
                     ),
@@ -228,23 +231,23 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                   isPublishing
                       ? const CircularProgressIndicator()
                       : GestureDetector(
-                    onTap: upsertService,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(13),
-                        color: Colors.black,
-                      ),
-                      height: sHeight * 0.08,
-                      width: sWidth * 0.8,
-                      child: Center(
-                        child: Text(
-                          id != '' ? 'Update' : 'Publish',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
+                          onTap: upsertService,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              color: Colors.black,
+                            ),
+                            height: sHeight * 0.08,
+                            width: sWidth * 0.8,
+                            child: Center(
+                              child: Text(
+                                id != '' ? 'Update' : 'Publish',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

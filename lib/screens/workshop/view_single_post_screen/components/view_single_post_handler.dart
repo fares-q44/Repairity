@@ -7,7 +7,6 @@ class ViewSinglePostHandler {
         .from('users')
         .select('uid, username')
         .eq('uid', id);
-    print(result);
     return AppUser(id: result[0]['uid'], username: result[0]['username']);
   }
 }

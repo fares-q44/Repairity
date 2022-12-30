@@ -6,7 +6,6 @@ import FlutterMacOS
 import Foundation
 
 import app_links
-import app_links_macos
 import geolocator_apple
 import location
 import path_provider_macos

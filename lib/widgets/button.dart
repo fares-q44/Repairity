@@ -5,10 +5,14 @@ class Button extends StatelessWidget {
     Key? key,
     required this.label,
     required this.function,
+    // required this.height,
+    // required this.width,
   }) : super(key: key);
 
   final String label;
   final VoidCallback function;
+  // final double height;
+  // final double width;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

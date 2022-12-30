@@ -7,11 +7,11 @@ class Services {
   String addedServiceId = '';
 
   Future<void> addService(
-      String type,
-      String name,
-      String price,
-      String costLabor,
-      ) async {
+    String type,
+    String name,
+    String price,
+    String costLabor,
+  ) async {
     try {
       final insertedID = await client.from('services').insert({
         'owner_id': client.auth.currentUser!.id,
@@ -20,19 +20,19 @@ class Services {
         'price': price,
         'cost_labor': costLabor,
       }).select('id');
-      addedServiceId = insertedID[0]['id'];
+      addedServiceId = insertedID[0]['id'].toString();
     } catch (e) {
       rethrow;
     }
   }
 
   Future<void> editService(
-      String id,
-      String type,
-      String name,
-      String price,
-      String costLabor,
-      ) async {
+    String id,
+    String type,
+    String name,
+    String price,
+    String costLabor,
+  ) async {
     try {
       // TODO
       // Do the edit
@@ -41,9 +41,7 @@ class Services {
     }
   }
 
-  Future<bool> deleteService(
-      String id
-      ) async {
+  Future<bool> deleteService(String id) async {
     try {
       // TODO
       // Do the delete

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repairity/screens/chat_screen/chat_screen.dart';
-import 'package:repairity/screens/workshop/services_screen/services_screen.dart';
+import 'package:repairity/screens/service/main.dart';
 import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 
 import '../../user/view_workshops_screen/view_workshops_screen.dart';
@@ -17,7 +17,7 @@ class _WorkshopNavBarState extends State<WorkshopNavBar> {
 
   final List<Widget> pages = const [
     ViewPostsScreen(),
-    ServicesScreen(),
+    ScreenServices(),
     ViewWorkshopScreen(),
     ChatScreen(),
   ];

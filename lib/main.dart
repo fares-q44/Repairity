@@ -7,14 +7,11 @@ import 'package:repairity/screens/starting_screen/splash_screen.dart';
 import 'package:repairity/screens/starting_screen/starting_screen.dart';
 import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart';
 
-
 import 'api/service.dart';
-import 'screens/user/user_posts/components/user_posts.dart';
 import 'package:repairity/screens/user/user_posts_screen/add_post_screen.dart';
 import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
 import 'package:repairity/screens/user/view_workshops_screen/components/view_workshops_handler.dart';
 import 'package:repairity/screens/workshop/navigation_bar_screen/navigation_bar_screen.dart';
-import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import 'screens/user/user_posts_screen/components/user_posts.dart';
@@ -28,7 +25,7 @@ void main() async {
   await Supabase.initialize(
     url: 'https://atpuopxuvfwzdzfzxawq.supabase.co',
     anonKey:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0cHVvcHh1dmZ3emR6Znp4YXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzAxNjYwNzAsImV4cCI6MTk4NTc0MjA3MH0.8SG6mX8oT2rDlkv5YRmULk3PlG-zK-Y8IVlbTgfbsRI',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0cHVvcHh1dmZ3emR6Znp4YXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzAxNjYwNzAsImV4cCI6MTk4NTc0MjA3MH0.8SG6mX8oT2rDlkv5YRmULk3PlG-zK-Y8IVlbTgfbsRI',
   );
   runApp(const MyApp());
 }
@@ -76,13 +73,12 @@ class MyApp extends StatelessWidget {
             )),
         routes: {
           '/terms_and_conditions': (context) =>
-          const TermsAndConditionsScreen(),
+              const TermsAndConditionsScreen(),
           '/starting_screen': (context) => const StartingScreen(),
           '/user_posts': (context) => const UserPostsScreen(),
           '/user_home': (context) => const BottomNavBar(),
           '/workshop_home': (context) => const WorkshopNavBar(),
           '/add_post': (context) => const AddPostScreen(),
-          '/workshop': (context) => const ScreenWorkshop(),
           '/service_upsert': (context) => const ScreenServiceUpsert(),
         },
         home: const SplashScreen(),

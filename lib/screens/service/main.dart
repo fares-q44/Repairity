@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/service.dart';
+import 'package:repairity/widgets/top_notch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import '../../api/service.dart';
@@ -27,38 +28,7 @@ class _ScreenServicesState extends State<ScreenServices> {
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            width: double.infinity,
-            height: sHeight * 0.12,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-              color: Color.fromRGBO(
-                88,
-                101,
-                242,
-                1,
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: const EdgeInsets.only(top: 10),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/service_upsert');
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          TopNotch(withBack: false, withAdd: true, route: '/service_upsert'),
           isDeleting
               ? Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
