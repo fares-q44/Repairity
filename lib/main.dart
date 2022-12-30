@@ -6,13 +6,21 @@ import 'package:repairity/screens/service/upsert.dart';
 import 'package:repairity/screens/starting_screen/splash_screen.dart';
 import 'package:repairity/screens/starting_screen/starting_screen.dart';
 import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart';
-import 'package:repairity/screens/user/user_posts/add_post_screen.dart';
-import 'package:repairity/screens/user/user_posts/user_posts_screen.dart';
-import 'package:repairity/screens/workshop.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+
 
 import 'api/service.dart';
 import 'screens/user/user_posts/components/user_posts.dart';
+import 'package:repairity/screens/user/user_posts_screen/add_post_screen.dart';
+import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
+import 'package:repairity/screens/user/view_workshops_screen/components/view_workshops_handler.dart';
+import 'package:repairity/screens/workshop/navigation_bar_screen/navigation_bar_screen.dart';
+import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+
+import 'screens/user/user_posts_screen/components/user_posts.dart';
+import 'screens/user/view_workshop_profile_screen/components/view_workshop_handler.dart';
+import 'screens/workshop/view_posts_screen/components/view_posts_handler.dart';
+import 'screens/workshop/view_single_post_screen/components/view_single_post_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +50,18 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (_) => Services(),
         ),
+        Provider(
+          create: (_) => ViewWorkshopHandler(),
+        ),
+        Provider(
+          create: (_) => ViewSingleWorkshopHandler(),
+        ),
+        Provider(
+          create: (_) => ViewPostsHandler(),
+        ),
+        Provider(
+          create: (_) => ViewSinglePostHandler(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -60,6 +80,7 @@ class MyApp extends StatelessWidget {
           '/starting_screen': (context) => const StartingScreen(),
           '/user_posts': (context) => const UserPostsScreen(),
           '/user_home': (context) => const BottomNavBar(),
+          '/workshop_home': (context) => const WorkshopNavBar(),
           '/add_post': (context) => const AddPostScreen(),
           '/workshop': (context) => const ScreenWorkshop(),
           '/service_upsert': (context) => const ScreenServiceUpsert(),
