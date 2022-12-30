@@ -27,6 +27,58 @@ class TopNotch extends StatelessWidget {
             1,
           ),
         ),
+        color: Color.fromRGBO(
+          88,
+          101,
+          242,
+          1,
+        ),
+      ),
+      child: withBack
+          ? Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () async {
+                      await Supabase.instance.client.auth.signOut();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/starting_screen', (route) => false);
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, route!);
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30,
         child: Row(
           children: [
             withBack

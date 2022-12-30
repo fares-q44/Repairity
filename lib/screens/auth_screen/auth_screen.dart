@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/auth_screen/map_helpers/location_input.dart';
 import 'package:repairity/screens/user/user_posts_screen/widgets/image_handler.dart';
 import 'package:repairity/widgets/top_notch.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
-import '../../widgets/horizontal_divider.dart';
 import 'components/auth.dart';
+
 import 'widgets/error_list.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -23,6 +23,55 @@ class _AuthScreenState extends State<AuthScreen> {
   String email = '';
   String username = '';
   String password = '';
+  bool isLoadingAuth = false;
+  bool agreedToTerms = false;
+
+  Future<void> validateForm() async {
+    setState(() {
+      isLoadingAuth = true;
+    });
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      try {
+        await Provider.of<Auth>(context, listen: false).authenticate(
+          email,
+          password,
+          isLogin,
+          widget.isWorkshop,
+          username,
+        );
+        if (widget.isWorkshop) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/workshop',
+                (route) => false,
+          );
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/user_home',
+                (route) => false,
+          );
+        }
+      } on AuthException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${e.statusCode} - ${e.message}'),
+          ),
+        );
+      } on Exception catch (e) {
+        String err = e.toString();
+        if (e.toString() == 'user-not-found' ||
+            e.toString() == 'wrong-password') {
+          err = 'Incorrect username or password, Please try again.';
+        } else if (e.toString() == 'email-already-in-use') {
+          err = 'Email is already taken';
+        } else {
+          err =
+          'Invalid login credentials, please check your email and password';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(err),
+          ),
   String phoneNumber = '';
   double lat = 0;
   double lon = 0;
@@ -127,6 +176,9 @@ class _AuthScreenState extends State<AuthScreen> {
         },
       );
     }
+    setState(() {
+      isLoadingAuth = false;
+    });
   }
 
   @override
@@ -139,13 +191,13 @@ class _AuthScreenState extends State<AuthScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TopNotch(withBack: true, withAdd: false),
+           // const TopNotch(withBack: true),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
                 children: [
                   SizedBox(
-                    height: sHeight * (widget.isWorkshop ? 0.02 : 0.1),
+                    height: sHeight * 0.1,
                   ),
                   Text(
                     isLogin ? 'Login' : 'Register',
@@ -161,6 +213,46 @@ class _AuthScreenState extends State<AuthScreen> {
                         // The Username text field
                         !isLogin
                             ? Container(
+                          margin:
+                          const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 5),
+                          width: size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(29),
+                          ),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 4) {
+                                return 'Please provide a valid username';
+                              }
+                              return null;
+                            },
+                            onSaved: (newValue) => username = newValue!,
+                            decoration: const InputDecoration(
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.0, color: Colors.red),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.0, color: Colors.red),
+                              ),
+                              hintText: 'Enter your Username here',
+                              labelText: 'Username',
+                              labelStyle: TextStyle(fontSize: 20),
+                              floatingLabelBehavior:
+                              FloatingLabelBehavior.always,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.0, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        )
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 padding: const EdgeInsets.symmetric(
@@ -225,23 +317,23 @@ class _AuthScreenState extends State<AuthScreen> {
                               suffixIcon: Icon(Icons.email),
                               errorBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 1.0, color: Colors.red),
+                                BorderSide(width: 1.0, color: Colors.red),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 1.0, color: Colors.red),
+                                BorderSide(width: 1.0, color: Colors.red),
                               ),
                               hintText: 'Enter your email here',
                               labelText: 'Email',
                               labelStyle: TextStyle(fontSize: 20),
                               floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
+                              FloatingLabelBehavior.always,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(width: 1.0),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 1.0, color: Colors.black),
+                                BorderSide(width: 1.0, color: Colors.black),
                               ),
                             ),
                           ),
@@ -297,7 +389,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             : Container(),
                         // The password text field
                         Container(
-                          margin: const EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 5,
@@ -314,18 +406,18 @@ class _AuthScreenState extends State<AuthScreen> {
                               return null;
                             },
                             onSaved: (newValue) => password = newValue!,
-                            obscureText: true,
+                            obscureText: false,
                             decoration: const InputDecoration(
                                 suffixIcon: Icon(Icons.password),
                                 errorBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(width: 1.0, color: Colors.red),
+                                  BorderSide(width: 1.0, color: Colors.red),
                                 ),
                                 hintText: 'Enter your Password here',
                                 labelText: 'Password',
                                 labelStyle: TextStyle(fontSize: 20),
                                 floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
+                                FloatingLabelBehavior.always,
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(width: 1.0),
                                 ),
@@ -335,7 +427,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(width: 1.0, color: Colors.red),
+                                  BorderSide(width: 1.0, color: Colors.red),
                                 )),
                           ),
                         ),
@@ -373,42 +465,42 @@ class _AuthScreenState extends State<AuthScreen> {
                         isLogin
                             ? Container()
                             : Row(
-                                children: [
-                                  SizedBox(
-                                    width: sWidth * 0.05,
-                                  ),
-                                  const Text('Agree to our'),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        '/terms_and_conditions',
-                                      );
-                                    },
-                                    child: Text(
-                                      'Terms And Conditions',
-                                      style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  Checkbox(
-                                    value: agreedToTerms,
-                                    onChanged: (value) => setState(
-                                      () {
-                                        agreedToTerms = !agreedToTerms;
-                                      },
-                                    ),
-                                  ),
-                                ],
+                          children: [
+                            SizedBox(
+                              width: sWidth * 0.05,
+                            ),
+                            const Text('Agree to our'),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/terms_and_conditions',
+                                );
+                              },
+                              child: Text(
+                                'Terms And Conditions',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
-                        // Forgot password text button
+                            ),
+                            Checkbox(
+                              value: agreedToTerms,
+                              onChanged: (value) => setState(
+                                    () {
+                                  agreedToTerms = !agreedToTerms;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                         Row(
                           children: [
                             SizedBox(
                               width: sWidth * 0.05,
                             ),
+                            // Forgot password text
                             Text(
                               isLogin ? 'Forgot your password?' : '',
                               style: const TextStyle(
@@ -421,41 +513,32 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(
                           height: isLogin ? sHeight * 0.04 : 0,
                         ),
-                        // Show errors if exists
-                        isLogin
-                            ? Container()
-                            : ErrorList(
-                                errorTextList: errorTextList, sWidth: sWidth),
-                        SizedBox(
-                          height: sHeight * 0.01,
-                        ),
                         // The login or signup button
                         isLoadingAuth
                             ? const CircularProgressIndicator()
                             : GestureDetector(
-                                onTap: validateForm,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(13),
-                                    color: Colors.black,
-                                  ),
-                                  height: sHeight * 0.08,
-                                  width: sWidth * 0.8,
-                                  child: Center(
-                                    child: Text(
-                                      isLogin ? 'Login' : 'Register',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
+                          onTap: validateForm,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              color: Colors.black,
+                            ),
+                            height: sHeight * 0.08,
+                            width: sWidth * 0.8,
+                            child: Center(
+                              child: Text(
+                                isLogin ? 'Login' : 'Register',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
                               ),
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: sHeight * 0.03,
                         ),
-                        // Register or login text
                         Text(isLogin
                             ? 'You don\'t have an account?'
                             : 'Already have an account?'),

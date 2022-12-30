@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class Auth {
   final auth = Supabase.instance.client.auth;
   final client = Supabase.instance.client;
+
   Future<String> authinticate(
       email, password, bool isLogin, bool isWorkshop, double lat, double lon,
       [username]) async {
