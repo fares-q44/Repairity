@@ -9,13 +9,11 @@ class ViewWorkshopHandler {
       final fetchedWorkshops = await client
           .from('workshops')
           .select('uid, username, lat, lon') as List<dynamic>;
-      print(fetchedWorkshops.length);
       for (var element in fetchedWorkshops) {
         int totalRate = 0;
         final rate =
             await client.rpc('average_rate', params: {'wid': element['uid']});
 
-        print(totalRate);
         finishedWorkshops.add(
           Workshop(
             id: element['uid'],

@@ -24,12 +24,10 @@ class _AddReviewState extends State<AddReview> {
     setState(() {
       isSubmitting = true;
     });
-    print(isSubmitting);
     await widget.submitReview(rate);
     setState(() {
       isSubmitting = false;
     });
-    print(isSubmitting);
   }
 
   @override
@@ -58,7 +56,6 @@ class _AddReviewState extends State<AddReview> {
           ),
           onRatingUpdate: (rating) {
             rate = rating.toInt();
-            print(rate);
           },
         ),
         Container(

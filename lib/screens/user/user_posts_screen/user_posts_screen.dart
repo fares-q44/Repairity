@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/screens/user/user_posts_screen/components/user_posts.dart';
 import 'package:repairity/widgets/top_notch.dart';
-import 'package:transparent_image/transparent_image.dart';
+
+import '../../../widgets/single_post_item.dart';
 
 class UserPostsScreen extends StatefulWidget {
   const UserPostsScreen({super.key});
@@ -40,38 +41,8 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
                 );
               } else {
                 if (snapshot.data!.isNotEmpty) {
-                  return Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) => SizedBox(
-                        height: sHeight * 0.19,
-                        child: Card(
-                          color: const Color.fromARGB(255, 218, 218, 218),
-                          elevation: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  snapshot.data![index].title,
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                const Spacer(),
-                                FadeInImage.memoryNetwork(
-                                  placeholder: kTransparentImage,
-                                  image:
-                                      'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${snapshot.data![index].id}/0.jpeg',
-                                  height: sHeight * 0.15,
-                                  width: sWidth * 0.3,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      itemCount: snapshot.data!.length,
-                    ),
+                  return SinglePostItem(
+                    snapshot: snapshot,
                   );
                 }
                 return Column(

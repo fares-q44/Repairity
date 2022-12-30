@@ -268,7 +268,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   },
                                   onSaved: (newValue) =>
                                       phoneNumber = newValue!,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.phone,
                                   decoration: const InputDecoration(
                                     suffixIcon: Icon(Icons.local_phone),
                                     errorBorder: OutlineInputBorder(

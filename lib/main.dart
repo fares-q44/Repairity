@@ -15,6 +15,8 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import 'screens/user/user_posts_screen/components/user_posts.dart';
 import 'screens/user/view_workshop_profile_screen/components/view_workshop_handler.dart';
+import 'screens/workshop/view_posts_screen/components/view_posts_handler.dart';
+import 'screens/workshop/view_single_post_screen/components/view_single_post_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +51,12 @@ class MyApp extends StatelessWidget {
         ),
         Provider(
           create: (_) => ViewSingleWorkshopHandler(),
+        ),
+        Provider(
+          create: (_) => ViewPostsHandler(),
+        ),
+        Provider(
+          create: (_) => ViewSinglePostHandler(),
         ),
       ],
       child: MaterialApp(

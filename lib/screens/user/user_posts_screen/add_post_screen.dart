@@ -31,7 +31,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       _formKey.currentState!.save();
       try {
         await Provider.of<UserPosts>(context, listen: false)
-            .addPost(title, contact, details);
+            .addPost(title, contact, details, pickedImages.length);
         if (pickedImages.isNotEmpty) {
           await Provider.of<UserPosts>(context, listen: false)
               .uploadPhotos(pickedImages);
