@@ -6,6 +6,7 @@ import 'package:repairity/screens/service/upsert.dart';
 import 'package:repairity/screens/starting_screen/splash_screen.dart';
 import 'package:repairity/screens/starting_screen/starting_screen.dart';
 import 'package:repairity/screens/user/bottom_nav_bar_screen/bottom_nav_bar.dart';
+import 'package:repairity/screens/user/view_services_screen/components/view_services_handler.dart';
 
 import 'api/service.dart';
 import 'package:repairity/screens/user/user_posts_screen/add_post_screen.dart';
@@ -58,6 +59,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider(
           create: (_) => ViewSinglePostHandler(),
+        ),
+        Provider(
+          create: (_) => ViewServicesHandler(),
         ),
       ],
       child: MaterialApp(

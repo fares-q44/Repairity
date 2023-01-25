@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../../../models/workshop.dart';
 import '../../../../widgets/horizontal_divider.dart';
 
 class WorkshopInformationContainer extends StatelessWidget {
-  const WorkshopInformationContainer({
+  WorkshopInformationContainer({
     Key? key,
     required this.workshop,
     required this.distance,
   }) : super(key: key);
 
   final Workshop workshop;
-  final double distance;
+  double distance;
 
   @override
   Widget build(BuildContext context) {
+    Future<double> calculateDistance(lat2, lon2) async {
+      try {
+        final currentLocation = await Geolocator.getCurrentPosition();
+        final lat1 = currentLocation.latitude;
+        final lon1 = currentLocation.longitude;
+        return Geolocator.distanceBetween(lat1, lon1, lat2, lon2) / 1000;
+      } catch (e) {
+        print(e);
+        return 0;
+      }
+    }
+
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
@@ -67,7 +80,21 @@ class WorkshopInformationContainer extends StatelessWidget {
             Row(
               children: [
                 const Icon(Icons.location_on),
-                Text(distance.toStringAsFixed(2)),
+                distance == -1
+                    ? FutureBuilder(
+                        future: calculateDistance(workshop.lat, workshop.lon),
+                        builder: (context, snapshot) {
+                          print('distance');
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text('Loading distance');
+                          } else {
+                            distance = snapshot.data!;
+                            return Text(distance.toStringAsFixed(2));
+                          }
+                        },
+                      )
+                    : Text(distance.toStringAsFixed(2)),
               ],
             )
           ],

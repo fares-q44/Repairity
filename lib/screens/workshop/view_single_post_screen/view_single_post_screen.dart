@@ -6,7 +6,10 @@ import 'package:repairity/widgets/horizontal_divider.dart';
 import 'package:repairity/widgets/top_notch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../../models/comment.dart';
+import '../../user/view_workshop_profile_screen/view_workshop_profile_screen.dart';
 import 'components/view_single_post_handler.dart';
+import 'widgets/add_comment_button.dart';
 
 class ViewSinglePostScreen extends StatefulWidget {
   const ViewSinglePostScreen({super.key, required this.post});
@@ -98,13 +101,8 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                             ),
                           ),
                           const Spacer(),
-                          SizedBox(
-                            height: sHeight * 0.04,
-                            width: sWidth * 0.2,
-                            child: Button(
-                              label: 'Add comment',
-                              function: () {},
-                            ),
+                          AddCommentButton(
+                            post: widget.post,
                           )
                         ],
                       ),
@@ -115,48 +113,102 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
               },
             ),
             FutureBuilder(
-              builder: (context, snapshot) => ListView.builder(
-                padding: EdgeInsets.zero,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 1,
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.all(sHeight * 0.02),
-                  width: double.infinity,
-                  height: sHeight * 0.13,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'username',
-                              style: TextStyle(color: Colors.white),
+                future:
+                    Provider.of<ViewSinglePostHandler>(context, listen: false)
+                        .getPostComments(widget.post.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  final List<Comment> allComments = snapshot.data!;
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) => Container(
+                      margin: EdgeInsets.all(sHeight * 0.02),
+                      width: double.infinity,
+                      height: sHeight * 0.13,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ViewWorkshopProfileScreen(
+                                                  workshop: allComments[index]
+                                                      .workshop),
+                                        ));
+                                  },
+                                  child: Text(
+                                    allComments[index].workshop.username,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
                             ),
+                            SizedBox(
+                              height: sHeight * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      const TextSpan(text: 'i can do this for'),
+                                      TextSpan(
+                                          text:
+                                              ' ${allComments[index].price.toString()}',
+                                          style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 245, 110, 100))),
+                                      const TextSpan(
+                                          text: ' Riyals \nit will take '),
+                                      TextSpan(
+                                          text: allComments[index]
+                                              .duration
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 250, 114, 104))),
+                                      const TextSpan(text: ' days'),
+                                    ],
+                                  ),
+                                ),
+                                const Spacer(),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ViewWorkshopProfileScreen(
+                                                    workshop: allComments[index]
+                                                        .workshop),
+                                          ));
+                                    },
+                                    child: const Text('Contact'))
+                              ],
+                            )
                           ],
                         ),
-                        SizedBox(
-                          height: sHeight * 0.01,
-                        ),
-                        const Text(
-                          'review',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            )
+                  );
+                })
           ],
         ),
       ),

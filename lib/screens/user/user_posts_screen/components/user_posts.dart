@@ -46,7 +46,7 @@ class UserPosts {
 
     final result = await client
         .from('posts')
-        .select('id, title, contact, details, owner_id, img_count')
+        .select('id, title, contact, details, owner_id, img_count, created_at')
         .eq('owner_id', client.auth.currentUser!.id) as List<dynamic>;
     if (result.isNotEmpty) {
       for (var element in result) {
@@ -58,6 +58,7 @@ class UserPosts {
             description: element['details'],
             imgCount: element['img_count'],
             ownerId: element['owner_id'],
+            date: DateTime.parse(element['created_at']),
           );
           userOwnPosts.add(tempPost);
         } catch (e) {

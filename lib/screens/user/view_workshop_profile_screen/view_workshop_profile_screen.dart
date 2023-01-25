@@ -8,16 +8,16 @@ import 'package:repairity/widgets/top_notch.dart';
 
 import '../../../models/workshop.dart';
 import '../../auth_screen/map_helpers/location_helper.dart';
-import '../view_services_screen/widgets/workshop_information_container.dart';
+import 'widgets/workshop_information_container.dart';
 import 'components/view_workshop_handler.dart';
 import 'widgets/add_review.dart';
 import 'widgets/all_reviews.dart';
 
 class ViewWorkshopProfileScreen extends StatelessWidget {
   ViewWorkshopProfileScreen(
-      {super.key, required this.workshop, required this.distance});
+      {super.key, required this.workshop, this.distance = -1});
   final Workshop workshop;
-  final double distance;
+  double distance;
   final myController = TextEditingController();
   @override
   Widget build(BuildContext context) {

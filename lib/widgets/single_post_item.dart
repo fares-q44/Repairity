@@ -35,9 +35,22 @@ class SinglePostItem extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      snapshot.data![index].title,
-                      style: const TextStyle(fontSize: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          snapshot.data![index].title,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: sHeight * 0.02,
+                        ),
+                        Text(
+                          '${DateTime.now().difference(snapshot.data![index].date).inDays.toString()} Days ago',
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 129, 129, 129)),
+                        )
+                      ],
                     ),
                     const Spacer(),
                     FadeInImage.memoryNetwork(

@@ -6,13 +6,15 @@ class Post {
   String contact = '';
   String description = '';
   String ownerId = '';
+  DateTime date;
   int imgCount;
   Post({
     required this.id,
     required this.title,
     required this.contact,
     required this.description,
-    required this.imgCount,
     required this.ownerId,
+    required this.date,
+    required this.imgCount,
   });
 }

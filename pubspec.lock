@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  counter:
+    dependency: "direct main"
+    description:
+      name: counter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   cross_file:
     dependency: transitive
     description:
