@@ -1,7 +1,8 @@
 import 'package:repairity/models/app_user.dart';
 import 'package:repairity/models/comment.dart';
-import 'package:repairity/models/workshop.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../../models/workshop.dart';
 
 class ViewSinglePostHandler {
   final client = Supabase.instance.client;
@@ -29,14 +30,10 @@ class ViewSinglePostHandler {
     try {
       final result = await client
           .from('comments')
-          .select('id, workshop_id, post_id, price, duration, created_at')
+          .select('*, workshops(*)')
           .eq('post_id', postId) as List;
 
       for (var element in result) {
-        final fetchedworkshop = await client
-            .from('workshops')
-            .select('username, lat, lon')
-            .eq('uid', element['workshop_id']);
         final rate = await client
             .rpc('average_rate', params: {'wid': element['workshop_id']});
         fetchedComments.add(
@@ -45,9 +42,9 @@ class ViewSinglePostHandler {
             workshop: Workshop(
                 rating: rate ?? 0,
                 id: element['workshop_id'],
-                username: fetchedworkshop[0]['username'],
-                lat: double.parse(fetchedworkshop[0]['lat']),
-                lon: double.parse(fetchedworkshop[0]['lon'])),
+                username: element['workshops']['username'],
+                lat: double.parse(element['workshops']['lat']),
+                lon: double.parse(element['workshops']['lon'])),
             postID: element['post_id'],
             price: element['price'],
             duration: element['duration'],
@@ -56,7 +53,7 @@ class ViewSinglePostHandler {
         );
       }
     } catch (e) {
-      print(e);
+      rethrow;
     }
     return fetchedComments;
   }

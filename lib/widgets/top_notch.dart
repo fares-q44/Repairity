@@ -12,6 +12,7 @@ class TopNotch extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double sHeight = size.height;
+    double sWidth = size.width;
     return Container(
         width: double.infinity,
         height: sHeight * 0.12,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/service.dart';
+import 'package:repairity/screens/workshop/navigation_bar_screen/navigation_bar_screen.dart';
 import 'package:repairity/widgets/dropdown_button.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
@@ -51,6 +52,11 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
       isPublishing = false;
     });
     Navigator.pop(context);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WorkshopNavBar(pageIndex: 1),
+        ));
   }
 
   @override

@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:repairity/screens/chat_screen/chat_screen.dart';
 import 'package:repairity/screens/service/main.dart';
 import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
-
-import '../../user/view_workshops_screen/view_workshops_screen.dart';
+import 'package:repairity/screens/workshop/view_profile_screen/view_profile_screen.dart';
 
 class WorkshopNavBar extends StatefulWidget {
-  const WorkshopNavBar({super.key});
-
+  WorkshopNavBar({super.key, this.pageIndex = 0});
+  int pageIndex = 0;
   @override
   State<WorkshopNavBar> createState() => _WorkshopNavBarState();
 }
 
 class _WorkshopNavBarState extends State<WorkshopNavBar> {
-  int pageIndex = 0;
-
   final List<Widget> pages = const [
     ViewPostsScreen(),
     ScreenServices(),
-    ViewWorkshopScreen(),
+    ViewProfileScreen(),
     ChatScreen(),
   ];
   void _onItemTapped(int index) {
     setState(() {
-      pageIndex = index;
+      widget.pageIndex = index;
     });
   }
 
@@ -34,7 +31,7 @@ class _WorkshopNavBarState extends State<WorkshopNavBar> {
         children: [
           Expanded(
             child: IndexedStack(
-              index: pageIndex,
+              index: widget.pageIndex,
               children: pages,
             ),
           )
@@ -42,7 +39,7 @@ class _WorkshopNavBarState extends State<WorkshopNavBar> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
-        currentIndex: pageIndex,
+        currentIndex: widget.pageIndex,
         backgroundColor: Theme.of(context).primaryColor,
         type: BottomNavigationBarType.fixed,
         unselectedLabelStyle: const TextStyle(color: Colors.white),
@@ -59,8 +56,8 @@ class _WorkshopNavBarState extends State<WorkshopNavBar> {
             label: 'Services',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fire_truck),
-            label: 'Workshops',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),

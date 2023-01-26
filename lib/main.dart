@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
           '/starting_screen': (context) => const StartingScreen(),
           '/user_posts': (context) => const UserPostsScreen(),
           '/user_home': (context) => const BottomNavBar(),
-          '/workshop_home': (context) => const WorkshopNavBar(),
+          '/workshop_home': (context) => WorkshopNavBar(),
           '/add_post': (context) => const AddPostScreen(),
           '/service_upsert': (context) => const ScreenServiceUpsert(),
         },
