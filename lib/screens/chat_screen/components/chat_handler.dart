@@ -31,12 +31,12 @@ class ChatHandler {
     }
   }
 
-  Future<String> getUsername(userId) async {
-    final client = Supabase.instance.client;
-    final user = await client
-        .from('workshop, user')
-        .select('username')
-        .eq('uid', userId) as List<dynamic>;
-    return user[0]['username'];
-  }
+  // Future<String> getUsername(userId) async {
+  //   final client = Supabase.instance.client;
+  //   final user = await client
+  //       .from('workshop, user')
+  //       .select('username')
+  //       .eq('uid', userId) as List<dynamic>;
+  //   return user[0]['username'];
+  // }
 }

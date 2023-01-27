@@ -59,11 +59,7 @@ class ChatScreen extends StatelessWidget {
                                     SizedBox(width: 20.0),
                                     Text(
                                       ///couldn't get the user username!!
-                                      Provider.of<ChatHandler>(context,
-                                              listen: false)
-                                          .getUsername(
-                                              fetchedChats[index].secondPart)
-                                          .toString(),
+                                      fetchedChats[index].secondPart,
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ],
