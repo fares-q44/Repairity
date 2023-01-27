@@ -17,9 +17,8 @@ class ChatScreen extends StatelessWidget {
       children: [
         TopNotch(withBack: false, withAdd: false),
         FutureBuilder(
-          //you have to change aliali to the current user Username
           future: Provider.of<ChatHandler>(context, listen: false)
-              .fetchAndSetChats(senderUsername: 'aliali'),
+              .fetchAndSetChats(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
@@ -44,7 +43,7 @@ class ChatScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  Chatting(selectedChat: fetchedChats[index]),
+                                  ChatPage(selectedChat: fetchedChats[index]),
                             ),
                           );
                         },
@@ -57,16 +56,14 @@ class ChatScreen extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    //try to get the profilPic of the user
-
-                                    // CircleAvatar(
-                                    //   backgroundImage: FileImage(
-                                    //       fetchedWorkshops[index].profilePic),
-                                    // ),
                                     SizedBox(width: 20.0),
                                     Text(
-                                      //get the name of the user
-                                      fetchedChats[index].secondPart,
+                                      ///couldn't get the user username!!
+                                      Provider.of<ChatHandler>(context,
+                                              listen: false)
+                                          .getUsername(
+                                              fetchedChats[index].secondPart)
+                                          .toString(),
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ],

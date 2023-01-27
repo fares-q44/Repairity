@@ -1,124 +1,212 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:repairity/models/massage.dart';
-import 'package:repairity/widgets/top_notch.dart';
+
 import 'package:repairity/models/chat.dart';
-import 'components/massages_handler.dart';
+import 'package:repairity/models/message.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-//hold the text in the text field
-final TextEditingController massageController = TextEditingController();
-
-class Chatting extends StatelessWidget {
-  //the chat that is entered now
+class ChatPage extends StatefulWidget {
   final Chat selectedChat;
 
-  Chatting({super.key, required this.selectedChat});
+  const ChatPage({Key? key, required this.selectedChat}) : super(key: key);
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  late final Stream<List<Message>> _messagesStream;
+  @override
+  void initState() {
+    final myUserId = Supabase.instance.client.auth.currentUser!.id;
+    final String chatId = widget.selectedChat.chatId;
+
+    _messagesStream = Supabase
+        .instance.client //Start the stream and map the messages
+        .from('messages')
+        .stream(primaryKey: ['message_id'])
+        .eq('chat_id', chatId)
+        .order('created_at')
+        .map((maps) => maps
+            .map((map) => Message.fromMap(map: map, myUserId: myUserId))
+            .toList());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double sWidth = size.width;
-    double sHeight = size.height;
     return Scaffold(
-      body: Column(
-        children: [
-          TopNotch(withBack: true, withAdd: false),
-          FutureBuilder(
-            //get all the massages for the selected chat
-            future: Provider.of<MassagesHandler>(context, listen: false)
-                .fetchAndSetMassages(selectedChat: selectedChat),
-            builder: (context, snapshot) {
-              //save all the massages in a list
-              final List<Massage> fetchedMassages = snapshot.data!;
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: fetchedMassages.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return FutureBuilder(
-                      builder: (context, snapshot) => Container(
-                        padding: EdgeInsets.only(
-                            left: 14, right: 14, top: 10, bottom: 10),
-                        child: Align(
-                          alignment:
-                              //check if the massage is from the sender or receiver
-                              //you have to change aliali to the current user Username
-                              (fetchedMassages[index].senderId != "aliali"
-                                  ? Alignment.topLeft
-                                  : Alignment.topRight),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color:
-                                  //check if the massage is from the sender or receiver
-                                  (fetchedMassages[index].senderId != "aliali"
-                                      ? Colors.grey.shade200
-                                      : Colors.blue[200]),
-                            ),
-                            padding: EdgeInsets.all(16),
-                            child: Text(
-                              fetchedMassages[index].massageText,
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+      appBar: AppBar(title: const Text('Chat')),
+      body: StreamBuilder<List<Message>>(
+        stream: _messagesStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final messages = snapshot.data!;
+            return Column(
+              children: [
+                Expanded(
+                  child: messages.isEmpty
+                      ? const Center(
+                          child: Text('Start your conversation now :)'),
+                        )
+                      : ListView.builder(
+                          reverse: true,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
 
-          //the text field and the send button
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  const SizedBox(
-                    width: 15.0,
+                            return _ChatBubble(
+                              //Create the bubble for the message
+                              message: message,
+                            );
+                          },
+                        ),
+                ),
+                _MessageBar(
+                  //Create the typing bar to send messages
+                  chatId: widget.selectedChat.chatId,
+                ),
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                ),
+                const CircularProgressIndicator(),
+              ],
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+/// Set of widget that contains TextField and Button to submit message
+class _MessageBar extends StatefulWidget {
+  final String
+      chatId; //receive the chatId to use it when adding the message to the database
+
+  const _MessageBar({Key? key, required this.chatId}) : super(key: key);
+
+  @override
+  State<_MessageBar> createState() => _MessageBarState();
+}
+
+class _MessageBarState extends State<_MessageBar> {
+  late final TextEditingController _textController;
+
+  //the typing bar
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.grey[200],
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  maxLines: null,
+                  autofocus: true,
+                  controller: _textController,
+                  decoration: const InputDecoration(
+                    hintText: 'Type a message',
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8),
                   ),
-                  Expanded(
-                    child: TextField(
-                      controller: massageController,
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      //add the massage to the database
-                      Provider.of<MassagesHandler>(context, listen: false)
-                          .addMassage(
-                              chatId: selectedChat.chatId,
-                              senderId: selectedChat.firstPart,
-                              massageText: massageController.text);
-                    },
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              TextButton(
+                onPressed: () => _submitMessage(),
+                child: const Text('Send'),
+              ),
+            ],
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    _textController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  //adding the message to the database
+  void _submitMessage() async {
+    final text = _textController.text;
+    final myUserId = Supabase.instance.client.auth.currentUser!.id;
+
+    if (text.isEmpty) {
+      return;
+    }
+    _textController.clear();
+    try {
+      await Supabase.instance.client.from('messages').insert({
+        'sender_id': myUserId,
+        'content': text,
+        'chat_id': widget.chatId,
+      });
+    } on PostgrestException catch (error) {
+      error.message;
+    } catch (error) {
+      return;
+    }
+  }
+}
+
+class _ChatBubble extends StatelessWidget {
+  //Create the bubble for the message
+  const _ChatBubble({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final Message message;
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> chatContents = [
+      Flexible(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 12,
+          ),
+          decoration: BoxDecoration(
+            color: message.isMine
+                ? Theme.of(context).primaryColor
+                : Colors.grey[300],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(message.content),
+        ),
+      ),
+      const SizedBox(width: 12),
+      const SizedBox(width: 60),
+    ];
+    if (message.isMine) {
+      chatContents = chatContents.reversed.toList();
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Row(
+        mainAxisAlignment:
+            message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: chatContents,
       ),
     );
   }
