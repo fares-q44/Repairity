@@ -9,6 +9,9 @@ class ViewPostsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double sWidth = size.width;
+    double sHeight = size.height;
     return Scaffold(
       body: Column(
         children: [
@@ -18,7 +21,14 @@ class ViewPostsScreen extends StatelessWidget {
                 .fetchAndSetPosts(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: sHeight * 0.4,
+                    ),
+                    const CircularProgressIndicator(),
+                  ],
+                );
               }
               return SinglePostItem(snapshot: snapshot);
             },

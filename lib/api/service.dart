@@ -22,6 +22,7 @@ class Services {
       }).select('id');
       addedServiceId = insertedID[0]['id'].toString();
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -66,12 +67,10 @@ class Services {
       userOwnServices.add(tempService);
     }
     return userOwnServices;*/
-
     final result = await client
         .from('services')
-        .select('id, type, name, price, cost_labor')
+        .select('*')
         .eq('owner_id', client.auth.currentUser!.id) as List<dynamic>;
-
     if (result.isNotEmpty) {
       int index = 0;
       for (var element in result) {
