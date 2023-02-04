@@ -20,6 +20,7 @@ import 'screens/user/view_workshop_profile_screen/components/view_workshop_handl
 import 'screens/workshop/view_posts_screen/components/view_posts_handler.dart';
 import 'screens/workshop/view_profile_screen/components/view_profile_handler.dart';
 import 'screens/workshop/view_single_post_screen/components/view_single_post_handler.dart';
+import 'screens/chat_screen/components/chat_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +65,8 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (_) => ViewServicesHandler(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ChatHandler(),
         Provider(
           create: (_) => ViewProfileHandler(),
         ),

@@ -7,7 +7,10 @@ import 'package:repairity/widgets/horizontal_divider.dart';
 import 'package:repairity/widgets/top_notch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../../models/chat.dart';
 import '../../../models/comment.dart';
+import '../../chat_screen/chatting_screen.dart';
+import '../../chat_screen/components/chat_handler.dart';
 import '../../user/view_workshop_profile_screen/view_workshop_profile_screen.dart';
 import 'components/view_single_post_handler.dart';
 import 'widgets/add_comment_button.dart';
@@ -68,9 +71,26 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                           Text(snapshot.data!.username),
                           const Spacer(),
                           SizedBox(
-                              height: sHeight * 0.06,
-                              width: sWidth * 0.4,
-                              child: Button(label: 'Chat', function: () {}))
+                            height: sHeight * 0.06,
+                            width: sWidth * 0.4,
+                            child: Button(
+                              label: 'Chat',
+                              function: () async {
+                                ///initiate the chat or just open it if it exits
+                                final Chat selectedChat =
+                                    await Provider.of<ChatHandler>(context,
+                                            listen: false)
+                                        .initiateChat(widget.post.ownerId);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                            selectedChat: selectedChat,
+                                          )),
+                                );
+                              },
+                            ),
+                          )
                         ],
                       ),
                       Container(
