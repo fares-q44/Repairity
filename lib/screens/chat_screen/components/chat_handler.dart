@@ -1,32 +1,35 @@
 import 'dart:core';
 
+import 'package:flutter/foundation.dart';
 import 'package:repairity/models/chat.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ChatHandler {
+class ChatHandler with ChangeNotifier {
   final currentId = Supabase.instance.client.auth.currentUser!.id;
-
-  Future<List<Chat>> fetchAndSetChats() async {
+  List<Chat> allChats = [];
+  Future<void> fetchAndSetChats() async {
+    allChats = [];
     try {
       final client = Supabase.instance.client;
-      final List<Chat> finishedChats =
-          []; // list of all the chats that the user had initiated
-      final fetchedChats = await client.from('chats').select(
-              'chat_id, first_participant, second_participant, created_at')
-          as List<dynamic>;
 
+      final fetchedChats =
+          await client.from('chats').select('*') as List<dynamic>;
       for (var element in fetchedChats) {
         //try to merge the if statement with the sql query above
+
         if (element['first_participant'] == currentId ||
             element['second_participant'] == currentId) {
-          finishedChats.add(Chat(
+          Chat tempChat = Chat(
               chatId: element['chat_id'],
               firstPart: element['first_participant'],
-              secondPart: element['second_participant']));
+              secondPart: element['second_participant']);
+          if (allChats.contains(tempChat)) {
+            continue;
+          }
+          allChats.add(tempChat);
         }
       }
-
-      return finishedChats;
+      notifyListeners();
     } catch (e) {
       rethrow;
     }
@@ -35,21 +38,12 @@ class ChatHandler {
   Future<Chat> initiateChat(String secondPart) async {
     try {
       final client = Supabase.instance.client;
-      final List<Chat> newChat = [];
-      final fetchedChats = await client.from('chats').select(
-              'chat_id, first_participant, second_participant, created_at')
-          as List<dynamic>;
-
-      for (var element in fetchedChats) {
-        if (element['first_participant'] == currentId &&
-                element['second_participant'] == secondPart ||
-            element['first_participant'] == secondPart &&
-                element['second_participant'] == currentId) {
-          newChat.add(Chat(
-              chatId: element['chat_id'],
-              firstPart: element['first_participant'],
-              secondPart: element['second_participant']));
-          return newChat.first;
+      for (var element in allChats) {
+        if (element.firstPart == currentId &&
+                element.secondPart == secondPart ||
+            element.firstPart == secondPart &&
+                element.secondPart == currentId) {
+          return element;
         }
       }
 
@@ -58,12 +52,12 @@ class ChatHandler {
         'first_participant': currentId,
         'second_participant': secondPart
       }).select('chat_id') as List<dynamic>;
-      newChat.add(Chat(
+      allChats.add(Chat(
           chatId: chatId.first['chat_id'],
           firstPart: currentId,
           secondPart: secondPart));
-      ;
-      return newChat.first;
+      notifyListeners();
+      return allChats.last;
     } catch (e) {
       rethrow;
     }

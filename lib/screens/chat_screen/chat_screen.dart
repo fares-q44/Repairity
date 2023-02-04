@@ -5,11 +5,26 @@ import 'package:repairity/widgets/top_notch.dart';
 import 'components/chat_handler.dart';
 import 'chatting_screen.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
   @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  late Future<void> future;
+  @override
+  void initState() {
+    // TODO: implement initState
+    future =
+        Provider.of<ChatHandler>(context, listen: false).fetchAndSetChats();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<Chat> allChats = Provider.of<ChatHandler>(context).allChats;
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
@@ -17,8 +32,7 @@ class ChatScreen extends StatelessWidget {
       children: [
         TopNotch(withBack: false, withAdd: false),
         FutureBuilder(
-          future: Provider.of<ChatHandler>(context, listen: false)
-              .fetchAndSetChats(),
+          future: future,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
@@ -30,10 +44,9 @@ class ChatScreen extends StatelessWidget {
                 ],
               );
             } else {
-              final List<Chat> fetchedChats = snapshot.data!;
               return Expanded(
                 child: ListView.builder(
-                  itemCount: fetchedChats.length,
+                  itemCount: allChats.length,
                   itemBuilder: (context, index) {
                     return FutureBuilder(
                       builder: (context, snapshot) => GestureDetector(
@@ -43,7 +56,7 @@ class ChatScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ChatPage(selectedChat: fetchedChats[index]),
+                                  ChatPage(selectedChat: allChats[index]),
                             ),
                           );
                         },
@@ -55,11 +68,11 @@ class ChatScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(20),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: const [
                                     SizedBox(width: 20.0),
                                     Text(
                                       ///couldn't get the user username!!
-                                      fetchedChats[index].secondPart,
+                                      'fetchedChats[index].secondPart',
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ],

@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (_) => ViewServicesHandler(),
         ),
-        Provider(
+        ChangeNotifierProvider(
           create: (_) => ChatHandler(),
         ),
       ],
