@@ -26,7 +26,6 @@ class ViewWorkshopHandler {
 
       return finishedWorkshops;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

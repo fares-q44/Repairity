@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfileImageHandler extends StatefulWidget {
@@ -35,7 +36,7 @@ class _ImageHandlerState extends State<ProfileImageHandler> {
     final chosenImage = await imagePicker.pickImage(source: src);
     if (chosenImage != null) {
       setState(() {
-        storedImages.add(File(chosenImage.path));
+        storedImages.insert(0, File(chosenImage.path));
       });
       widget.onSelectImage(chosenImage);
     }
@@ -45,13 +46,16 @@ class _ImageHandlerState extends State<ProfileImageHandler> {
   void initState() {
     // TODO: implement initState
     try {
-      final result = Supabase.instance.client.storage
-          .from('profile-pictures')
-          .download(Supabase.instance.client.auth.currentUser!.id)
-          .then((value) {
-        final img = File.fromRawPath(value);
-        print(img);
-        storedImages.insert(0, img);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final result = await Supabase.instance.client.storage
+            .from('profile-pictures')
+            .download(Supabase.instance.client.auth.currentUser!.id);
+        final tempDir = await getTemporaryDirectory();
+        File file = await File('${tempDir.path}/image.png').create();
+        file.writeAsBytesSync(result);
+        setState(() {
+          storedImages.insert(0, file);
+        });
       });
     } catch (e) {
       print(e);
@@ -74,7 +78,7 @@ class _ImageHandlerState extends State<ProfileImageHandler> {
         Column(
           children: [
             const Text(
-              'Add image:',
+              ' Add image:',
               style: TextStyle(fontSize: 15),
             ),
             SizedBox(

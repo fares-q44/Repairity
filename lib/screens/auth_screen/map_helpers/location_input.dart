@@ -7,8 +7,14 @@ import 'map_screen.dart';
 
 class LocationInput extends StatefulWidget {
   final Function onSelectPlace;
-  const LocationInput({Key? key, required this.onSelectPlace})
+  const LocationInput(
+      {Key? key,
+      required this.onSelectPlace,
+      this.previewLat = -1,
+      this.previewLon = -1})
       : super(key: key);
+  final double previewLat;
+  final double previewLon;
 
   @override
   State<LocationInput> createState() => _LocationInputState();
@@ -54,6 +60,15 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.previewLat != -1) {
+      _showPreview(widget.previewLat, widget.previewLon);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
@@ -63,7 +78,7 @@ class _LocationInputState extends State<LocationInput> {
         const Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Choose location:',
+            '  Choose location:',
           ),
         ),
         SizedBox(
@@ -108,7 +123,7 @@ class _LocationInputState extends State<LocationInput> {
                 'Select on Map',
                 style: TextStyle(color: Colors.black),
               ),
-            )
+            ),
           ],
         )
       ],
