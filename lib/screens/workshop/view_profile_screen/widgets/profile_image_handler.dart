@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ImageHandler extends StatefulWidget {
-  const ImageHandler({
+class ProfileImageHandler extends StatefulWidget {
+  const ProfileImageHandler({
     Key? key,
     required this.onSelectImage,
     required this.allowMultiple,
@@ -12,10 +14,10 @@ class ImageHandler extends StatefulWidget {
   final Function onSelectImage;
   final bool allowMultiple;
   @override
-  State<ImageHandler> createState() => _ImageHandlerState();
+  State<ProfileImageHandler> createState() => _ImageHandlerState();
 }
 
-class _ImageHandlerState extends State<ImageHandler> {
+class _ImageHandlerState extends State<ProfileImageHandler> {
   List<File> storedImages = [];
 
   Future<void> takePictures() async {
@@ -23,7 +25,7 @@ class _ImageHandlerState extends State<ImageHandler> {
     final chosenImages = await imagePicker.pickMultiImage();
     for (var element in chosenImages) {
       setState(() {
-        storedImages.add(File(element.path));
+        storedImages.insert(0, File(element.path));
       });
     }
     widget.onSelectImage(chosenImages);
@@ -34,10 +36,32 @@ class _ImageHandlerState extends State<ImageHandler> {
     final chosenImage = await imagePicker.pickImage(source: src);
     if (chosenImage != null) {
       setState(() {
-        storedImages.add(File(chosenImage.path));
+        storedImages.insert(0, File(chosenImage.path));
       });
       widget.onSelectImage(chosenImage);
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    try {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final result = await Supabase.instance.client.storage
+            .from('profile-pictures')
+            .download(Supabase.instance.client.auth.currentUser!.id);
+        final tempDir = await getTemporaryDirectory();
+        File file = await File('${tempDir.path}/image.png').create();
+        file.writeAsBytesSync(result);
+        setState(() {
+          storedImages.insert(0, file);
+        });
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    super.initState();
   }
 
   @override
@@ -54,7 +78,7 @@ class _ImageHandlerState extends State<ImageHandler> {
         Column(
           children: [
             const Text(
-              'Add image:',
+              ' Add image:',
               style: TextStyle(fontSize: 15),
             ),
             SizedBox(
@@ -100,35 +124,22 @@ class _ImageHandlerState extends State<ImageHandler> {
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Container(
-                width: sWidth * 0.7,
-                height:
-                    storedImages.length == 1 ? sHeight * 0.2 : sHeight * 0.17,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).primaryColor),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: storedImages.isEmpty
-                    ? const Center(
-                        child: Text('No images to preview'),
-                      )
-                    : storedImages.length == 1
-                        ? Image.file(
-                            storedImages[0],
-                            fit: BoxFit.fill,
-                          )
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: sWidth * 0.01),
-                              child: Image.file(
-                                storedImages[index],
-                              ),
-                            ),
-                            itemCount: storedImages.length,
-                          ),
-              ),
+                  width: sWidth * 0.7,
+                  height:
+                      storedImages.length == 1 ? sHeight * 0.2 : sHeight * 0.17,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 1, color: Theme.of(context).primaryColor),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: storedImages.isEmpty
+                      ? const Center(
+                          child: Text('No images to preview'),
+                        )
+                      : Image.file(
+                          storedImages[0],
+                          fit: BoxFit.fill,
+                        )),
             ),
           ],
         )

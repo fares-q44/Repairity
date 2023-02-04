@@ -12,11 +12,11 @@ class WorkshopNavBar extends StatefulWidget {
 }
 
 class _WorkshopNavBarState extends State<WorkshopNavBar> {
-  final List<Widget> pages = const [
-    ViewPostsScreen(),
-    ScreenServices(),
+  final List<Widget> pages = [
+    const ViewPostsScreen(),
+    const ScreenServices(),
     ViewProfileScreen(),
-    ChatScreen(),
+    const ChatScreen(),
   ];
   void _onItemTapped(int index) {
     setState(() {

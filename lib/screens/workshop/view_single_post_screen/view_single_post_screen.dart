@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/Post.dart';
+import 'package:repairity/models/app_user.dart';
 import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/horizontal_divider.dart';
 import 'package:repairity/widgets/top_notch.dart';
@@ -23,6 +24,18 @@ class ViewSinglePostScreen extends StatefulWidget {
 }
 
 class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
+  late Future<AppUser> userFuture;
+  late Future<List<Comment>> commentsFuture;
+  @override
+  void initState() {
+    // TODO: implement initState
+    userFuture = Provider.of<ViewSinglePostHandler>(context, listen: false)
+        .getUser(widget.post.ownerId);
+    commentsFuture = Provider.of<ViewSinglePostHandler>(context, listen: false)
+        .getPostComments(widget.post.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,8 +47,7 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
           children: [
             TopNotch(withBack: true, withAdd: false),
             FutureBuilder(
-              future: Provider.of<ViewSinglePostHandler>(context, listen: false)
-                  .getUser(widget.post.ownerId),
+              future: userFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Column(
@@ -133,9 +145,7 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
               },
             ),
             FutureBuilder(
-                future:
-                    Provider.of<ViewSinglePostHandler>(context, listen: false)
-                        .getPostComments(widget.post.id),
+                future: commentsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();

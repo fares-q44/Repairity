@@ -10,7 +10,6 @@ class ViewWorkshopHandler {
           .from('workshops')
           .select('uid, username, lat, lon') as List<dynamic>;
       for (var element in fetchedWorkshops) {
-        int totalRate = 0;
         final rate =
             await client.rpc('average_rate', params: {'wid': element['uid']});
 
@@ -27,7 +26,6 @@ class ViewWorkshopHandler {
 
       return finishedWorkshops;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
