@@ -67,6 +67,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ChatHandler(),
+        ),
         Provider(
           create: (_) => ViewProfileHandler(),
         ),
@@ -77,9 +78,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.blue,
             primaryColor: const Color.fromRGBO(
-              88,
-              101,
-              242,
+              56,
+              124,
+              255,
               1,
             )),
         routes: {

@@ -181,11 +181,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                     suffixIcon: Icon(Icons.account_box),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1.0, color: Colors.red),
+                                          width: 0.5, color: Colors.red),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1.0, color: Colors.red),
+                                          width: 0.5, color: Colors.red),
                                     ),
                                     hintText: 'Enter your Username here',
                                     labelText: 'Username',
@@ -193,11 +193,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1.0),
+                                      borderSide: BorderSide(width: 0.5),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1.0, color: Colors.black),
+                                          width: 0.5, color: Colors.black),
                                     ),
                                   ),
                                 ),
@@ -225,11 +225,11 @@ class _AuthScreenState extends State<AuthScreen> {
                               suffixIcon: Icon(Icons.email),
                               errorBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 1.0, color: Colors.red),
+                                    BorderSide(width: 0.5, color: Colors.red),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 1.0, color: Colors.red),
+                                    BorderSide(width: 0.5, color: Colors.red),
                               ),
                               hintText: 'Enter your email here',
                               labelText: 'Email',
@@ -237,11 +237,11 @@ class _AuthScreenState extends State<AuthScreen> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 1.0),
+                                borderSide: BorderSide(width: 0.5),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 1.0, color: Colors.black),
+                                    BorderSide(width: 0.5, color: Colors.black),
                               ),
                             ),
                           ),
@@ -273,11 +273,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                     suffixIcon: Icon(Icons.local_phone),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1.0, color: Colors.red),
+                                          width: 0.5, color: Colors.red),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1.0, color: Colors.red),
+                                          width: 0.5, color: Colors.red),
                                     ),
                                     hintText: 'Enter your phone number here',
                                     labelText: 'Phone number',
@@ -285,11 +285,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1.0),
+                                      borderSide: BorderSide(width: 0.5),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1.0, color: Colors.black),
+                                          width: 0.5, color: Colors.black),
                                     ),
                                   ),
                                 ),
@@ -327,15 +327,15 @@ class _AuthScreenState extends State<AuthScreen> {
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1.0),
+                                  borderSide: BorderSide(width: 0.5),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 1.0, color: Colors.black),
+                                      width: 0.5, color: Colors.black),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(width: 1.0, color: Colors.red),
+                                      BorderSide(width: 0.5, color: Colors.red),
                                 )),
                           ),
                         ),
@@ -385,15 +385,18 @@ class _AuthScreenState extends State<AuthScreen> {
                                         '/terms_and_conditions',
                                       );
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Terms And Conditions',
                                       style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Color.fromRGBO(255, 60, 56, 1),
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
                                   ),
                                   Checkbox(
+                                    checkColor: Colors.white,
+                                    activeColor:
+                                        const Color.fromRGBO(255, 60, 56, 1),
                                     value: agreedToTerms,
                                     onChanged: (value) => setState(
                                       () {
@@ -403,21 +406,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 ],
                               ),
-                        // Forgot password text button
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: sWidth * 0.05,
-                            ),
-                            Text(
-                              isLogin ? 'Forgot your password?' : '',
-                              style: const TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Color.fromARGB(255, 3, 99, 177),
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
                           height: isLogin ? sHeight * 0.04 : 0,
                         ),
@@ -437,7 +425,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(13),
-                                    color: Colors.black,
+                                    color:
+                                        const Color.fromRGBO(249, 185, 36, 1),
                                   ),
                                   height: sHeight * 0.08,
                                   width: sWidth * 0.8,
@@ -445,7 +434,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: Text(
                                       isLogin ? 'Login' : 'Register',
                                       style: const TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontSize: 20,
                                       ),
                                     ),
@@ -473,9 +462,9 @@ class _AuthScreenState extends State<AuthScreen> {
                           child: Text(
                             isLogin ? 'Register Here' : 'Login Here',
                             style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 16,
-                            ),
+                                decoration: TextDecoration.underline,
+                                fontSize: 16,
+                                color: Color.fromRGBO(255, 60, 56, 1)),
                           ),
                         ),
                       ],

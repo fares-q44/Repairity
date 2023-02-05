@@ -23,14 +23,14 @@ class Button extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
-          color: Colors.black,
+          color: const Color.fromRGBO(249, 185, 36, 1),
         ),
         height: sHeight * 0.08,
         width: sWidth * 0.8,
         child: Center(
           child: Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(color: Colors.black, fontSize: 20),
           ),
         ),
       ),

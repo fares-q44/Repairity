@@ -30,7 +30,10 @@ class ViewPostsScreen extends StatelessWidget {
                   ],
                 );
               }
-              return SinglePostItem(snapshot: snapshot);
+              return SinglePostItem(
+                snapshot: snapshot,
+                isUser: false,
+              );
             },
           )
         ],

@@ -22,9 +22,9 @@ class TopNotch extends StatelessWidget {
           // bottomLeft: Radius.circular(20),
           // ),
           color: Color.fromRGBO(
-            88,
-            101,
-            242,
+            56,
+            124,
+            255,
             1,
           ),
         ),

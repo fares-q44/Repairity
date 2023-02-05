@@ -16,9 +16,10 @@ import 'components/view_single_post_handler.dart';
 import 'widgets/add_comment_button.dart';
 
 class ViewSinglePostScreen extends StatefulWidget {
-  const ViewSinglePostScreen({super.key, required this.post});
+  const ViewSinglePostScreen(
+      {super.key, required this.post, required this.isUser});
   final Post post;
-
+  final bool isUser;
   @override
   State<ViewSinglePostScreen> createState() => _ViewSinglePostScreenState();
 }
@@ -68,28 +69,49 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                           SizedBox(
                             width: sWidth * 0.04,
                           ),
-                          Text(snapshot.data!.username),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(snapshot.data!.username),
+                              SizedBox(
+                                height: sHeight * 0.01,
+                              ),
+                              Text(DateTime.now()
+                                          .difference(widget.post.date)
+                                          .inDays !=
+                                      0
+                                  ? '${DateTime.now().difference(widget.post.date).inDays.toString()} Days ago'
+                                  : DateTime.now()
+                                              .difference(widget.post.date)
+                                              .inHours !=
+                                          0
+                                      ? '${DateTime.now().difference(widget.post.date).inHours.toString()} Hours ago'
+                                      : '${DateTime.now().difference(widget.post.date).inMinutes.toString()} Minutes ago'),
+                            ],
+                          ),
                           const Spacer(),
                           SizedBox(
                             height: sHeight * 0.06,
                             width: sWidth * 0.4,
-                            child: Button(
-                              label: 'Chat',
-                              function: () async {
-                                ///initiate the chat or just open it if it exits
-                                final Chat selectedChat =
-                                    await Provider.of<ChatHandler>(context,
-                                            listen: false)
-                                        .initiateChat(widget.post.ownerId);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ChatPage(
-                                            selectedChat: selectedChat,
-                                          )),
-                                );
-                              },
-                            ),
+                            child: widget.isUser
+                                ? Container()
+                                : Button(
+                                    label: 'Chat',
+                                    function: () async {
+                                      ///initiate the chat or just open it if it exits
+                                      final Chat selectedChat = await Provider
+                                              .of<ChatHandler>(context,
+                                                  listen: false)
+                                          .initiateChat(widget.post.ownerId);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatPage(
+                                                  selectedChat: selectedChat,
+                                                )),
+                                      );
+                                    },
+                                  ),
                           )
                         ],
                       ),
@@ -98,7 +120,9 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                               EdgeInsets.symmetric(vertical: sHeight * 0.01),
                           child: HorizontalDivider(
                               sWidth: sWidth, sHeight: sHeight)),
-                      Text(widget.post.description),
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(widget.post.description)),
                       ListView.separated(
                         separatorBuilder: (context, index) => Container(
                           height: sHeight * 0.009,
@@ -133,9 +157,11 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                             ),
                           ),
                           const Spacer(),
-                          AddCommentButton(
-                            post: widget.post,
-                          )
+                          widget.isUser
+                              ? Container()
+                              : AddCommentButton(
+                                  post: widget.post,
+                                )
                         ],
                       ),
                       HorizontalDivider(sWidth: sWidth, sHeight: sHeight)
@@ -163,7 +189,7 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                       height: sHeight * 0.13,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Theme.of(context).primaryColor,
+                        color: const Color.fromRGBO(249, 185, 36, 1),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

@@ -68,12 +68,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                 padding: const EdgeInsets.all(20),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    SizedBox(width: 20.0),
+                                  children: [
+                                    const SizedBox(width: 20.0),
                                     Text(
-                                      ///couldn't get the user username!!
-                                      'fetchedChats[index].secondPart',
-                                      style: TextStyle(fontSize: 20),
+                                      allChats[index].secondPartUsername,
+                                      style: const TextStyle(fontSize: 20),
                                     ),
                                   ],
                                 ),

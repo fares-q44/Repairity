@@ -104,21 +104,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       onSaved: (newValue) => title = newValue!,
                       decoration: const InputDecoration(
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0, color: Colors.red),
+                          borderSide: BorderSide(width: 0.6, color: Colors.red),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0, color: Colors.red),
+                          borderSide: BorderSide(width: 0.6, color: Colors.red),
                         ),
                         hintText: 'Enter the title here',
                         labelText: 'Post Title',
                         labelStyle: TextStyle(fontSize: 20),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0),
+                          borderSide: BorderSide(width: 0.6),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(width: 1.0, color: Colors.black),
+                              BorderSide(width: 0.6, color: Colors.black),
                         ),
                       ),
                     ),
@@ -141,21 +141,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       onSaved: (newValue) => contact = newValue!,
                       decoration: const InputDecoration(
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0, color: Colors.red),
+                          borderSide: BorderSide(width: 0.6, color: Colors.red),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0, color: Colors.red),
+                          borderSide: BorderSide(width: 0.6, color: Colors.red),
                         ),
                         hintText: 'Enter your contact info here',
                         labelText: 'Contact Info',
                         labelStyle: TextStyle(fontSize: 20),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0),
+                          borderSide: BorderSide(width: 0.6),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(width: 1.0, color: Colors.black),
+                              BorderSide(width: 0.6, color: Colors.black),
                         ),
                       ),
                     ),
@@ -180,21 +180,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       onSaved: (newValue) => details = newValue!,
                       decoration: const InputDecoration(
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0, color: Colors.red),
+                          borderSide: BorderSide(width: 0.6, color: Colors.red),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0, color: Colors.red),
+                          borderSide: BorderSide(width: 0.6, color: Colors.red),
                         ),
                         hintText: 'Enter post details here',
                         labelText: 'Post Details',
                         labelStyle: TextStyle(fontSize: 20),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0),
+                          borderSide: BorderSide(width: 0.6),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(width: 1.0, color: Colors.black),
+                              BorderSide(width: 0.6, color: Colors.black),
                         ),
                       ),
                     ),

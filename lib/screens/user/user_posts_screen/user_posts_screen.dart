@@ -43,6 +43,7 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
                 if (snapshot.data!.isNotEmpty) {
                   return SinglePostItem(
                     snapshot: snapshot,
+                    isUser: true,
                   );
                 }
                 return Column(
@@ -61,7 +62,7 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 1,
-                            color: Colors.red,
+                            color: Theme.of(context).primaryColor,
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),

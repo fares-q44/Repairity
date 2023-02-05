@@ -158,7 +158,9 @@ class _AddCommentButtonState extends State<AddCommentButton> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               ViewSinglePostScreen(
-                                                  post: widget.post)));
+                                                post: widget.post,
+                                                isUser: false,
+                                              )));
                                 }
                                 setState(() {
                                   isLoading = false;

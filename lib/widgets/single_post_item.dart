@@ -8,8 +8,10 @@ class SinglePostItem extends StatelessWidget {
   const SinglePostItem({
     Key? key,
     required this.snapshot,
+    required this.isUser,
   }) : super(key: key);
   final AsyncSnapshot<List<Post>> snapshot;
+  final bool isUser;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,8 +24,8 @@ class SinglePostItem extends StatelessWidget {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    ViewSinglePostScreen(post: snapshot.data![index]),
+                builder: (context) => ViewSinglePostScreen(
+                    post: snapshot.data![index], isUser: isUser),
               )),
           child: SizedBox(
             height: sHeight * 0.19,

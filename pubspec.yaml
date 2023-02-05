@@ -51,6 +51,7 @@ dependencies:
   geolocator: ^9.0.2
   transparent_image: ^2.0.0
   counter: ^0.2.2
+  intl: ^0.18.0
   
 dev_dependencies:
   flutter_test:
