@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/service.dart';
+import 'package:repairity/widgets/top_notch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import '../../api/service.dart';
@@ -27,40 +29,9 @@ class _ScreenServicesState extends State<ScreenServices> {
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            width: double.infinity,
-            height: sHeight * 0.12,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-              color: Color.fromRGBO(
-                88,
-                101,
-                242,
-                1,
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: const EdgeInsets.only(top: 10),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/service_upsert');
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          isDeleting ?
-          Container(
+          TopNotch(withBack: false, withAdd: true, route: '/service_upsert'),
+          isDeleting
+              ? Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               padding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -68,12 +39,13 @@ class _ScreenServicesState extends State<ScreenServices> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(29),
               ),
-              child: const CircularProgressIndicator()) : const SizedBox(
+              child: const CircularProgressIndicator())
+              : const SizedBox(
             height: 1,
           ),
           FutureBuilder(
-            future: Provider.of<Services>(context, listen: false)
-                .getOwnServices(),
+            future:
+            Provider.of<Services>(context, listen: false).getOwnServices(),
             builder: (context, AsyncSnapshot<List<Service>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -113,8 +85,7 @@ class _ScreenServicesState extends State<ScreenServices> {
                               // A pane can dismiss the Slidable.
                               // dismissible: DismissiblePane(onDismissed: () { }),
                               dismissible: DismissiblePane(
-                                onDismissed: () {
-                                },
+                                onDismissed: () {},
                                 closeOnCancel: true,
                                 confirmDismiss: () async {
                                   return await showDialog<bool>(
@@ -122,12 +93,16 @@ class _ScreenServicesState extends State<ScreenServices> {
                                     builder: (context) {
                                       return AlertDialog(
                                         title: const Text('Are you sure?'),
-                                        content: const Text('Are you sure to delete?'),
+                                        content: const Text(
+                                            'Are you sure to delete?'),
                                         actions: [
                                           TextButton(
                                             onPressed: () async {
-                                              bool result = await deleteService(item.id);
-                                              Navigator.of(context).pop(result);
+                                              bool result =
+                                              await deleteService(
+                                                  item.id);
+                                              Navigator.of(context)
+                                                  .pop(result);
                                               setState(() {
                                                 isDeleting = !result;
                                               });
@@ -136,7 +111,8 @@ class _ScreenServicesState extends State<ScreenServices> {
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.of(context).pop(false);
+                                              Navigator.of(context)
+                                                  .pop(false);
                                             },
                                             child: const Text('No'),
                                           ),
@@ -186,7 +162,9 @@ class _ScreenServicesState extends State<ScreenServices> {
                                 SlidableAction(
                                   flex: 1,
                                   onPressed: (BuildContext context) {
-                                    Navigator.pushNamed(context, '/service_upsert', arguments: item);
+                                    Navigator.pushNamed(
+                                        context, '/service_upsert',
+                                        arguments: item);
                                   },
                                   backgroundColor: const Color(0xFF0392CF),
                                   foregroundColor: Colors.white,
@@ -205,12 +183,15 @@ class _ScreenServicesState extends State<ScreenServices> {
                               title: Text(item.type,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16, color: Color.fromARGB(200, 247, 247, 140)),
+                                      fontSize: 16,
+                                      color:
+                                      Color.fromARGB(200, 247, 247, 140)),
                                   textScaleFactor: 1.5),
-                              trailing: LayoutBuilder(
-                                  builder: (context, constraint) {
-                                    return _icon(item.name, constraint.biggest.height);
-                                  }),
+                              trailing:
+                              LayoutBuilder(builder: (context, constraint) {
+                                return _icon(
+                                    item.name, constraint.biggest.height);
+                              }),
                               subtitle: Text(
                                   "Name: ${item.name}\nPrice: ${item.price}\nCost: ${item.costLabor}",
                                   style: const TextStyle(
@@ -274,16 +255,17 @@ class _ScreenServicesState extends State<ScreenServices> {
 
   bool isDeleting = false;
 
-  Future<bool> deleteService(String id) async {
+  Future<bool> deleteService(int id) async {
     try {
       setState(() {
         isDeleting = true;
       });
-      return Provider.of<Services>(context, listen: false)
-          .deleteService(id);
+      return Provider.of<Services>(context, listen: false).deleteService(id);
     } on Exception catch (e) {
       String err = e.toString();
-      print(err);
+      if (kDebugMode) {
+        print(err);
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(err),
@@ -292,10 +274,9 @@ class _ScreenServicesState extends State<ScreenServices> {
     }
     return false;
   }
-
 }
 
-void doNothing(BuildContext context) { }
+void doNothing(BuildContext context) {}
 
 Widget _icon(String type, double mySize) {
   switch (type) {
