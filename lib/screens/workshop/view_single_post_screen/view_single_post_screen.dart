@@ -1,3 +1,4 @@
+import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/Post.dart';
@@ -5,7 +6,6 @@ import 'package:repairity/models/app_user.dart';
 import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/horizontal_divider.dart';
 import 'package:repairity/widgets/top_notch.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import '../../../models/chat.dart';
 import '../../../models/comment.dart';
@@ -130,13 +130,20 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: widget.post.imgCount,
+                        itemCount: 1,
                         itemBuilder: (context, index) {
-                          return FadeInImage.memoryNetwork(
-                            placeholder: kTransparentImage,
-                            image:
-                                'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${widget.post.id}/$index.jpeg',
-                            height: sHeight * 0.5,
+                          List<String> sampleImages = [];
+                          for (var i = 0; i <= widget.post.imgCount; i++) {
+                            sampleImages.add(
+                                'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${widget.post.id}/$index.jpeg');
+                          }
+                          return FanCarouselImageSlider(
+                            initalPageIndex: 0,
+                            imagesLink: sampleImages,
+                            isAssets: false,
+                            autoPlay: false,
+                            isClickable: true,
+                            userCanDrag: true,
                           );
                         },
                       ),
@@ -164,107 +171,124 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                                 )
                         ],
                       ),
-                      HorizontalDivider(sWidth: sWidth, sHeight: sHeight)
+                      HorizontalDivider(sWidth: sWidth, sHeight: sHeight),
+                      FutureBuilder(
+                          future: commentsFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            }
+                            final List<Comment> allComments = snapshot.data!;
+                            return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.all(sHeight * 0.02),
+                                width: double.infinity,
+                                height: sHeight * 0.13,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color.fromRGBO(249, 185, 36, 1),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewWorkshopProfileScreen(
+                                                            workshop:
+                                                                allComments[
+                                                                        index]
+                                                                    .workshop),
+                                                  ));
+                                            },
+                                            child: Text(
+                                              allComments[index]
+                                                  .workshop
+                                                  .username,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: sHeight * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                const TextSpan(
+                                                    text: 'i can do this for'),
+                                                TextSpan(
+                                                    text:
+                                                        ' ${allComments[index].price.toString()}',
+                                                    style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            245,
+                                                            110,
+                                                            100))),
+                                                const TextSpan(
+                                                    text:
+                                                        ' Riyals \nit will take '),
+                                                TextSpan(
+                                                    text: allComments[index]
+                                                        .duration
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            250,
+                                                            114,
+                                                            104))),
+                                                const TextSpan(text: ' days'),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ViewWorkshopProfileScreen(
+                                                              workshop:
+                                                                  allComments[
+                                                                          index]
+                                                                      .workshop),
+                                                    ));
+                                              },
+                                              child: const Text('Contact'))
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
                     ],
                   ),
                 );
               },
             ),
-            FutureBuilder(
-                future: commentsFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  final List<Comment> allComments = snapshot.data!;
-                  return ListView.builder(
-                    padding: EdgeInsets.zero,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.all(sHeight * 0.02),
-                      width: double.infinity,
-                      height: sHeight * 0.13,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromRGBO(249, 185, 36, 1),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ViewWorkshopProfileScreen(
-                                                  workshop: allComments[index]
-                                                      .workshop),
-                                        ));
-                                  },
-                                  child: Text(
-                                    allComments[index].workshop.username,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: sHeight * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      const TextSpan(text: 'i can do this for'),
-                                      TextSpan(
-                                          text:
-                                              ' ${allComments[index].price.toString()}',
-                                          style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 245, 110, 100))),
-                                      const TextSpan(
-                                          text: ' Riyals \nit will take '),
-                                      TextSpan(
-                                          text: allComments[index]
-                                              .duration
-                                              .toString(),
-                                          style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 250, 114, 104))),
-                                      const TextSpan(text: ' days'),
-                                    ],
-                                  ),
-                                ),
-                                const Spacer(),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ViewWorkshopProfileScreen(
-                                                    workshop: allComments[index]
-                                                        .workshop),
-                                          ));
-                                    },
-                                    child: const Text('Contact'))
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                })
           ],
         ),
       ),

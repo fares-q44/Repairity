@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import '../auth_screen/components/auth.dart';
+import 'intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -12,6 +14,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashScreen> {
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool seen = (prefs.getBool('seen') ?? false);
+
+    if (seen) {
+      Navigator.of(context).pushReplacementNamed('/starting_screen');
+    } else {
+      await prefs.setBool('seen', true);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const IntroScreen()));
+    }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) => checkFirstSeen();
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +55,7 @@ class _SplashPageState extends State<SplashScreen> {
           }
         });
       } else {
-        Navigator.of(context).pushNamed('/starting_screen');
+        checkFirstSeen();
       }
     });
   }

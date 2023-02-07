@@ -6,26 +6,23 @@ class ViewWorkshopHandler {
     try {
       final client = Supabase.instance.client;
       final List<Workshop> finishedWorkshops = [];
-      final fetchedWorkshops = await client
-          .from('workshops')
-          .select('uid, username, lat, lon') as List<dynamic>;
+      final fetchedWorkshops =
+          await client.rpc('get_workshops') as List<dynamic>;
       for (var element in fetchedWorkshops) {
-        final rate =
-            await client.rpc('average_rate', params: {'wid': element['uid']});
-
         finishedWorkshops.add(
           Workshop(
             id: element['uid'],
             username: element['username'],
             lat: double.parse(element['lat']),
             lon: double.parse(element['lon']),
-            rating: rate ?? 0,
+            rating:
+                element['avg'] == null ? 0 : (element['avg'] as double).toInt(),
           ),
         );
       }
-
       return finishedWorkshops;
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
