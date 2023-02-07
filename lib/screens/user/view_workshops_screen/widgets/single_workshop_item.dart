@@ -34,7 +34,7 @@ class SingleWorkshopItem extends StatelessWidget {
           );
         },
         child: Card(
-          margin: EdgeInsets.only(bottom: sHeight * 0.02),
+          margin: EdgeInsets.only(bottom: sHeight * 0.015),
           color: const Color.fromARGB(255, 218, 218, 218),
           elevation: 5,
           child: Row(
@@ -44,12 +44,18 @@ class SingleWorkshopItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(workshop.username),
+                    Text(
+                      workshop.username,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                     SizedBox(
-                      height: sHeight * 0.01,
+                      height: sHeight * 0.02,
                     ),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(6),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -61,8 +67,8 @@ class SingleWorkshopItem extends StatelessWidget {
                           image:
                               'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/profile-pictures/${workshop.id}',
                           placeholder: kTransparentImage,
-                          height: sHeight * 0.18,
-                          width: sWidth * 0.3,
+                          height: sHeight * 0.13,
+                          width: sWidth * 0.26,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -97,7 +103,7 @@ class SingleWorkshopItem extends StatelessWidget {
                       const Icon(Icons.location_on),
                       Text(
                         snapshot.connectionState == ConnectionState.waiting
-                            ? 'Calculating distance...'
+                            ? 'Calc distance...'
                             : '${snapshot.data!.toStringAsFixed(2)} KM',
                       ),
                     ],

@@ -15,6 +15,18 @@ class ViewServicesScreen extends StatelessWidget {
     return Column(
       children: [
         TopNotch(withBack: false, withAdd: false),
+        const SizedBox(
+          height: 12,
+        ),
+        CircleAvatar(
+          radius: 100,
+          backgroundColor: const Color.fromRGBO(56, 124, 255, 1),
+          child: Image.asset(
+            'assets/images/Group1746.png',
+            width: sWidth * 0.6,
+            height: sHeight * 0.6,
+          ),
+        ),
         Expanded(
           child: GridView.count(
             primary: false,
@@ -24,20 +36,20 @@ class ViewServicesScreen extends StatelessWidget {
             crossAxisCount: 2,
             children: const <Widget>[
               ServiceGridItem(
-                icon: Icons.tire_repair,
+                icon: 'assets/icons/Tires.png',
                 title: 'Tires',
               ),
               ServiceGridItem(
-                icon: Icons.oil_barrel,
+                icon: 'assets/icons/Oil.png',
                 title: 'Oil',
               ),
               ServiceGridItem(
-                icon: Icons.car_crash,
+                icon: 'assets/icons/Brakes.png',
                 title: 'Brakes',
               ),
               ServiceGridItem(
-                icon: Icons.car_rental,
-                title: 'Anything',
+                icon: 'assets/icons/Other.png',
+                title: 'Other',
               ),
             ],
           ),
