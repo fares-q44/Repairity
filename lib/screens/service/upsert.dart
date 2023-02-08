@@ -107,7 +107,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                         'Oil',
                         'Tires',
                         'Brakes',
-                        'Anything'
+                        'Other'
                       ],
                       defaultValue: type,
                       onSelectChanged: (String newValue) {

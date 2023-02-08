@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class FeqraDropdownButton extends StatefulWidget {
   final ValueChanged<String> onSelectChanged;
-  const FeqraDropdownButton({
-    Key? key,
-    required this.list,
-    required this.defaultValue,
-    required this.onSelectChanged
-  }) : super(key: key);
+  const FeqraDropdownButton(
+      {Key? key,
+      required this.list,
+      required this.defaultValue,
+      required this.onSelectChanged})
+      : super(key: key);
   final List<String> list;
   final String defaultValue;
 
