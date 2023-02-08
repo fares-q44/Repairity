@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 import 'location_helper.dart';
 import 'map_screen.dart';
@@ -33,8 +33,8 @@ class _LocationInputState extends State<LocationInput> {
 
   Future<void> _getCurrentUserLocation() async {
     try {
-      final locData = await Location().getLocation();
-      _showPreview(locData.latitude!, locData.longitude!);
+      final locData = await Geolocator.getCurrentPosition();
+      _showPreview(locData.latitude, locData.longitude);
       widget.onSelectPlace(locData.latitude, locData.longitude);
     } catch (error) {
       rethrow;
