@@ -29,14 +29,16 @@ class _ImageHandlerState extends State<ImageHandler> {
     widget.onSelectImage(chosenImages);
   }
 
-  Future<void> takeSinglePicture() async {
+  Future<void> takeSinglePicture(ImageSource src) async {
     final imagePicker = ImagePicker();
-    final chosenImage =
-        await imagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      storedImages.add(File(chosenImage!.path));
-    });
-    widget.onSelectImage(chosenImage);
+    final chosenImage = await imagePicker.pickImage(source: src);
+    if (chosenImage != null) {
+      setState(() {
+        storedImages.add(File(chosenImage.path));
+      });
+
+      widget.onSelectImage(chosenImage);
+    }
   }
 
   @override
@@ -60,7 +62,9 @@ class _ImageHandlerState extends State<ImageHandler> {
               height: sHeight * 0.03,
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                takeSinglePicture(ImageSource.camera);
+              },
               icon: Icon(
                 Icons.camera_alt,
                 size: 40,
@@ -72,7 +76,7 @@ class _ImageHandlerState extends State<ImageHandler> {
                 if (widget.allowMultiple) {
                   takePictures();
                 } else {
-                  takeSinglePicture();
+                  takeSinglePicture(ImageSource.gallery);
                 }
               },
               icon: Icon(

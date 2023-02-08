@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:repairity/screens/chat_screen/chat_screen.dart';
-import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
-import 'package:repairity/screens/user/view_services_screen/view_services_screen.dart';
-import 'package:repairity/screens/user/view_workshops_screen/view_workshops_screen.dart';
+import 'package:repairity/screens/workshop/services_screen/services_screen.dart';
+import 'package:repairity/screens/workshop/view_posts_screen/view_posts_screen.dart';
 
-class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+import '../../user/view_workshops_screen/view_workshops_screen.dart';
+
+class WorkshopNavBar extends StatefulWidget {
+  const WorkshopNavBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  State<WorkshopNavBar> createState() => _WorkshopNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _WorkshopNavBarState extends State<WorkshopNavBar> {
   int pageIndex = 0;
 
   final List<Widget> pages = const [
-    UserPostsScreen(),
-    ViewServicesScreen(),
+    ViewPostsScreen(),
+    ServicesScreen(),
     ViewWorkshopScreen(),
     ChatScreen(),
   ];

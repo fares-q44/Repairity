@@ -30,16 +30,18 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Map'),
         actions: [
           if (widget.isSelecting)
             IconButton(
-                onPressed: _pickedLocation == null
-                    ? null
-                    : () {
-                        Navigator.of(context).pop(_pickedLocation);
-                      },
-                icon: const Icon(Icons.check))
+              onPressed: _pickedLocation == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedLocation);
+                    },
+              icon: const Icon(Icons.check),
+            )
         ],
       ),
       body: GoogleMap(
@@ -59,7 +61,7 @@ class _MapScreenState extends State<MapScreen> {
             widget.initialLocation.latitude,
             widget.initialLocation.longitude,
           ),
-          zoom: 11,
+          zoom: 15,
         ),
       ),
     );

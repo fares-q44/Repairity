@@ -22,11 +22,16 @@ class _SplashPageState extends State<SplashScreen> {
         final client = Supabase.instance.client;
         client
             .from('users')
-            .select('type')
+            .select(
+              'uid',
+              const FetchOptions(
+                count: CountOption.exact,
+              ),
+            )
             .eq('uid', client.auth.currentUser!.id)
             .then((value) {
-          if (value == 'workshop') {
-            Navigator.of(context).pushNamed('/view_posts');
+          if (value.count == 0) {
+            Navigator.of(context).pushNamed('/workshop_home');
           } else {
             Navigator.of(context).pushNamed('/user_home');
           }
