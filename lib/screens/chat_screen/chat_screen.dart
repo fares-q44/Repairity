@@ -28,67 +28,99 @@ class _ChatScreenState extends State<ChatScreen> {
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
-    return Column(
-      children: [
-        TopNotch(withBack: false, withAdd: false),
-        FutureBuilder(
-          future: future,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Column(
-                children: [
-                  SizedBox(
-                    height: sHeight * 0.35,
-                  ),
-                  const CircularProgressIndicator(),
-                ],
-              );
-            } else {
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: allChats.length,
-                  itemBuilder: (context, index) {
-                    return FutureBuilder(
-                      builder: (context, snapshot) => GestureDetector(
-                        onTap: () {
-                          //open the chatting screen with the selected user
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ChatPage(selectedChat: allChats[index]),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          elevation: 5,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(width: 20.0),
-                                    Text(
-                                      allChats[index].secondPartUsername,
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+    return Scaffold(
+      body: Column(
+        children: [
+          TopNotch(withBack: false, withAdd: false),
+          FutureBuilder(
+            future: future,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: sHeight * 0.35,
+                    ),
+                    const CircularProgressIndicator(),
+                  ],
+                );
+              } else {
+                if (allChats.isEmpty) {
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      setState(() {
+                        future =
+                            Provider.of<ChatHandler>(context, listen: false)
+                                .fetchAndSetChats();
+                      });
+                    },
+                    child: Stack(
+                      children: <Widget>[
+                        SizedBox(height: sHeight * 0.8, child: ListView()),
+                        Positioned(
+                            bottom: sHeight * 0.4,
+                            left: sWidth * 0.36,
+                            child: const Text('You have no chats'))
+                      ],
+                    ),
+                  );
+                }
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    setState(() {
+                      future = Provider.of<ChatHandler>(context, listen: false)
+                          .fetchAndSetChats();
+                    });
                   },
-                ),
-              );
-            }
-          },
-        )
-      ],
+                  child: SizedBox(
+                    height: sHeight * 0.8,
+                    child: ListView.builder(
+                      itemCount: allChats.length,
+                      itemBuilder: (context, index) {
+                        return FutureBuilder(
+                          builder: (context, snapshot) => GestureDetector(
+                            onTap: () {
+                              //open the chatting screen with the selected user
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChatPage(selectedChat: allChats[index]),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 5,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(width: 20.0),
+                                        Text(
+                                          allChats[index].secondPartUsername,
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
+            },
+          )
+        ],
+      ),
     );
   }
 }

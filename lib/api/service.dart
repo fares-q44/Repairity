@@ -28,24 +28,29 @@ class Services {
   }
 
   Future<void> editService(
-    String id,
+    int id,
     String type,
     String name,
     String price,
     String costLabor,
   ) async {
     try {
-      // TODO
-      // Do the edit
+      await client.from('services').upsert({
+        'owner_id': client.auth.currentUser!.id,
+        'id': id,
+        'type': type,
+        'name': name,
+        'price': price,
+        'cost_labor': costLabor
+      });
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<bool> deleteService(String id) async {
+  Future<bool> deleteService(int id) async {
     try {
-      // TODO
-      // Do the delete
+      await client.from('services').delete().match({'id': id});
       return true;
     } catch (e) {
       rethrow;
@@ -55,18 +60,6 @@ class Services {
   Future<List<Service>> getOwnServices() async {
     final client = Supabase.instance.client;
     final List<Service> userOwnServices = [];
-
-    /*for (int index = 0; index < 10; index++) {
-      Service tempService = Service(
-          index: index,
-          id: 'id-$index',
-          type: _type(index),
-          name: _type(index),
-          price: 20.toString(),
-          costLabor: 20.toString());
-      userOwnServices.add(tempService);
-    }
-    return userOwnServices;*/
     final result = await client
         .from('services')
         .select('*')
@@ -77,7 +70,7 @@ class Services {
         try {
           Service tempService = Service(
               index: index++,
-              id: element['type'],
+              id: element['id'],
               type: element['type'],
               name: element['name'],
               price: element['price'],
@@ -91,19 +84,4 @@ class Services {
     }
     return [];
   }
-
-/*String _type(int index) {
-    switch (index % 4) {
-      case 0:
-        return 'Oil';
-      case 1:
-        return 'Tires';
-      case 2:
-        return 'Brakes';
-      case 3:
-        return 'Anything';
-      default:
-        return '';
-    }
-  }*/
 }

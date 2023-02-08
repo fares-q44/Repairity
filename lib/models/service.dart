@@ -1,5 +1,5 @@
 class Service {
-  String id = '';
+  int id;
   String type = '';
   String name = '';
   String price = '';

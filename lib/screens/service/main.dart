@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -254,7 +255,7 @@ class _ScreenServicesState extends State<ScreenServices> {
 
   bool isDeleting = false;
 
-  Future<bool> deleteService(String id) async {
+  Future<bool> deleteService(int id) async {
     try {
       setState(() {
         isDeleting = true;
@@ -262,7 +263,9 @@ class _ScreenServicesState extends State<ScreenServices> {
       return Provider.of<Services>(context, listen: false).deleteService(id);
     } on Exception catch (e) {
       String err = e.toString();
-      print(err);
+      if (kDebugMode) {
+        print(err);
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(err),

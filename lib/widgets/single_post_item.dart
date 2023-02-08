@@ -7,10 +7,10 @@ import '../models/Post.dart';
 class SinglePostItem extends StatelessWidget {
   const SinglePostItem({
     Key? key,
-    required this.snapshot,
+    required this.allPosts,
     required this.isUser,
   }) : super(key: key);
-  final AsyncSnapshot<List<Post>> snapshot;
+  final List<Post> allPosts;
   final bool isUser;
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class SinglePostItem extends StatelessWidget {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ViewSinglePostScreen(
-                    post: snapshot.data![index], isUser: isUser),
+                builder: (context) =>
+                    ViewSinglePostScreen(post: allPosts[index], isUser: isUser),
               )),
           child: SizedBox(
             height: sHeight * 0.19,
@@ -41,14 +41,14 @@ class SinglePostItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          snapshot.data![index].title,
+                          allPosts[index].title,
                           style: const TextStyle(fontSize: 16),
                         ),
                         SizedBox(
                           height: sHeight * 0.02,
                         ),
                         Text(
-                          '${DateTime.now().difference(snapshot.data![index].date).inDays.toString()} Days ago',
+                          '${DateTime.now().difference(allPosts[index].date).inDays.toString()} Days ago',
                           style: const TextStyle(
                               color: Color.fromARGB(255, 129, 129, 129)),
                         )
@@ -58,7 +58,7 @@ class SinglePostItem extends StatelessWidget {
                     FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
                       image:
-                          'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${snapshot.data![index].id}/0.jpeg',
+                          'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${allPosts[index].id}/0.jpeg',
                       height: sHeight * 0.15,
                       width: sWidth * 0.3,
                     )
@@ -68,7 +68,7 @@ class SinglePostItem extends StatelessWidget {
             ),
           ),
         ),
-        itemCount: snapshot.data!.length,
+        itemCount: allPosts.length,
       ),
     );
   }

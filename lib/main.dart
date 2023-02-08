@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (_) => ViewSingleWorkshopHandler(),
         ),
-        Provider(
+        ChangeNotifierProvider(
           create: (_) => ViewPostsHandler(),
         ),
         Provider(

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/service.dart';
@@ -15,7 +16,7 @@ class ScreenServiceUpsert extends StatefulWidget {
 }
 
 class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
-  String id = '';
+  int id = 0;
   String type = '';
   String name = '';
   String price = '';
@@ -31,7 +32,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       try {
-        if (id != '') {
+        if (id != 0) {
           await Provider.of<Services>(context, listen: false)
               .editService(id, type, name, price, costLabor);
         } else {
@@ -40,7 +41,9 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
         }
       } on Exception catch (e) {
         String err = e.toString();
-        print(err);
+        if (kDebugMode) {
+          print(err);
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(err),
@@ -247,7 +250,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                             width: sWidth * 0.8,
                             child: Center(
                               child: Text(
-                                id != '' ? 'Update' : 'Publish',
+                                id != 0 ? 'Update' : 'Create',
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 20),
                               ),
