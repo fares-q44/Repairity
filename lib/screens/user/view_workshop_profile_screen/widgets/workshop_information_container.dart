@@ -35,10 +35,9 @@ class WorkshopInformationContainer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: sWidth * 0.03),
       height: sHeight * 0.2,
-      width: sWidth * 0.6,
+      width: sWidth * 0.535,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color.fromARGB(255, 223, 223, 223),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -48,7 +47,10 @@ class WorkshopInformationContainer extends StatelessWidget {
             SizedBox(
               height: sHeight * 0.02,
             ),
-            Text(workshop.username),
+            Text(
+              workshop.username,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
             Container(
               margin: EdgeInsets.symmetric(
                 vertical: sHeight * 0.005,
