@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repairity/screens/user/user_posts_screen/components/user_posts.dart';
+import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
 import 'package:repairity/widgets/top_notch.dart';
-
-import '../../../widgets/single_post_item.dart';
 
 class UserPostsScreen extends StatefulWidget {
   const UserPostsScreen({super.key});
@@ -26,30 +24,36 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
             withAdd: true,
             route: '/add_post',
           ),
+          SizedBox(
+            height: sHeight * 0.35,
+          ),
           FutureBuilder(
             future:
                 Provider.of<UserPosts>(context, listen: false).getOwnPosts(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: sHeight * 0.4,
-                    ),
-                    const CircularProgressIndicator()
-                  ],
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
               } else {
                 if (snapshot.data!.isNotEmpty) {
-                  return SinglePostItem(
-                    snapshot: snapshot,
+                  return Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) => Card(
+                        child: Column(
+                          children: [
+                            Text(snapshot.data![index].title),
+                            Text(snapshot.data![index].contact),
+                            Text(snapshot.data![index].description),
+                          ],
+                        ),
+                      ),
+                      itemCount: snapshot.data!.length,
+                    ),
                   );
                 }
                 return Column(
                   children: [
-                    SizedBox(
-                      height: sHeight * 0.37,
-                    ),
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed('/add_post');

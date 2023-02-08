@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/service.dart';
-import 'package:repairity/screens/workshop/navigation_bar_screen/navigation_bar_screen.dart';
 import 'package:repairity/widgets/dropdown_button.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
@@ -16,7 +14,7 @@ class ScreenServiceUpsert extends StatefulWidget {
 }
 
 class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
-  int id = 0;
+  String id = '';
   String type = '';
   String name = '';
   String price = '';
@@ -32,7 +30,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       try {
-        if (id != 0) {
+        if (id != '') {
           await Provider.of<Services>(context, listen: false)
               .editService(id, type, name, price, costLabor);
         } else {
@@ -41,9 +39,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
         }
       } on Exception catch (e) {
         String err = e.toString();
-        if (kDebugMode) {
-          print(err);
-        }
+        print(err);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(err),
@@ -55,11 +51,6 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
       isPublishing = false;
     });
     Navigator.pop(context);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WorkshopNavBar(pageIndex: 1),
-        ));
   }
 
   @override
@@ -85,10 +76,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TopNotch(
-              withBack: true,
-              withAdd: false,
-            ),
+          //  const TopNotch(withBack: true),
             SizedBox(
               height: sHeight * 0.05,
             ),
@@ -250,7 +238,7 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                       width: sWidth * 0.8,
                       child: Center(
                         child: Text(
-                          id != 0 ? 'Update' : 'Create',
+                          id != '' ? 'Update' : 'Publish',
                           style: const TextStyle(
                               color: Colors.white, fontSize: 20),
                         ),

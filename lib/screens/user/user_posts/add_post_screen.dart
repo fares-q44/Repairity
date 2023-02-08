@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:repairity/screens/user/user_posts_screen/components/user_posts.dart';
+import 'package:repairity/screens/user/user_posts/components/user_posts.dart';
 import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
@@ -31,14 +31,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
       _formKey.currentState!.save();
       try {
         await Provider.of<UserPosts>(context, listen: false)
-            .addPost(title, contact, details, pickedImages.length);
+            .addPost(title, contact, details);
         if (pickedImages.isNotEmpty) {
           await Provider.of<UserPosts>(context, listen: false)
               .uploadPhotos(pickedImages);
         }
       } on Exception catch (e) {
-        print(e);
         String err = e.toString();
+        print(err);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(err),
@@ -49,27 +49,17 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       isPublishing = false;
     });
-    Navigator.popAndPushNamed(context, '/user_home');
+    Navigator.pop(context);
   }
 
-  void _selectImage(dynamic chosenImages) async {
-    try {
-      if (chosenImages is List<XFile>) {
-        for (var element in chosenImages) {
-          pickedImages.add(element);
-        }
-      } else {
-        pickedImages.add(chosenImages);
-      }
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+  void _selectImage(List<XFile> chosenImages) async {
+    pickedImages = chosenImages;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double sWidth = size.width;
     double sHeight = size.height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -87,9 +77,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: sHeight * 0.015),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: sHeight * 0.025, vertical: sHeight * 0.005),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -124,9 +114,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: sHeight * 0.015),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: sHeight * 0.025, vertical: sHeight * 0.005),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),
@@ -161,9 +151,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: sHeight * 0.015),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: sHeight * 0.025, vertical: sHeight * 0.005),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(29),

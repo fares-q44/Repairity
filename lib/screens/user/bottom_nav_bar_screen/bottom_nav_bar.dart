@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repairity/screens/chat_screen/chat_screen.dart';
-import 'package:repairity/screens/user/user_posts_screen/user_posts_screen.dart';
+import 'package:repairity/screens/user/user_posts/user_posts_screen.dart';
 import 'package:repairity/screens/user/view_services_screen/view_services_screen.dart';
 import 'package:repairity/screens/user/view_workshops_screen/view_workshops_screen.dart';
 
@@ -14,7 +14,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int pageIndex = 0;
 
-  final List<Widget> pages = const [
+  final List pages = const [
     UserPostsScreen(),
     ViewServicesScreen(),
     ViewWorkshopScreen(),
@@ -29,16 +29,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: IndexedStack(
-              index: pageIndex,
-              children: pages,
-            ),
-          )
-        ],
-      ),
+      body: pages[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         currentIndex: pageIndex,

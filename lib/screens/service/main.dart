@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/service.dart';
-import 'package:repairity/widgets/top_notch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import '../../api/service.dart';
@@ -29,7 +27,6 @@ class _ScreenServicesState extends State<ScreenServices> {
     return Scaffold(
       body: Column(
         children: [
-<<<<<<< HEAD
           Container(
             width: double.infinity,
             height: sHeight * 0.12,
@@ -78,25 +75,6 @@ class _ScreenServicesState extends State<ScreenServices> {
           FutureBuilder(
             future:
                 Provider.of<Services>(context, listen: false).getOwnServices(),
-=======
-          TopNotch(withBack: false, withAdd: true, route: '/service_upsert'),
-          isDeleting
-              ? Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              width: size.width * 0.2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(29),
-              ),
-              child: const CircularProgressIndicator())
-              : const SizedBox(
-            height: 1,
-          ),
-          FutureBuilder(
-            future:
-            Provider.of<Services>(context, listen: false).getOwnServices(),
->>>>>>> d6fbb3fdfbed3658c74003d381a4f8cd38dd0ecb
             builder: (context, AsyncSnapshot<List<Service>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -140,7 +118,6 @@ class _ScreenServicesState extends State<ScreenServices> {
                                 closeOnCancel: true,
                                 confirmDismiss: () async {
                                   return await showDialog<bool>(
-<<<<<<< HEAD
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
@@ -172,39 +149,6 @@ class _ScreenServicesState extends State<ScreenServices> {
                                           );
                                         },
                                       ) ??
-=======
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text('Are you sure?'),
-                                        content: const Text(
-                                            'Are you sure to delete?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () async {
-                                              bool result =
-                                              await deleteService(
-                                                  item.id);
-                                              Navigator.of(context)
-                                                  .pop(result);
-                                              setState(() {
-                                                isDeleting = !result;
-                                              });
-                                            },
-                                            child: const Text('Yes'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(false);
-                                            },
-                                            child: const Text('No'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ) ??
->>>>>>> d6fbb3fdfbed3658c74003d381a4f8cd38dd0ecb
                                       false;
                                 },
                               ),
@@ -270,17 +214,10 @@ class _ScreenServicesState extends State<ScreenServices> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                       color:
-<<<<<<< HEAD
                                           Color.fromARGB(200, 247, 247, 140)),
                                   textScaleFactor: 1.5),
                               trailing:
                                   LayoutBuilder(builder: (context, constraint) {
-=======
-                                      Color.fromARGB(200, 247, 247, 140)),
-                                  textScaleFactor: 1.5),
-                              trailing:
-                              LayoutBuilder(builder: (context, constraint) {
->>>>>>> d6fbb3fdfbed3658c74003d381a4f8cd38dd0ecb
                                 return _icon(
                                     item.name, constraint.biggest.height);
                               }),
@@ -347,7 +284,7 @@ class _ScreenServicesState extends State<ScreenServices> {
 
   bool isDeleting = false;
 
-  Future<bool> deleteService(int id) async {
+  Future<bool> deleteService(String id) async {
     try {
       setState(() {
         isDeleting = true;
@@ -355,9 +292,7 @@ class _ScreenServicesState extends State<ScreenServices> {
       return Provider.of<Services>(context, listen: false).deleteService(id);
     } on Exception catch (e) {
       String err = e.toString();
-      if (kDebugMode) {
-        print(err);
-      }
+      print(err);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(err),

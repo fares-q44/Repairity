@@ -7,31 +7,21 @@ class Auth {
   final auth = Supabase.instance.client.auth;
   final client = Supabase.instance.client;
 
-  Future<String> authinticate(
-      email, password, bool isLogin, bool isWorkshop, double lat, double lon,
+  Future<String> authenticate(email, password, bool isLogin, bool isWorkshop,
       [username]) async {
     try {
       if (!isLogin) {
         // Sign user up
         await auth.signUp(email: email, password: password);
-        if (!isWorkshop) {
-          await client.from('users').upsert({
-            'uid': auth.currentUser!.id,
-            'username': username,
-          });
-        } else {
-          await client.from('workshops').upsert(
-            [
-              {
-                'uid': auth.currentUser!.id,
-                'username': username,
-                'lat': lat,
-                'lon': lon,
-              }
-            ],
-          );
-        }
-
+        await client.from('users').insert(
+          [
+            {
+              'uid': auth.currentUser!.id,
+              'username': username,
+              'type': isWorkshop ? 'workshop' : 'user'
+            }
+          ],
+        );
         return auth.currentUser!.id;
       } else {
         // sign user in

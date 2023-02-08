@@ -9,14 +9,16 @@ class UserPosts {
   final client = Supabase.instance.client;
   String addedPostId = '';
   Future<void> addPost(
-      String title, String contact, String details, int imgCount) async {
+    String title,
+    String contact,
+    String details,
+  ) async {
     try {
       final insertedID = await client.from('posts').insert({
         'owner_id': client.auth.currentUser!.id,
         'title': title,
         'contact': contact,
         'details': details,
-        'img_count': imgCount
       }).select('id');
       addedPostId = insertedID[0]['id'];
     } catch (e) {
@@ -36,7 +38,7 @@ class UserPosts {
         counter++;
       }
     } catch (e) {
-      rethrow;
+      print(e);
     }
   }
 
@@ -46,27 +48,40 @@ class UserPosts {
 
     final result = await client
         .from('posts')
-        .select('id, title, contact, details, owner_id, img_count')
+        .select('id, title, contact, details')
         .eq('owner_id', client.auth.currentUser!.id) as List<dynamic>;
+
     if (result.isNotEmpty) {
       for (var element in result) {
         try {
           Post tempPost = Post(
-            id: element['id'],
             title: element['title'],
             contact: element['contact'],
             description: element['details'],
-            imgCount: element['img_count'],
-            ownerId: element['owner_id'],
+            images: [],
           );
           userOwnPosts.add(tempPost);
         } catch (e) {
           print(e);
-          rethrow;
         }
       }
       return userOwnPosts;
     }
     return [];
   }
+  // Future<File> getPictures() async {
+  //   try {
+  //     final pic = await Supabase.instance.client.storage
+  //         .from('posts-images')
+  //         .download('6/0.jpeg');
+  //     Uint8List imageInUnit8List = pic;
+  //     final tempDir = await getTemporaryDirectory();
+  //     File file = await File('${tempDir.path}/image.png').create();
+  //     file.writeAsBytesSync(imageInUnit8List);
+  //     return file;
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return File('');
+  // }
 }
