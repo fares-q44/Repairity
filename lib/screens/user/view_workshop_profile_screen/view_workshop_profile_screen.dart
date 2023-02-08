@@ -9,7 +9,6 @@ import 'package:repairity/widgets/top_notch.dart';
 import '../../../models/workshop.dart';
 import '../../auth_screen/map_helpers/location_helper.dart';
 import 'widgets/workshop_information_container.dart';
-import 'widgets/WidgetHolder.dart';
 import 'components/view_workshop_handler.dart';
 import 'widgets/add_review.dart';
 import 'widgets/all_reviews.dart';
@@ -52,25 +51,23 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  WidgetHolder(
-                    Child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/profile-pictures/${workshop.id}',
-                            height: sHeight * 0.2,
-                          ),
+                  Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/profile-pictures/${workshop.id}',
+                          height: sHeight * 0.2,
                         ),
-                        WorkshopInformationContainer(
-                          workshop: workshop,
-                          distance: distance,
-                        ),
-                      ],
-                    ),
+                      ),
+                      WorkshopInformationContainer(
+                        workshop: workshop,
+                        distance: distance,
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    height: sHeight * 0.01,
+                    height: sHeight * 0.03,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -89,8 +86,14 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: WidgetHolder(
-                      Child: Image.network(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.black,
+                        ),
+                      ),
+                      child: Image.network(
                         fit: BoxFit.cover,
                         LocationHelper.generateLocationPreviewImage(
                           latitude: workshop.lat,
@@ -102,46 +105,43 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
+                    height: sHeight * 0.017,
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(bottom: sHeight * 0.01),
+                      child:
+                          HorizontalDivider(sWidth: sWidth, sHeight: sHeight)),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Button(
+                      label: 'Rate this workshop',
+                      function: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AddReview(
+                              myController: myController,
+                              submitReview: submitReview,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: sHeight * 0.017,
+                  ),
+                  HorizontalDivider(sWidth: sWidth, sHeight: sHeight),
+                  const Text(
+                    'Reviews',
+                    style: TextStyle(fontSize: 22),
+                  ),
+                  HorizontalDivider(sWidth: sWidth, sHeight: sHeight),
+                  SizedBox(
                     height: sHeight * 0.01,
                   ),
-                  WidgetHolder(
-                    Child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Button(
-                            label: 'Rate this workshop',
-                            function: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AddReview(
-                                    myController: myController,
-                                    submitReview: submitReview,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: sHeight * 0.03,
-                        ),
-                        const Text(
-                          'Reviews',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(
-                          height: sHeight * 0.03,
-                        ),
-                        AllReviews(
-                          workshopID: workshop.id,
-                        ),
-                      ],
-                    ),
+                  AllReviews(
+                    workshopID: workshop.id,
                   )
                 ],
               ),
@@ -149,7 +149,6 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
           ],
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 223, 223, 223),
     );
   }
 }

@@ -8,7 +8,7 @@ class ServiceGridItem extends StatelessWidget {
     required this.icon,
   }) : super(key: key);
   final String title;
-  final String icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -28,31 +28,16 @@ class ServiceGridItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(249, 185, 36, 1),
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 15.0, // soften the shadow
-              spreadRadius: 3.0, //extend the shadow
-              offset: Offset(
-                5.0, // Move to right 5  horizontally
-                5.0, // Move to bottom 5 Vertically
-              ),
-            )
-          ],
-        ),
+            color: const Color.fromRGBO(0, 125, 254, 1),
+            borderRadius: BorderRadius.circular(15)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: Column(
             children: [
-              _icon(title, icon, sHeight * 0.10, sWidth * 0.10),
+              _icon(title, sHeight * 0.13),
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  color: Colors.black,
-                ),
+                style: const TextStyle(fontSize: 24, color: Colors.white),
               )
             ],
           ),
@@ -62,21 +47,21 @@ class ServiceGridItem extends StatelessWidget {
   }
 }
 
-Widget _icon(String type, String path, double h, double w) {
+Widget _icon(String type, double mySize) {
   switch (type) {
     case 'Oil':
-      return Image.asset(path, color: Colors.black, height: h, width: w);
+      return Icon(Icons.oil_barrel_outlined, color: Colors.white, size: mySize);
     /*return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Image.asset('assets/images/serviceMotorOil.png'),
       );*/
     case 'Tires':
-      return Image.asset(path, color: Colors.black, height: h, width: w);
+      return Icon(Icons.tire_repair, color: Colors.white, size: mySize);
     case 'Brakes':
-      return Image.asset(path, color: Colors.black, height: h, width: w);
-    case 'Other':
-      return Image.asset(path, color: Colors.black, height: h, width: w);
+      return Icon(Icons.view_carousel, color: Colors.white, size: mySize);
+    case 'Anything':
+      return Icon(Icons.car_crash, color: Colors.white, size: mySize);
     default:
-      return Image.asset(path, color: Colors.black, height: h, width: w);
+      return Icon(Icons.car_repair, color: Colors.white, size: mySize);
   }
 }
