@@ -25,17 +25,6 @@ class ReviewItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Theme.of(context).primaryColor,
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 10.0, // soften the shadow
-              spreadRadius: 4.0, //extend the shadow
-              offset: Offset(
-                5.0, // Move to right 5  horizontally
-                5.0, // Move to bottom 5 Vertically
-              ),
-            )
-          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
