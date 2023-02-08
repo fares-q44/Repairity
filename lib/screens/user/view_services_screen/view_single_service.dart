@@ -5,6 +5,7 @@ import 'package:repairity/screens/user/view_services_screen/widgets/single_servi
 import 'package:repairity/widgets/top_notch.dart';
 
 import '../../../models/service2.dart';
+import '../view_workshop_profile_screen/view_workshop_profile_screen.dart';
 import 'components/view_services_handler.dart';
 
 class ViewSingleServiceScreen extends StatelessWidget {
