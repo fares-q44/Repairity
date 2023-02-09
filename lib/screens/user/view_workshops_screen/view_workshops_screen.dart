@@ -49,7 +49,9 @@ class ViewWorkshopScreen extends StatelessWidget {
               } else {
                 final List<Workshop> fetchedWorkshops = snapshot.data!;
                 return Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: sHeight * 0.005),
                     padding: EdgeInsets.only(top: sHeight * 0.01),
                     itemCount: fetchedWorkshops.length,
                     itemBuilder: (context, index) {

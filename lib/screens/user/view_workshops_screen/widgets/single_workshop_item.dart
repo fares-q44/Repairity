@@ -20,7 +20,7 @@ class SingleWorkshopItem extends StatelessWidget {
     double sWidth = size.width;
     double sHeight = size.height;
     return SizedBox(
-      height: sHeight * 0.26,
+      height: sHeight * 0.22,
       child: GestureDetector(
         onTap: () {
           Navigator.push(

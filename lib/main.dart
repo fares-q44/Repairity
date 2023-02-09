@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Repairity',
         theme: ThemeData(
+            fontFamily: 'fjallaone',
             primarySwatch: Colors.blue,
             primaryColor: const Color.fromRGBO(
               56,

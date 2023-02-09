@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:repairity/models/place.dart';
 import 'package:repairity/screens/auth_screen/map_helpers/map_screen.dart';
 import 'package:repairity/widgets/button.dart';
-import 'package:repairity/widgets/horizontal_divider.dart';
 import 'package:repairity/widgets/top_notch.dart';
 
+import '../../../models/chat.dart';
 import '../../../models/workshop.dart';
 import '../../auth_screen/map_helpers/location_helper.dart';
+import '../../chat_screen/chatting_screen.dart';
+import '../../chat_screen/components/chat_handler.dart';
 import 'widgets/workshop_information_container.dart';
 import 'widgets/WidgetHolder.dart';
 import 'components/view_workshop_handler.dart';
@@ -90,14 +92,47 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                       );
                     },
                     child: WidgetHolder(
-                      Child: Image.network(
-                        fit: BoxFit.cover,
-                        LocationHelper.generateLocationPreviewImage(
-                          latitude: workshop.lat,
-                          longtitude: workshop.lon,
-                        ),
-                        width: double.infinity,
-                        height: sHeight * 0.3,
+                      Child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 2, color: Colors.grey),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                fit: BoxFit.cover,
+                                LocationHelper.generateLocationPreviewImage(
+                                  latitude: workshop.lat,
+                                  longtitude: workshop.lon,
+                                ),
+                                width: double.infinity,
+                                height: sHeight * 0.3,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: sHeight * 0.02,
+                          ),
+                          Button(
+                            label: 'Contact',
+                            function: () async {
+                              ///initiate the chat or just open it if it exits
+                              final Chat selectedChat =
+                                  await Provider.of<ChatHandler>(context,
+                                          listen: false)
+                                      .initiateChat(workshop.id);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatPage(
+                                          selectedChat: selectedChat,
+                                        )),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -149,7 +184,7 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
           ],
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 223, 223, 223),
+      backgroundColor: const Color.fromARGB(255, 223, 223, 223),
     );
   }
 }

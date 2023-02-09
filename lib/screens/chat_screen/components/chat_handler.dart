@@ -10,6 +10,7 @@ class ChatHandler with ChangeNotifier {
   String myUsername = '';
   List<Chat> allChats = [];
   bool amIWorkshop = false;
+
   Future<void> fetchAndSetChats() async {
     allChats = [];
     try {
