@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
-
-import '../main.dart';
 
 class TopNotch extends StatelessWidget {
   TopNotch(
@@ -46,25 +43,6 @@ class TopNotch extends StatelessWidget {
                     ),
                   )
                 : Container(),
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              child: IconButton(
-                onPressed: () async {
-                  await Supabase.instance.client.auth.signOut();
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (_) => const MyApp(),
-                    ),
-                    (_) => false,
-                  );
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                  size: 25,
-                ),
-              ),
-            ),
             withAdd
                 ? Container(
                     margin: const EdgeInsets.only(top: 20),

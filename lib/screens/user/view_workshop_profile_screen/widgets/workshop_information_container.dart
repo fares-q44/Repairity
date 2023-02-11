@@ -3,7 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../../models/workshop.dart';
-import '../../../../widgets/horizontal_divider.dart';
 
 class WorkshopInformationContainer extends StatelessWidget {
   WorkshopInformationContainer({
@@ -35,7 +34,7 @@ class WorkshopInformationContainer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: sWidth * 0.03),
       height: sHeight * 0.2,
-      width: sWidth * 0.535,
+      width: sWidth * 0.45,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -55,7 +54,12 @@ class WorkshopInformationContainer extends StatelessWidget {
               margin: EdgeInsets.symmetric(
                 vertical: sHeight * 0.005,
               ),
-              child: HorizontalDivider(sWidth: sWidth, sHeight: sHeight),
+              child: Container(
+                width: sWidth * 0.4,
+                height: sHeight * 0.001,
+                decoration: const BoxDecoration(color: Colors.black),
+                margin: EdgeInsets.symmetric(vertical: sHeight * 0.01),
+              ),
             ),
             RatingBar.builder(
               ignoreGestures: true,
@@ -74,9 +78,11 @@ class WorkshopInformationContainer extends StatelessWidget {
               margin: EdgeInsets.symmetric(
                 vertical: sHeight * 0.005,
               ),
-              child: HorizontalDivider(
-                sWidth: sWidth,
-                sHeight: sHeight,
+              child: Container(
+                width: sWidth * 0.4,
+                height: sHeight * 0.001,
+                decoration: const BoxDecoration(color: Colors.black),
+                margin: EdgeInsets.symmetric(vertical: sHeight * 0.01),
               ),
             ),
             Row(
@@ -86,7 +92,6 @@ class WorkshopInformationContainer extends StatelessWidget {
                     ? FutureBuilder(
                         future: calculateDistance(workshop.lat, workshop.lon),
                         builder: (context, snapshot) {
-                          print('distance');
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Text('Loading distance');

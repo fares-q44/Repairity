@@ -46,6 +46,9 @@ class AuthButton extends StatelessWidget {
                     ? 'assets/icons/User Login.svg'
                     : 'assets/icons/Workshop Login.svg',
                 height: sHeight * 0.15),
+            SizedBox(
+              height: sHeight * 0.03,
+            ),
             Text(
               label,
               style: const TextStyle(color: Colors.black, fontSize: 20),

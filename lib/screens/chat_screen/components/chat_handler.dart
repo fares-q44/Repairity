@@ -84,7 +84,6 @@ class ChatHandler with ChangeNotifier {
       } else {
         temp = await client.from('workshops').select('*').eq('uid', secondPart);
       }
-      print(temp);
 
       ///Insert in the database and return the chat id
       final chatId = await client.from('chats').insert({

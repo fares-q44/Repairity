@@ -6,8 +6,9 @@ import 'package:repairity/screens/auth_screen/map_helpers/location_input.dart';
 import 'package:repairity/screens/workshop/view_profile_screen/components/view_profile_handler.dart';
 import 'package:repairity/screens/workshop/view_profile_screen/widgets/profile_image_handler.dart';
 import 'package:repairity/widgets/button.dart';
-import 'package:repairity/widgets/top_notch.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
+import '../../../main.dart';
 import '../navigation_bar_screen/navigation_bar_screen.dart';
 
 class ViewProfileScreen extends StatefulWidget {
@@ -76,110 +77,129 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          TopNotch(withBack: false, withAdd: false),
-          FutureBuilder(
-            future: future,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: sHeight * 0.4,
-                    ),
-                    const CircularProgressIndicator(),
-                  ],
-                );
-              } else {
-                final workshop = snapshot.data;
-                usernameController.text = workshop!.username;
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: sHeight * 0.03,
-                  ),
-                  child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        automaticallyImplyLeading: false,
+        title: const Text('Profile'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await Supabase.instance.client.auth.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => const MyApp(),
+                ),
+                (_) => false,
+              );
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+              size: 25,
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder(
+              future: future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Column(
                     children: [
-                      const Text(
-                        'Profile',
-                        style: TextStyle(fontSize: 25),
-                      ),
                       SizedBox(
-                        height: sHeight * 0.02,
+                        height: sHeight * 0.4,
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 5),
-                        width: size.width * 0.9,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(29),
-                        ),
-                        child: TextFormField(
-                          key: usernameKey,
-                          controller: usernameController,
-                          validator: (value) {
-                            if (value!.isEmpty || value.length < 4) {
-                              return 'Please provide a valid username';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            suffixIcon: Icon(Icons.account_box),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1.0, color: Colors.red),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1.0, color: Colors.red),
-                            ),
-                            hintText: 'Enter your Username here',
-                            labelText: 'Username',
-                            labelStyle: TextStyle(fontSize: 20),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 1.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1.0, color: Colors.black),
+                      const CircularProgressIndicator(),
+                    ],
+                  );
+                } else {
+                  final workshop = snapshot.data;
+                  usernameController.text = workshop!.username;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: sHeight * 0.03,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 5),
+                          width: size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(29),
+                          ),
+                          child: TextFormField(
+                            key: usernameKey,
+                            controller: usernameController,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 4) {
+                                return 'Please provide a valid username';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.account_box),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.0, color: Colors.red),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.0, color: Colors.red),
+                              ),
+                              hintText: 'Enter your Username here',
+                              labelText: 'Username',
+                              labelStyle: TextStyle(fontSize: 20),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.0, color: Colors.black),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      ProfileImageHandler(
-                          onSelectImage: (XFile image) {
-                            chosenImage = image;
+                        ProfileImageHandler(
+                            onSelectImage: (XFile image) {
+                              chosenImage = image;
+                            },
+                            allowMultiple: false),
+                        SizedBox(
+                          height: sHeight * 0.02,
+                        ),
+                        LocationInput(
+                          onSelectPlace: (double lat, double lon) {
+                            this.lat = lat;
+                            this.lon = lon;
                           },
-                          allowMultiple: false),
-                      SizedBox(
-                        height: sHeight * 0.02,
-                      ),
-                      LocationInput(
-                        onSelectPlace: (double lat, double lon) {
-                          this.lat = lat;
-                          this.lon = lon;
-                        },
-                        previewLat: workshop.lat,
-                        previewLon: workshop.lon,
-                      ),
-                      SizedBox(
-                        height: sHeight * 0.02,
-                      ),
-                      isLoading
-                          ? const CircularProgressIndicator()
-                          : Button(
-                              label: 'Save',
-                              function: () => updateProfile(workshop)),
-                    ],
-                  ),
-                );
-              }
-            },
-          )
-        ],
+                          previewLat: workshop.lat,
+                          previewLon: workshop.lon,
+                        ),
+                        SizedBox(
+                          height: sHeight * 0.02,
+                        ),
+                        isLoading
+                            ? const CircularProgressIndicator()
+                            : Button(
+                                label: 'Save',
+                                function: () => updateProfile(workshop)),
+                      ],
+                    ),
+                  );
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

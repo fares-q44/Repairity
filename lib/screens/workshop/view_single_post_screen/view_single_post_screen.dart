@@ -6,15 +6,14 @@ import 'package:repairity/models/app_user.dart';
 import 'package:repairity/screens/user/view_workshop_profile_screen/widgets/WidgetHolder.dart';
 import 'package:repairity/widgets/button.dart';
 import 'package:repairity/widgets/horizontal_divider.dart';
-import 'package:repairity/widgets/top_notch.dart';
 
 import '../../../models/chat.dart';
 import '../../../models/comment.dart';
 import '../../chat_screen/chatting_screen.dart';
 import '../../chat_screen/components/chat_handler.dart';
-import '../../user/view_workshop_profile_screen/view_workshop_profile_screen.dart';
 import 'components/view_single_post_handler.dart';
 import 'widgets/add_comment_button.dart';
+import 'widgets/single_chat_item.dart';
 
 class ViewSinglePostScreen extends StatefulWidget {
   const ViewSinglePostScreen(
@@ -44,10 +43,14 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
     double sWidth = size.width;
     double sHeight = size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(widget.post.title),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TopNotch(withBack: true, withAdd: false),
             FutureBuilder(
               future: userFuture,
               builder: (context, snapshot) {
@@ -57,7 +60,7 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                       SizedBox(
                         height: sHeight * 0.4,
                       ),
-                      const CircularProgressIndicator(),
+                      const Center(child: CircularProgressIndicator()),
                     ],
                   );
                 }
@@ -137,11 +140,9 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                               itemCount: 1,
                               itemBuilder: (context, index) {
                                 List<String> sampleImages = [];
-                                for (var i = 0;
-                                    i <= widget.post.imgCount;
-                                    i++) {
+                                for (var i = 0; i < widget.post.imgCount; i++) {
                                   sampleImages.add(
-                                      'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${widget.post.id}/$index.jpeg');
+                                      'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${widget.post.id}/$i.jpeg');
                                 }
                                 return FanCarouselImageSlider(
                                   initalPageIndex: 0,
@@ -203,107 +204,9 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                                           const NeverScrollableScrollPhysics(),
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) =>
-                                          Container(
-                                        margin: EdgeInsets.all(sHeight * 0.02),
-                                        width: double.infinity,
-                                        height: sHeight * 0.13,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: const Color.fromRGBO(
-                                              249, 185, 36, 1),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ViewWorkshopProfileScreen(
-                                                                    workshop: allComments[
-                                                                            index]
-                                                                        .workshop),
-                                                          ));
-                                                    },
-                                                    child: Text(
-                                                      allComments[index]
-                                                          .workshop
-                                                          .username,
-                                                      style: const TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: sHeight * 0.01,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      children: [
-                                                        const TextSpan(
-                                                            text:
-                                                                'i can do this for'),
-                                                        TextSpan(
-                                                            text:
-                                                                ' ${allComments[index].price.toString()}',
-                                                            style: const TextStyle(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        245,
-                                                                        110,
-                                                                        100))),
-                                                        const TextSpan(
-                                                            text:
-                                                                ' Riyals \nit will take '),
-                                                        TextSpan(
-                                                            text: allComments[
-                                                                    index]
-                                                                .duration
-                                                                .toString(),
-                                                            style: const TextStyle(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        250,
-                                                                        114,
-                                                                        104))),
-                                                        const TextSpan(
-                                                            text: ' days'),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ViewWorkshopProfileScreen(
-                                                                      workshop:
-                                                                          allComments[index]
-                                                                              .workshop),
-                                                            ));
-                                                      },
-                                                      child:
-                                                          const Text('Contact'))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                          SingleCommentItem(
+                                        comment: allComments[index],
+                                        isUser: widget.isUser,
                                       ),
                                     );
                                   }

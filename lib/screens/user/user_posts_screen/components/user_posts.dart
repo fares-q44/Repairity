@@ -70,4 +70,12 @@ class UserPosts {
     }
     return [];
   }
+
+  Future<void> deletePost(String id) async {
+    try {
+      await client.from('posts').delete().eq('id', id);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../../../models/service2.dart';
-import '../../../../models/workshop.dart';
 import '../../view_workshop_profile_screen/view_workshop_profile_screen.dart';
 
 class SingleServiceItem extends StatelessWidget {
@@ -79,7 +78,7 @@ class SingleServiceItem extends StatelessWidget {
                 ),
               ),
               Text(
-                "Name: ${service.name}\n\nPrice: ${service.price}\n\nCost: ${service.costLabor}",
+                "Name: ${service.name}\n\nPrice: ${service.price} SR\n\nLabor: ${service.costLabor} SR",
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),

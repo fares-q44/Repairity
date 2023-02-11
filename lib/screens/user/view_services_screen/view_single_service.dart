@@ -5,13 +5,18 @@ import 'package:repairity/screens/user/view_services_screen/widgets/single_servi
 import 'package:repairity/widgets/top_notch.dart';
 
 import '../../../models/service2.dart';
-import '../view_workshop_profile_screen/view_workshop_profile_screen.dart';
 import 'components/view_services_handler.dart';
 
-class ViewSingleServiceScreen extends StatelessWidget {
+class ViewSingleServiceScreen extends StatefulWidget {
   const ViewSingleServiceScreen({super.key, required this.title});
   final String title;
 
+  @override
+  State<ViewSingleServiceScreen> createState() =>
+      _ViewSingleServiceScreenState();
+}
+
+class _ViewSingleServiceScreenState extends State<ViewSingleServiceScreen> {
   Future<double> calculateDistance(lat2, lon2) async {
     try {
       final currentLocation = await Geolocator.getCurrentPosition();
@@ -24,13 +29,21 @@ class ViewSingleServiceScreen extends StatelessWidget {
     }
   }
 
+  late Future<List<Service2>> future;
+  @override
+  void initState() {
+    // TODO: implement initState
+    future = Provider.of<ViewServicesHandler>(context, listen: false)
+        .fetchAndSetService(widget.title);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double sWidth = size.width;
     double sHeight = size.height;
-    final future = Provider.of<ViewServicesHandler>(context, listen: false)
-        .fetchAndSetService(title);
+
     return Scaffold(
       body: Column(
         children: [
@@ -43,7 +56,9 @@ class ViewSingleServiceScreen extends StatelessWidget {
               } else {
                 final List<Service2> fetchedServices = snapshot.data!;
                 return Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: sHeight * 0.005),
                     padding: EdgeInsets.only(top: sHeight * 0.01),
                     itemCount: fetchedServices.length,
                     itemBuilder: (context, index) {

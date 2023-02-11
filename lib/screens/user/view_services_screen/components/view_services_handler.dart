@@ -10,7 +10,6 @@ class ViewServicesHandler {
     try {
       final fetchedServices =
           await client.rpc('get_service', params: {'giventype': title}) as List;
-      print(fetchedServices);
       for (var element in fetchedServices) {
         finishedServices.add(
           Service2(

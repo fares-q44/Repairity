@@ -36,7 +36,11 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Chat')),
+      appBar: AppBar(
+        title: Text(widget.selectedChat.secondPartUsername),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: StreamBuilder<List<Message>>(
         stream: _messagesStream,
         builder: (context, snapshot) {
@@ -75,7 +79,7 @@ class _ChatPageState extends State<ChatPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                 ),
-                const CircularProgressIndicator(),
+                const Center(child: CircularProgressIndicator()),
               ],
             );
           }

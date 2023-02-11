@@ -62,6 +62,8 @@ class ViewWorkshopProfileScreen extends StatelessWidget {
                           child: Image.network(
                             'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/profile-pictures/${workshop.id}',
                             height: sHeight * 0.2,
+                            width: sHeight * 0.2,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         WorkshopInformationContainer(

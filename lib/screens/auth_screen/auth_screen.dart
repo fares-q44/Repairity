@@ -104,9 +104,9 @@ class _AuthScreenState extends State<AuthScreen> {
         );
       }
       if (widget.isWorkshop) {
-        Future.wait(
-          [Auth.uploadPhoto(chosenImage[0])],
-        );
+        if (chosenImage.isNotEmpty) {
+          Auth.uploadPhoto(chosenImage[0]);
+        }
       }
     } on Exception catch (e) {
       String err = e.toString();

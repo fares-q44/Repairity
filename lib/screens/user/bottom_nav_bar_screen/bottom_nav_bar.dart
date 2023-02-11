@@ -28,6 +28,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double sWidth = size.width;
+    double sHeight = size.height;
     return Scaffold(
       body: Column(
         children: [
@@ -44,25 +47,41 @@ class _BottomNavBarState extends State<BottomNavBar> {
         currentIndex: pageIndex,
         backgroundColor: Theme.of(context).primaryColor,
         type: BottomNavigationBarType.fixed,
-        unselectedLabelStyle: const TextStyle(color: Colors.white),
-        selectedLabelStyle: const TextStyle(color: Colors.red),
-        unselectedItemColor: Colors.white,
-        selectedItemColor: const Color.fromARGB(255, 247, 147, 140),
-        items: const [
+        unselectedLabelStyle: const TextStyle(fontSize: 16),
+        selectedLabelStyle: const TextStyle(fontSize: 16),
+        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.white,
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
+            icon: Image.asset(
+              'assets/icons/XMLID_23_posts_nav.png',
+              height: sHeight * 0.03,
+              color: pageIndex == 0 ? Colors.white : Colors.black,
+            ),
             label: 'Posts',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.handyman),
+            icon: Image.asset(
+              'assets/icons/screw.png',
+              height: sHeight * 0.03,
+              color: pageIndex == 1 ? Colors.white : Colors.black,
+            ),
             label: 'Services',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fire_truck),
+            icon: Image.asset(
+              'assets/icons/5976113 1workshops_nav.png',
+              height: sHeight * 0.03,
+              color: pageIndex == 2 ? Colors.white : Colors.black,
+            ),
             label: 'Workshops',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Image.asset(
+              'assets/icons/3269407 1chat_nav.png',
+              height: sHeight * 0.03,
+              color: pageIndex == 3 ? Colors.white : Colors.black,
+            ),
             label: 'Chat',
           ),
         ],

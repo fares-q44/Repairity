@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repairity/models/chat.dart';
-import 'package:repairity/widgets/top_notch.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+import '../../main.dart';
 import 'components/chat_handler.dart';
 import 'chatting_screen.dart';
 
@@ -29,9 +30,32 @@ class _ChatScreenState extends State<ChatScreen> {
     double sWidth = size.width;
     double sHeight = size.height;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text('Chats'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await Supabase.instance.client.auth.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => const MyApp(),
+                ),
+                (_) => false,
+              );
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+              size: 25,
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
-          TopNotch(withBack: false, withAdd: false),
           FutureBuilder(
             future: future,
             builder: (context, snapshot) {
