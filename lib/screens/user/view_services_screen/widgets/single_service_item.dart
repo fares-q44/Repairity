@@ -46,7 +46,9 @@ class SingleServiceItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      service.workshop.username,
+                      service.workshop.username.length > 17
+                          ? service.workshop.username.substring(0, 12)
+                          : service.workshop.username,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,

@@ -12,6 +12,7 @@ class ViewProfileHandler {
         .select('*')
         .eq('uid', client.auth.currentUser!.id);
     return Workshop(
+      contact: result[0]['contact'],
       rating: 0,
       id: result[0]['uid'],
       username: result[0]['username'],
@@ -24,6 +25,12 @@ class ViewProfileHandler {
     await client
         .from('workshops')
         .update({'username': username}).eq('uid', client.auth.currentUser!.id);
+  }
+
+  Future<void> updateContact(String contact) async {
+    await client
+        .from('workshops')
+        .update({'contact': contact}).eq('uid', client.auth.currentUser!.id);
   }
 
   Future<void> updateLocation(double lat, double lon) async {

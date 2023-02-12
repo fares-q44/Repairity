@@ -122,7 +122,7 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: sHeight * 0.02,
+                        height: sHeight * 0.01,
                       ),
                       WidgetHolder(
                         Child: Column(
@@ -151,6 +151,8 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                                   autoPlay: false,
                                   isClickable: true,
                                   userCanDrag: true,
+                                  imageRadius: 10,
+                                  turns: 1000,
                                 );
                               },
                             ),
@@ -158,7 +160,24 @@ class _ViewSinglePostScreenState extends State<ViewSinglePostScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: sHeight * 0.02,
+                        height: sHeight * 0.01,
+                      ),
+                      WidgetHolder(
+                          Child: Row(
+                        children: [
+                          const Icon(
+                            Icons.warning,
+                            color: Colors.orange,
+                          ),
+                          SizedBox(
+                            width: sWidth * 0.02,
+                          ),
+                          const Text(
+                              'The displayed prices are just estimated prices, Prices may\nchange after further inspection')
+                        ],
+                      )),
+                      SizedBox(
+                        height: sHeight * 0.01,
                       ),
                       WidgetHolder(
                         Child: Column(

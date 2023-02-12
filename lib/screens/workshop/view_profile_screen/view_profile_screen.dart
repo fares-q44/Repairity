@@ -22,7 +22,9 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   double lat = -1;
   double lon = -1;
   final usernameKey = GlobalKey<FormFieldState>();
+  final contactKey = GlobalKey<FormFieldState>();
   TextEditingController usernameController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
   XFile? chosenImage;
   bool isLoading = false;
 
@@ -30,12 +32,18 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
     setState(() {
       isLoading = true;
     });
-    if (usernameKey.currentState!.validate()) {
+    if (usernameKey.currentState!.validate() &&
+        contactKey.currentState!.validate()) {
       if (usernameController.text != workshop.username) {
         await Provider.of<ViewProfileHandler>(context, listen: false)
             .updateUsername(usernameController.text);
       }
+      if (contactController.text != workshop.contact) {
+        await Provider.of<ViewProfileHandler>(context, listen: false)
+            .updateContact(contactController.text);
+      }
     }
+
     if ((lat != -1 && lat != workshop.lat) &&
         (lon != -1 && lon != workshop.lon)) {
       await Provider.of<ViewProfileHandler>(context, listen: false)
@@ -69,6 +77,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   void dispose() {
     // TODO: implement dispose
     usernameController.dispose();
+    contactController.dispose();
     super.dispose();
   }
 
@@ -120,6 +129,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                 } else {
                   final workshop = snapshot.data;
                   usernameController.text = workshop!.username;
+                  contactController.text = workshop.contact;
                   return Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: sHeight * 0.03,
@@ -155,6 +165,50 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                               ),
                               hintText: 'Enter your Username here',
                               labelText: 'Username',
+                              labelStyle: TextStyle(fontSize: 20),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.0, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 5),
+                          width: size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(29),
+                          ),
+                          child: TextFormField(
+                            key: contactKey,
+                            controller: contactController,
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !value.startsWith('05') ||
+                                  value.length != 10) {
+                                return 'Please provide a valid phone number';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.phone),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.0, color: Colors.red),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.0, color: Colors.red),
+                              ),
+                              hintText: 'Enter your number here',
+                              labelText: 'Contact',
                               labelStyle: TextStyle(fontSize: 20),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,

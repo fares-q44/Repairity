@@ -91,7 +91,7 @@ class _UserPostsScreenState extends State<UserPostsScreen> {
               } else {
                 if (snapshot.data!.isNotEmpty) {
                   return SinglePostItem(
-                    allPosts: snapshot.data!,
+                    allPosts: snapshot.data!.reversed.toList(),
                     isUser: true,
                   );
                 }

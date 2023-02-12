@@ -9,7 +9,7 @@ class Auth {
 
   Future<String> authinticate(
       email, password, bool isLogin, bool isWorkshop, double lat, double lon,
-      [username]) async {
+      [username, contact]) async {
     try {
       if (!isLogin) {
         // Sign user up
@@ -24,9 +24,10 @@ class Auth {
             [
               {
                 'uid': auth.currentUser!.id,
-                'username': username,
+                'username': username[0],
                 'lat': lat,
                 'lon': lon,
+                'contact': username[1]
               }
             ],
           );

@@ -15,6 +15,7 @@ class ViewServicesHandler {
           Service2(
             index: element['id'],
             workshop: Workshop(
+                contact: element['contact'],
                 rating: element['avg'] == null
                     ? 0
                     : (element['avg'] as double).toInt(),

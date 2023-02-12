@@ -7,10 +7,11 @@ class ViewWorkshopHandler {
       final client = Supabase.instance.client;
       final List<Workshop> finishedWorkshops = [];
       final fetchedWorkshops =
-          await client.rpc('get_workshops') as List<dynamic>;
+          await client.rpc('get_all_workshops') as List<dynamic>;
       for (var element in fetchedWorkshops) {
         finishedWorkshops.add(
           Workshop(
+            contact: element['contact'],
             id: element['uid'],
             username: element['username'],
             lat: double.parse(element['lat']),

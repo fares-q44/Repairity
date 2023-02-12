@@ -103,7 +103,7 @@ class _ViewPostsScreenState extends State<ViewPostsScreen> {
                   );
                 }
                 return SinglePostItem(
-                  allPosts: allPosts,
+                  allPosts: allPosts.reversed.toList(),
                   isUser: false,
                 );
               },

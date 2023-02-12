@@ -43,9 +43,6 @@ class WorkshopInformationContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: sHeight * 0.02,
-            ),
             Text(
               workshop.username,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
@@ -58,7 +55,7 @@ class WorkshopInformationContainer extends StatelessWidget {
                 width: sWidth * 0.4,
                 height: sHeight * 0.001,
                 decoration: const BoxDecoration(color: Colors.black),
-                margin: EdgeInsets.symmetric(vertical: sHeight * 0.01),
+                margin: EdgeInsets.symmetric(vertical: sHeight * 0.005),
               ),
             ),
             RatingBar.builder(
@@ -82,7 +79,7 @@ class WorkshopInformationContainer extends StatelessWidget {
                 width: sWidth * 0.4,
                 height: sHeight * 0.001,
                 decoration: const BoxDecoration(color: Colors.black),
-                margin: EdgeInsets.symmetric(vertical: sHeight * 0.01),
+                margin: EdgeInsets.symmetric(vertical: sHeight * 0.005),
               ),
             ),
             Row(
@@ -103,7 +100,27 @@ class WorkshopInformationContainer extends StatelessWidget {
                       )
                     : Text(distance.toStringAsFixed(2)),
               ],
-            )
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: sHeight * 0.005,
+              ),
+              child: Container(
+                width: sWidth * 0.4,
+                height: sHeight * 0.001,
+                decoration: const BoxDecoration(color: Colors.black),
+                // margin: EdgeInsets.symmetric(vertical: sHeight * 0.01),
+              ),
+            ),
+            Row(
+              children: [
+                const Icon(Icons.phone),
+                SizedBox(
+                  width: sWidth * 0.02,
+                ),
+                Text(workshop.contact),
+              ],
+            ),
           ],
         ),
       ),

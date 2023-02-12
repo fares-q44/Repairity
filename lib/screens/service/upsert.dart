@@ -220,8 +220,8 @@ class _ScreenServiceUpsertState extends State<ScreenServiceUpsert> {
                         focusedErrorBorder: OutlineInputBorder(
                           borderSide: BorderSide(width: 1.0, color: Colors.red),
                         ),
-                        hintText: 'Enter service cost here',
-                        labelText: 'Service Cost',
+                        hintText: 'Enter Labor cost here',
+                        labelText: 'Labor Cost',
                         labelStyle: TextStyle(fontSize: 20),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         enabledBorder: OutlineInputBorder(

@@ -6,11 +6,13 @@ class Workshop {
   final double lat;
   final double lon;
   final int rating;
+  final String contact;
   Workshop({
-    required this.rating,
     required this.id,
     required this.username,
     required this.lat,
     required this.lon,
+    required this.rating,
+    required this.contact,
   });
 }

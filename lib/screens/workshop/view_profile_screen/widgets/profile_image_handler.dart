@@ -51,7 +51,9 @@ class _ImageHandlerState extends State<ProfileImageHandler> {
             .from('profile-pictures')
             .download(Supabase.instance.client.auth.currentUser!.id);
         final tempDir = await getTemporaryDirectory();
-        File file = await File('${tempDir.path}/image.png').create();
+        File file = await File(
+                '${tempDir.path}/${Supabase.instance.client.auth.currentUser!.id}.png')
+            .create();
         file.writeAsBytesSync(result);
         setState(() {
           storedImages.insert(0, file);
@@ -60,7 +62,6 @@ class _ImageHandlerState extends State<ProfileImageHandler> {
     } catch (e) {
       print(e);
     }
-
     super.initState();
   }
 

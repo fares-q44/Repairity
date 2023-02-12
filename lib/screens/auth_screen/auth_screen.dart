@@ -32,10 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
   List<String> errorTextList = [];
 
   Future<void> validateForm() async {
-    if (isLogin) {
-      agreedToTerms = true;
-    }
-    if (widget.isWorkshop && !isLogin) {
+    if (!isLogin && !agreedToTerms) {
       if (!agreedToTerms) {
         if (errorTextList
             .contains('You must agree to our terms and conditions')) {
@@ -47,6 +44,8 @@ class _AuthScreenState extends State<AuthScreen> {
           return;
         }
       }
+    }
+    if (widget.isWorkshop && !isLogin) {
       errorTextList.remove('You must agree to our terms and conditions');
       if (chosenImage.isEmpty) {
         if (errorTextList.contains('You must select an image')) {
@@ -84,14 +83,13 @@ class _AuthScreenState extends State<AuthScreen> {
     _formKey.currentState!.save();
     try {
       await Provider.of<Auth>(context, listen: false).authinticate(
-        email,
-        password,
-        isLogin,
-        widget.isWorkshop,
-        lat,
-        lon,
-        username,
-      );
+          email,
+          password,
+          isLogin,
+          widget.isWorkshop,
+          lat,
+          lon,
+          [username, phoneNumber]);
       if (widget.isWorkshop) {
         Navigator.of(context).pushNamedAndRemoveUntil(
           '/workshop_home',
@@ -261,7 +259,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   validator: (value) {
                                     if (value!.isEmpty ||
                                         !value.startsWith('05') ||
-                                        value.length < 10) {
+                                        value.length != 10) {
                                       return 'Please provide a valid phone number';
                                     }
                                     return null;

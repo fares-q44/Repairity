@@ -193,7 +193,7 @@ class _ScreenServicesState extends State<ScreenServices> {
                                     item.name, constraint.biggest.height);
                               }),
                               subtitle: Text(
-                                  "Name: ${item.name}\nPrice: ${item.price}\nCost: ${item.costLabor}",
+                                  "Name: ${item.name}\nPrice: ${item.price}\nLabor Cost: ${item.costLabor}",
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.white)),
                               selected: true,

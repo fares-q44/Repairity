@@ -40,6 +40,7 @@ class ViewSinglePostHandler {
           Comment(
             id: element['id'],
             workshop: Workshop(
+                contact: element['workshops']['contact'],
                 rating: rate ?? 0,
                 id: element['workshop_id'],
                 username: element['workshops']['username'],
