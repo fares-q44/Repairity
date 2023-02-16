@@ -52,7 +52,14 @@ class _ViewSingleServiceScreenState extends State<ViewSingleServiceScreen> {
             future: future,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: sHeight * 0.4,
+                    ),
+                    const Center(child: CircularProgressIndicator()),
+                  ],
+                );
               } else {
                 final List<Service2> fetchedServices = snapshot.data!;
                 return Expanded(

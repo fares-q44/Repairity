@@ -129,12 +129,16 @@ class _SinglePostItemState extends State<SinglePostItem> {
                         ],
                       ),
                       const Spacer(),
-                      FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image:
-                            'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${widget.allPosts[index].id}/0.jpeg',
-                        height: sHeight * 0.15,
-                        width: sWidth * 0.3,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image:
+                              'https://atpuopxuvfwzdzfzxawq.supabase.co/storage/v1/object/public/posts-images/${widget.allPosts[index].id}/0.jpeg',
+                          height: sHeight * 0.15,
+                          width: sWidth * 0.3,
+                          fit: BoxFit.cover,
+                        ),
                       )
                     ],
                   ),
