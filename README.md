@@ -1,4 +1,4 @@
-# <img src="https://github.com/fares-q44/repairity/blob/main/assets/images/appLogo.jpg" alt="icon" width=60>  CineMe
+# <img src="https://github.com/fares-q44/repairity/blob/main/assets/images/appLogo.jpg" alt="icon" width=100>  Repairity
 
 
 
