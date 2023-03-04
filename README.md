@@ -8,7 +8,7 @@
 Repairity is an app that connects people with damaged cars with workshops.
 
 
-Repairity links users with workshops through various ways, users can publish a post with their damaged cars to get estimated fixing costs from workshops, users can also view regular services for the car e.g. oil change, tires change, brakes, etc.., users can also view all woirkshops available in the app alog with their location, ratings from other users, contact information. users can also contact workshops through direct message to get more information.
+Repairity links users with workshops through various ways, users can publish a post with their damaged cars to get estimated fixing costs from workshops, users can also view regular services for the car e.g. oil change, tires change, brakes, etc.., users can also view all woirkshops available in the app alog with their location, ratings from other users, contact information. users can also contact workshops through direct message to get more information, , this app was developed using flutter and supabase.
 
 ## List of Contents
 
@@ -33,15 +33,20 @@ Repairity links users with workshops through various ways, users can publish a p
 - Optimised storage using minimal packages
 
 ## Screenshots
-| <img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/1.jpeg" width="250"> |<img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/2.jpeg" width="250"> |  <img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/3.jpeg" width="250"> |
+| <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20post.png" width="250"> |<img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/offers.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/select%20service.png" width="250"> |
 |:------------:|:------------:| :------------:|
-| Splash Screen | Authintication | Explore movies
+| View post | Offers | Select service
 
-| <img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/4.jpeg" width="250"> |  <img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/5.jpeg" width="250"> |<img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/6.jpeg" width="250"> |  
+| <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/services%20providers.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20workshops.png" width="250"> |<img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20workshop%20profile.png" width="250"> |  
 |:------------:|:------------:| :------------:|
-| Movie poster | Movie trailer | More movie detail 
-| <img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/7.jpeg" width="250"> | <img src="https://github.com/fares-q44/CineMe/blob/main/assets/Screenshots/9.jpeg" width="250">
-| Search | Watchlist
+| Services by workshops | View workshops | View workshop profile 
+| <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20posts.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20profile.png" width="250"> |<img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/reviews.png" width="250"> |  
+|:------------:|:------------:| :------------:|
+| View posts | Profile screen | View ratings on a workshops 
+| <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/chat.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/publish%20post.png" width="250"> |
+|:------------:|:------------:| :------------:|
+| Chat | Publish a post |  
+
 
 
 
@@ -54,14 +59,14 @@ The following packages are needed for the development of this application.
 
 
 - `google_fonts: ^1.1.0` for beautiful fonts
-- `shared_preferences: ^0.5.7+3` for storing settings
--  `  provider: ^4.1.1` for managing the state
--  ` http: ^0.12.1` for sending HTTP request to the API
--  `flutter_youtube: ^2.0.0`  for youtube web view
+- `shared_preferences: ^2.0.17` for storing state to introduction screen
+- `provider: ^6.0.4` for managing the state
+- `http: ^0.13.5` for sending HTTP request to the API
+- `supabase_flutter: ^1.2.2`  for using the supabase backend
 
 
 
-More details about these can be found in the [`pubspec.yaml`](https://github.com/fares-q44/CineMe/blob/master/pubspec.yaml) file.
+More details about these can be found in the [`pubspec.yaml`](https://github.com/fares-q44/repairity/blob/main/pubspec.yaml) file.
 
 
 
