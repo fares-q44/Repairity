@@ -1,8 +1,8 @@
-# <img src="https://github.com/fares-q44/repairity/blob/main/assets/images/appLogo.jpg" alt="icon" width=100>  Repairity
+# <img src="https://github.com/fares-q44/repairity/blob/main/assets/images/appLogo.jpg" alt="icon" width=120>  Repairity
 
 
 
-![flutter](https://img.shields.io/badge/Flutter-Framework-green?logo=flutter)    ![Dart](https://img.shields.io/badge/Dart-Language-blue?logo=dart) 
+![flutter](https://img.shields.io/badge/Flutter-Framework-green?logo=flutter)    ![Dart](https://img.shields.io/badge/Dart-Language-blue?logo=dart)  ![Supabase](https://img.shields.io/badge/Dart-Language-blue?logo=dart) 
 
 
 CineMe is a beautiful movies app for android, It is built with Dart on top of Google's Flutter Framework.
