@@ -5,7 +5,7 @@
 ![flutter](https://img.shields.io/badge/Flutter-Framework-green?logo=flutter)    ![Dart](https://img.shields.io/badge/Dart-Language-blue?logo=dart)  ![Supabase](https://img.shields.io/badge/Supabase-Databse-green?logo=supabase) 
 
 
-Repairity is an app that connects people with damaged cars with workshops.
+Repairity is an app that connects Car owners with workshops.
 
 
 Repairity links users with workshops through various ways, users can publish a post with their damaged cars to get estimated fixing costs from workshops, users can also view regular services for the car e.g. oil change, tires change, brakes, etc.., users can also view all woirkshops available in the app alog with their location, ratings from other users, contact information. users can also contact workshops through direct message to get more information, , this app was developed using flutter and supabase.
