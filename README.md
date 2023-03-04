@@ -43,8 +43,8 @@ Repairity links users with workshops through various ways, users can publish a p
 | <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20posts.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/view%20profile.png" width="250"> |<img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/reviews.png" width="250"> |  
 |:------------:|:------------:| :------------:|
 | View posts | Profile screen | View ratings on a workshops 
-| <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/chat.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/publish%20post.png" width="250"> |
-|:------------:|:------------:| :------------:|
+| <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/chat.png" width="250"> |  <img src="https://github.com/fares-q44/repairity/blob/main/assets/screenshots/publish%20post.png" width="250">
+|:------------:|:------------:
 | Chat | Publish a post |  
 
 
