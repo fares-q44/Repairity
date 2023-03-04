@@ -2,7 +2,7 @@
 
 
 
-![flutter](https://img.shields.io/badge/Flutter-Framework-green?logo=flutter)    ![Dart](https://img.shields.io/badge/Dart-Language-blue?logo=dart)  ![Supabase](https://img.shields.io/badge/Supabase-Databse-green?logo=supabase) 
+![flutter](https://img.shields.io/badge/Flutter-Framework-green?logo=flutter)    ![Dart](https://img.shields.io/badge/Dart-Language-blue?logo=dart)  ![Supabase](https://img.shields.io/badge/Supabase-Database-green?logo=supabase) 
 
 
 Repairity is an app that connects Car owners with workshops.
